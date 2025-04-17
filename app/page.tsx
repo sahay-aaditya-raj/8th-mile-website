@@ -36,16 +36,16 @@ function Landing() {
           timer = setTimeout(() => {
             deleting = true;
             tick();
-          }, 1000);
+          }, 500);
           return;
         }
-        timer = setTimeout(tick, 80);
+        timer = setTimeout(tick, 100);
       } else {
         // delete only until baseText length
         if (idx > baseText.length) {
           idx--;
           setDisplayText(fullText.slice(0, idx));
-          timer = setTimeout(tick, 40);
+          timer = setTimeout(tick, 100);
         } else {
           // done deleting the "..."
           setCursorVisible(false);
