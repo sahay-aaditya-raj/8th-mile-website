@@ -1,27 +1,43 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
+import Loader from '../components/Loader';
 
 export default function Home() {
-  return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-foreground">
-      <Landing />
-    </main>
-  );
-}
-
-function Landing() {
   const headerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const fullText = '8th Mile ...';
-  const baseText = '8th Mile';            // stop-deletion target
+  const baseText = '8th Mile';
   const [displayText, setDisplayText] = useState('');
   const [cursorVisible, setCursorVisible] = useState(true);
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [showLoader, setShowLoader] = useState(true);
 
-  // TYPE → PAUSE → DELETE ELLIPSIS → DONE
+  // Load video using <video> events
+  async function VideoChecker(){
+    const res = await fetch('/8thmile_demo_video.mp4');
+    if (res.status === 200) {
+      setShowLoader(false);
+      return;
+    } else {
+      const res1 = await fetch('/8thmile_demo_video.mp4');
+      if (res1.status === 200) {
+        setShowLoader(false);
+        return;
+      } else {
+        alert('Reloading page...');
+        window.location.reload();
+        return;
+      }
+    }
+  }
+  useEffect(() => {
+    VideoChecker();
+  }, []);
+
+  // Typing animation
   useEffect(() => {
     let idx = 0;
     let deleting = false;
@@ -32,22 +48,19 @@ function Landing() {
         setDisplayText(fullText.slice(0, idx + 1));
         idx++;
         if (idx === fullText.length) {
-          // after typing the dots, pause then switch to deleting
           timer = setTimeout(() => {
             deleting = true;
             tick();
-          }, 500);
+          }, 100);
           return;
         }
         timer = setTimeout(tick, 100);
       } else {
-        // delete only until baseText length
         if (idx > baseText.length) {
           idx--;
           setDisplayText(fullText.slice(0, idx));
           timer = setTimeout(tick, 100);
         } else {
-          // done deleting the "..."
           setCursorVisible(false);
           setIsTypingComplete(true);
         }
@@ -58,13 +71,15 @@ function Landing() {
     return () => clearTimeout(timer);
   }, []);
 
-  // lock/unlock scroll
+  // Scroll locking
   useEffect(() => {
     document.body.style.overflow = isTypingComplete ? '' : 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isTypingComplete]);
 
-  // scroll → zoom & fade
+  // Scroll tracking
   useEffect(() => {
     const onScroll = () => {
       if (!isTypingComplete) return;
@@ -77,6 +92,8 @@ function Landing() {
 
   const scale = 1 + scrollProgress * 2;
   const opacity = 1 - scrollProgress;
+
+  if (showLoader) return <Loader />;
 
   return (
     <div className="relative">
@@ -117,7 +134,6 @@ function Landing() {
         </video>
       </div>
 
-      {/* blink animation */}
       <style jsx>{`
         @keyframes blink {
           0%, 50% { opacity: 1; }

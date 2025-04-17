@@ -3,9 +3,8 @@
 import * as React from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-
+import Loader from "@/components/Loader"
 import { Button } from "@/components/ui/button"
-
 
 export default function SimpleThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -24,6 +23,7 @@ export default function SimpleThemeToggle() {
       <span className="sr-only">Toggle theme</span>
     </Button><br/>
     <p className="text-destructive">Hello</p>
+    <Loader />
     </div>
   )
 }
