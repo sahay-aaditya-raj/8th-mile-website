@@ -54,11 +54,11 @@
   --popover-foreground: rgb(38, 38, 38);
   --primary: rgb(52, 52, 52);
   --primary-foreground: rgb(250, 250, 250);
-  --secondary: rgb(247, 247, 247);
+  --secondary: rgb(230, 240, 250); /* Light blue */
   --secondary-foreground: rgb(52, 52, 52);
-  --muted: rgb(247, 247, 247);
+  --muted: rgb(240, 240, 240); /* Lighter gray */
   --muted-foreground: rgb(130, 130, 130);
-  --accent: rgb(247, 247, 247);
+  --accent: rgb(220, 255, 220); /* Light green */
   --accent-foreground: rgb(52, 52, 52);
   --destructive: rgb(180, 60, 60);
   --border: rgb(235, 235, 235);
@@ -88,11 +88,11 @@
   --popover-foreground: rgb(250, 250, 250);
   --primary: rgb(235, 235, 235);
   --primary-foreground: rgb(52, 52, 52);
-  --secondary: rgb(70, 70, 70);
+  --secondary: rgb(40, 60, 80); /* Dark blue */
   --secondary-foreground: rgb(250, 250, 250);
-  --muted: rgb(70, 70, 70);
+  --muted: rgb(60, 60, 60); /* Darker gray */
   --muted-foreground: rgb(180, 180, 180);
-  --accent: rgb(70, 70, 70);
+  --accent: rgb(40, 80, 40); /* Dark green */
   --accent-foreground: rgb(250, 250, 250);
   --destructive: rgb(220, 60, 60);
   --border: rgba(255, 255, 255, 0.1);
@@ -107,19 +107,10 @@
   --sidebar-foreground: rgb(250, 250, 250);
   --sidebar-primary: rgb(100, 100, 255);
   --sidebar-primary-foreground: rgb(250, 250, 250);
-  --sidebar-accent: rgb(70, 70, 70);
+  --sidebar-accent: rgb(60, 40, 80); /* Dark purple */
   --sidebar-accent-foreground: rgb(250, 250, 250);
   --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: rgb(130, 130, 130);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 }
 
 .samarkan {
@@ -129,6 +120,17 @@
 .akaya {
   font-family: var(--font-akaya);
 }
+
+h1, h2, h3, h4, h5, h6 {
+  @apply text-foreground;
+  font-family: var(--font-samarkan);
+}
+
+p, span, a, li, strong, em{
+  @apply text-foreground;
+  font-family: var(--font-akaya);
+}
+
 
 
 #youtube-player {
@@ -144,4 +146,40 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+a{
+  text-decoration: none;
+}
+
+span a{
+  text-decoration: underline;
+}
+
+/* scrollbar */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--sidebar);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    border: 2px solid var(--muted);
+    background-color: var(--sidebar-primary);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--sidebar-primary-foreground);
+  }
 }

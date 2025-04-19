@@ -1,43 +1,18 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
-import Loader from '../components/Loader';
+import React, { useEffect, useState, useRef } from "react";
+import { useNavbar } from "@/contexts/NavbarContext";
+import { useSidebar } from "@/contexts/SidebarContext";
 
-export default function Home() {
-  const headerRef = useRef<HTMLDivElement>(null);
+export default function Page() {
+  const { setVisibleSidebar } = useSidebar();
+  const { setVisibleNavbar } = useNavbar();
+  const fullText = "8th Mile ...";
+  const baseText = "8th Mile";
+  const [displayText, setDisplayText] = useState("");
+  const [cursorVisible, setCursorVisible] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const fullText = '8th Mile ...';
-  const baseText = '8th Mile';
-  const [displayText, setDisplayText] = useState('');
-  const [cursorVisible, setCursorVisible] = useState(true);
-  const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [showLoader, setShowLoader] = useState(true);
-
-  // Load video using <video> events
-  async function VideoChecker(){
-    const res = await fetch('/8thmile_demo_video.mp4');
-    if (res.status === 200) {
-      setShowLoader(false);
-      return;
-    } else {
-      const res1 = await fetch('/8thmile_demo_video.mp4');
-      if (res1.status === 200) {
-        setShowLoader(false);
-        return;
-      } else {
-        alert('Reloading page...');
-        window.location.reload();
-        return;
-      }
-    }
-  }
-  useEffect(() => {
-    VideoChecker();
-  }, []);
-
-  // Typing animation
   useEffect(() => {
     let idx = 0;
     let deleting = false;
@@ -51,7 +26,7 @@ export default function Home() {
           timer = setTimeout(() => {
             deleting = true;
             tick();
-          }, 100);
+          }, 1000);
           return;
         }
         timer = setTimeout(tick, 100);
@@ -62,7 +37,6 @@ export default function Home() {
           timer = setTimeout(tick, 100);
         } else {
           setCursorVisible(false);
-          setIsTypingComplete(true);
         }
       }
     };
@@ -71,76 +45,73 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Scroll locking
   useEffect(() => {
-    document.body.style.overflow = isTypingComplete ? '' : 'hidden';
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setVisibleNavbar(false)
+          setVisibleSidebar(false); // Hide navbar when video is in view
+        } else {
+          setVisibleNavbar(true)
+          setVisibleSidebar(true); // Show navbar when video is not in view
+        }
+      });
+    }, { threshold: 0.9 }); // Trigger when 10% of video is visible
+
+    const videoElement = videoRef.current; // Copy ref value to a variable
+
+    if (videoElement) {
+      observer.observe(videoElement);
+    }
+
     return () => {
-      document.body.style.overflow = '';
+      if (videoElement) {
+        observer.unobserve(videoElement);
+      }
     };
-  }, [isTypingComplete]);
-
-  // Scroll tracking
-  useEffect(() => {
-    const onScroll = () => {
-      if (!isTypingComplete) return;
-      const progress = Math.min(window.scrollY / window.innerHeight, 1);
-      setScrollProgress(progress);
-    };
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [isTypingComplete]);
-
-  const scale = 1 + scrollProgress * 2;
-  const opacity = 1 - scrollProgress;
-
-  if (showLoader) return <Loader />;
+  }, [setVisibleNavbar,setVisibleSidebar]);
 
   return (
-    <div className="relative">
-      <div className="h-[200vh]" />
-
-      {/* Heading */}
-      <div
-        ref={headerRef}
-        className="fixed inset-0 flex items-center justify-center bg-background text-foreground z-50 overflow-hidden"
-        style={{ opacity, visibility: opacity === 0 ? 'hidden' : 'visible' }}
-      >
-        <h1
-          className="text-4xl md:text-8xl font-bold"
-          style={{ transform: `scale(${scale})`, transition: 'transform 0.3s ease-out' }}
-        >
+    <div className="bg-background text-foreground font-sans">
+      {/* Hero Section */}
+      <section className="flex items-center justify-center h-screen">
+        <h1 className="text-4xl md:text-8xl font-bold akaya">
           {displayText}
           {cursorVisible && <span className="inline-block ml-1 animate-blink">|</span>}
         </h1>
-      </div>
+        <style jsx>{`
+          @keyframes blink {
+            0%, 50% { opacity: 1; }
+            50.1%, 100% { opacity: 0; }
+          }
+          .animate-blink { animation: blink 1s steps(1) infinite; }
+        `}</style>
+      </section>
 
-      {/* Video Reveal */}
-      <div
-        className="fixed inset-0 bg-background"
-        style={{
-          opacity: isTypingComplete ? Math.max(scrollProgress * 2 - 1, 0) : 0,
-          visibility: isTypingComplete ? 'visible' : 'hidden',
-        }}
-      >
+      {/* Full-Screen Video Section */}
+      <section className="relative h-screen overflow-hidden">
         <video
           ref={videoRef}
-          className="w-full h-full object-cover pointer-events-none"
           autoPlay
-          loop
           muted
-          playsInline
+          loop
+          className="object-cover w-full h-full"
         >
-          <source src="/8thmile_demo_video.mp4" type="video/mp4" />
+          <source src="/demo.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
         </video>
-      </div>
+      </section>
 
-      <style jsx>{`
-        @keyframes blink {
-          0%, 50% { opacity: 1; }
-          50.1%, 100% { opacity: 0; }
-        }
-        .animate-blink { animation: blink 1s steps(1) infinite; }
-      `}</style>
+      {/* Scrollable Content */}
+      <section className="min-h-screen px-6 py-20">
+        <h2 className="text-3xl font-semibold mb-4">About the Event</h2>
+        <p className="max-w-2xl text-muted-foreground">
+          8th Mile is the annual techno-cultural fest of RV College of Engineering. It brings together
+          innovation, creativity, and fun through a variety of events and performances.
+        </p>
+      </section>
+
+      {/* More sections... */}
     </div>
   );
 }

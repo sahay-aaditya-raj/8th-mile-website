@@ -1,7 +1,9 @@
 import { ThemeProvider } from "@/components/theme-provider"
 import React from "react"
 import localFont from 'next/font/local'
-
+import { NavbarProvider } from "@/contexts/NavbarContext"
+import { SidebarProvider } from "@/contexts/SidebarContext";
+import Footer from "@/components/Footer" // Adjust import path if needed
 import "./globals.css"
 
 // fonts
@@ -29,7 +31,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             defaultTheme="system"
             enableSystem
           >
-            {children}
+            <NavbarProvider>
+              <SidebarProvider>
+                {children}
+              </SidebarProvider>
+            </NavbarProvider>
+            <Footer/>
           </ThemeProvider>
         </body>
       </html>
