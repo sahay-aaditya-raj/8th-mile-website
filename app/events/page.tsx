@@ -1,26 +1,18 @@
 "use client";
 
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+
 import {
   Tabs,
   TabsList,
   TabsTrigger,
   TabsContent,
 } from "@/components/ui/tabs";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import Image from "next/image";
+import { EventCard, EventType } from "@/components/ui/3d-event-card"; // Import your reusable 3D card
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function EventsPage() {
-  const events = [
+  const events: EventType[] = [
     {
       id: 1,
       title: "Hackathon",
@@ -51,7 +43,13 @@ export default function EventsPage() {
 
   const categories = [...new Set(events.map((event) => event.category))];
 
-  const MotionGrid = ({ children, keyId }: { children: React.ReactNode; keyId: string }) => (
+  const MotionGrid = ({
+    children,
+    keyId,
+  }: {
+    children: React.ReactNode;
+    keyId: string;
+  }) => (
     <AnimatePresence mode="wait">
       <motion.div
         key={keyId}
@@ -81,69 +79,21 @@ export default function EventsPage() {
             ))}
           </TabsList>
 
-          {/* All Tab */}
           <TabsContent value="all">
             <MotionGrid keyId="all">
               {events.map((event) => (
-                <Card key={event.id} className="overflow-hidden">
-                  <AspectRatio ratio={16 / 9}>
-                    <Image
-                      src={event.image}
-                      alt={event.title}
-                      className="object-cover"
-                      fill
-                    />
-                  </AspectRatio>
-                  <CardHeader>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="outline">{event.category}</Badge>
-                      <CardTitle>{event.title}</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      {event.description}
-                    </p>
-                  </CardContent>
-                  <CardFooter>
-                    <span className="font-medium">{event.date}</span>
-                  </CardFooter>
-                </Card>
+                <EventCard key={event.id} event={event} />
               ))}
             </MotionGrid>
           </TabsContent>
 
-          {/* Category-specific Tabs */}
           {categories.map((category) => (
             <TabsContent key={category} value={category}>
               <MotionGrid keyId={category}>
                 {events
                   .filter((event) => event.category === category)
                   .map((event) => (
-                    <Card key={event.id} className="overflow-hidden">
-                      <AspectRatio ratio={16 / 9}>
-                        <Image
-                          src={event.image}
-                          alt={event.title}
-                          className="object-cover"
-                          fill
-                        />
-                      </AspectRatio>
-                      <CardHeader>
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline">{event.category}</Badge>
-                          <CardTitle>{event.title}</CardTitle>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-muted-foreground">
-                          {event.description}
-                        </p>
-                      </CardContent>
-                      <CardFooter>
-                        <span className="font-medium">{event.date}</span>
-                      </CardFooter>
-                    </Card>
+                    <EventCard key={event.id} event={event} />
                   ))}
               </MotionGrid>
             </TabsContent>

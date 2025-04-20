@@ -1,76 +1,96 @@
-"use client";
-
 import React from "react";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import Image from "next/image";
-
-type GalleryItem = {
-  id: number;
-  image: string;
-  caption: string;
-};
+import { GalleryCard, GalleryItem as ItemType } from "@/components/ui/3d-gallery-card"; // adjust path as needed
 
 type Category = "Events" | "Workshops" | "Performances";
 
 const galleryCategories: Category[] = ["Events", "Workshops", "Performances"];
 
-const galleryItems: Record<Category, GalleryItem[]> = {
+const galleryItems: Record<Category, ItemType[]> = {
   Events: [
-    { id: 1, image: "/images/gallery/event1.jpeg", caption: "Opening Ceremony" },
-    { id: 2, image: "/images/gallery/event2.jpeg", caption: "Hackathon Day 1" },
-    { id: 3, image: "/images/gallery/event3.jpeg", caption: "Awards Night" },
+    {
+      id: 1,
+      image: "/images/gallery/event1.jpeg",
+      caption: "Opening Ceremony",
+      description: "The grand start of 8th Mile with traditional lights and speeches."
+    },
+    {
+      id: 2,
+      image: "/images/gallery/event2.jpeg",
+      caption: "Hackathon Day 1",
+      description: "Teams brainstormed ideas and began coding their innovative projects."
+    },
+    {
+      id: 3,
+      image: "/images/gallery/event3.jpeg",
+      caption: "Awards Night",
+      description: "Finale with prize distribution, performances, and celebration."
+    },
   ],
   Workshops: [
-    { id: 1, image: "/images/gallery/event1.jpeg", caption: "AI Workshop" },
-    { id: 2, image: "/images/gallery/event2.jpeg", caption: "Web Development" },
-    { id: 3, image: "/images/gallery/event3.jpeg", caption: "Design Session" },
+    {
+      id: 1,
+      image: "/images/gallery/event1.jpeg",
+      caption: "AI Workshop",
+      description: "Introduction to machine learning and AI models with hands-on projects."
+    },
+    {
+      id: 2,
+      image: "/images/gallery/event2.jpeg",
+      caption: "Web Development",
+      description: "Build responsive websites using modern frameworks like React and Tailwind."
+    },
+    {
+      id: 3,
+      image: "/images/gallery/event3.jpeg",
+      caption: "Design Session",
+      description: "UI/UX design session for budding creatives and developers."
+    },
   ],
   Performances: [
-    { id: 1, image: "/images/gallery/event1.jpeg", caption: "Dance Performance" },
-    { id: 2, image: "/images/gallery/event2.jpeg", caption: "Music Concert" },
-    { id: 3, image: "/images/gallery/event3.jpeg", caption: "Theater Show" },
+    {
+      id: 1,
+      image: "/images/gallery/event3.jpeg",
+      caption: "Dance Performance",
+      description: "Energetic group dance by our talented students."
+    },
+    {
+      id: 2,
+      image: "/images/gallery/event2.jpeg",
+      caption: "Music Concert",
+      description: "Live music performance featuring student bands and guest artists."
+    },
+    {
+      id: 3,
+      image: "/images/gallery/event1.jpeg",
+      caption: "Theater Show",
+      description: "A dramatic play with engaging storyline and acting."
+    },
   ],
 };
 
 export default function GalleryPage() {
   return (
     <div className="bg-background text-foreground">
-      <section className="py-10 px-6 md:px-20">
-        <h1 className="text-4xl font-bold mb-10">Gallery</h1>
+      <section className="py-10 px-4 md:px-12 lg:px-20">
+        <h1 className="text-5xl font-bold mb-10 text-left">Gallery</h1>
 
-        <Tabs defaultValue="Events" className="w-full">
-          <TabsList className="w-full justify-start">
-            {galleryCategories.map((category) => (
-              <TabsTrigger key={category} value={category}>
-                {category}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        {galleryCategories.map((category, index) => (
+          <div key={category} className="mb-14">
+            <h2 className="text-3xl font-semibold mb-6 text-left">{category}</h2>
 
-          {galleryCategories.map((category) => (
-            <TabsContent key={category} value={category}>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-                {galleryItems[category].map((item) => (
-                  <Card key={item.id} className="overflow-hidden">
-                    <AspectRatio ratio={4 / 3}>
-                      <Image
-                        src={item.image}
-                        alt={item.caption}
-                        className="object-cover"
-                        fill
-                      />
-                    </AspectRatio>
-                    <CardHeader className="p-4">
-                      <CardTitle className="text-sm">{item.caption}</CardTitle>
-                    </CardHeader>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
+            {/* Gallery Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {galleryItems[category].map((item) => (
+                <GalleryCard key={item.id} item={item} />
+              ))}
+            </div>
+
+            {/* Separator */}
+            {index < galleryCategories.length - 1 && (
+              <hr className="my-10 border-t border-gray-300 dark:border-gray-700" />
+            )}
+          </div>
+        ))}
       </section>
     </div>
   );
