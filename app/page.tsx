@@ -12,6 +12,19 @@ export default function Page() {
   const [displayText, setDisplayText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  // Scroll effect for heading
+  const [headingStyle, setHeadingStyle] = useState({
+    transform: "scale(1)",
+    opacity: 1,
+  });
+
+  // Scroll effect for About section
+  const [aboutStyle, setAboutStyle] = useState({
+    opacity: 0,
+    transform: "translateY(100px)",
+  });
 
   useEffect(() => {
     let idx = 0;
@@ -49,16 +62,16 @@ export default function Page() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setVisibleNavbar(false)
+          setVisibleNavbar(false);
           setVisibleSidebar(false); // Hide navbar when video is in view
         } else {
-          setVisibleNavbar(true)
+          setVisibleNavbar(true);
           setVisibleSidebar(true); // Show navbar when video is not in view
         }
       });
-    }, { threshold: 0.9 }); // Trigger when 10% of video is visible
+    }, { threshold: 0.9 });
 
-    const videoElement = videoRef.current; // Copy ref value to a variable
+    const videoElement = videoRef.current;
 
     if (videoElement) {
       observer.observe(videoElement);
@@ -69,16 +82,64 @@ export default function Page() {
         observer.unobserve(videoElement);
       }
     };
-  }, [setVisibleNavbar,setVisibleSidebar]);
+  }, [setVisibleNavbar, setVisibleSidebar]);
+
+  // Parallax scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      setScrollY(scrollY); // Set scrollY state to use for parallax effect
+
+      // Heading animation effect (scale and opacity)
+      const scale = 1 + scrollY / 1000; // Scale increases as you scroll down
+      const opacity = Math.max(1 - scrollY / 400, 0); // Opacity fades out as you scroll down
+      setHeadingStyle({
+        transform: `scale(${scale})`,
+        opacity: opacity,
+      });
+
+      // About section fade-in, fade-out, parallax, and enlarge effect
+      const aboutOpacity = Math.min(1, scrollY / 400); // Fade in as we scroll to the "About" section
+      const aboutScale = 1 + scrollY / 2000; // Enlarge effect
+      const aboutTransform = `translateY(${Math.max(0, 100 - scrollY * 0.2)}px)`; // Parallax effect
+      setAboutStyle({
+        opacity: aboutOpacity,
+        transform: `${aboutTransform} scale(${aboutScale})`,
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="bg-background text-foreground font-sans">
-      {/* Hero Section */}
-      <section className="flex items-center justify-center h-screen">
-        <h1 className="text-4xl md:text-8xl font-bold akaya">
-          {displayText}
-          {cursorVisible && <span className="inline-block ml-1 animate-blink">|</span>}
-        </h1>
+      {/* Hero Section with background image */}
+      <section className="relative flex items-center justify-center h-screen bg-cover bg-center bg-no-repeat">
+        {/* Background element with parallax effect and fade-in */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity"
+          style={{
+            backgroundImage: "url('/home-bg.png')",
+            opacity: 1 - scrollY / 800, // Fade-in effect as you scroll
+            transform: `translateY(${scrollY * 0.3}px)`, // Parallax effect for background
+          }}
+        ></div>
+
+        {/* Text content */}
+        <div className="relative z-10">
+          <h1
+            className="text-4xl md:text-8xl font-bold akaya text-white drop-shadow-md transition-all"
+            style={{
+              transform: headingStyle.transform,
+              opacity: headingStyle.opacity,
+            }}
+          >
+            {displayText}
+            {cursorVisible && <span className="inline-block ml-1 animate-blink">|</span>}
+          </h1>
+        </div>
+
         <style jsx>{`
           @keyframes blink {
             0%, 50% { opacity: 1; }
@@ -102,16 +163,22 @@ export default function Page() {
         </video>
       </section>
 
-      {/* Scrollable Content */}
-      <section className="min-h-screen px-6 py-20">
-        <h2 className="text-3xl font-semibold mb-4">About the Event</h2>
-        <p className="max-w-2xl text-muted-foreground">
+      {/* About Section with Parallax, Fade In, Fade Out, and Enlarge Effects */}
+      <section
+        className="min-h-screen flex flex-col items-center justify-center px-6 py-10 text-center"
+        style={{
+          opacity: aboutStyle.opacity,
+          transform: aboutStyle.transform,
+          transition: "opacity 0.5s, transform 0.5s, scale 0.5s",
+         
+        }}
+      >
+        <h2 className="text-4xl font-semibold mb-6">About the Event</h2>
+        <p className="max-w-xl text-muted-foreground text-xl">
           8th Mile is the annual techno-cultural fest of RV College of Engineering. It brings together
           innovation, creativity, and fun through a variety of events and performances.
         </p>
       </section>
-
-      {/* More sections... */}
     </div>
   );
 }
