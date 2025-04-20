@@ -6,8 +6,6 @@ import Timeline from "@/components/Timeline";
 
 export default function Timelines() {
   return (
-
         <Timeline/>
-
   );
 }
