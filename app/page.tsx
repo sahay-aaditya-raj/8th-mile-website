@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavbar } from "@/contexts/NavbarContext";
 import { useSidebar } from "@/contexts/SidebarContext";
+import { Parallax } from 'react-scroll-parallax';
 
 export default function Page() {
   const { setVisibleSidebar } = useSidebar();
@@ -75,16 +76,33 @@ export default function Page() {
     <div className="bg-background text-foreground font-sans">
       {/* Hero Section */}
       <section className="flex items-center justify-center h-screen">
-        <h1 className="text-4xl md:text-8xl font-bold akaya">
+        <h1 className="text-5xl md:text-8xl font-bold akaya text-pink-700 drop-shadow-lg animate-fadeInUp">
           {displayText}
-          {cursorVisible && <span className="inline-block ml-1 animate-blink">|</span>}
+          {cursorVisible && <span className="inline-block ml-1 animate-blink text-pink-500">|</span>}
         </h1>
+      <Parallax translateY={[40, 0]} opacity={[0, 1]} easing="easeOutBack" scale={[0.95, 1]}></Parallax>
+
         <style jsx>{`
           @keyframes blink {
             0%, 50% { opacity: 1; }
             50.1%, 100% { opacity: 0; }
           }
-          .animate-blink { animation: blink 1s steps(1) infinite; }
+          .animate-blink { animation: blink 1s steps(1) infinite; 
+       }
+         @keyframes fadeInUp {
+            0% {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .animate-fadeInUp {
+            animation: fadeInUp 1s ease-out both;
+          }
         `}</style>
       </section>
 
@@ -104,11 +122,15 @@ export default function Page() {
 
       {/* Scrollable Content */}
       <section className="min-h-screen px-6 py-20">
+      <Parallax translateX={[-5,0]} opacity={[0.3, 1]} easing="easeOutCubic">
         <h2 className="text-3xl font-semibold mb-4">About the Event</h2>
+        </Parallax>
+        <Parallax translateX={[10,0]} opacity={[0.5, 1]} scale={[0.8, 1]} easing="easeInOut">
         <p className="max-w-2xl text-muted-foreground">
           8th Mile is the annual techno-cultural fest of RV College of Engineering. It brings together
           innovation, creativity, and fun through a variety of events and performances.
         </p>
+        </Parallax>
       </section>
 
       {/* More sections... */}

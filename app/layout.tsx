@@ -5,6 +5,7 @@ import { NavbarProvider } from "@/contexts/NavbarContext"
 import { SidebarProvider } from "@/contexts/SidebarContext";
 import Footer from "@/components/Footer" // Adjust import path if needed
 import "./globals.css"
+import { Providers } from './providers';
 
 // fonts
 const samarkan = localFont({
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en" suppressHydrationWarning className={`${samarkan.variable} ${akaya.variable}`}>
         <head />
         <body>
+        <Providers>
           <ThemeProvider
             themes={["light", "dark"]}
             attribute="class"
@@ -38,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </NavbarProvider>
             <Footer/>
           </ThemeProvider>
+          </Providers>
         </body>
       </html>
     </>
