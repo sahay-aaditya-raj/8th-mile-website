@@ -10,18 +10,18 @@ const Footer = () => {
           {/* Logos Section */}
           <div className="flex items-center justify-center space-x-8">
             <Image
-              src="/images/logos/8thmile.jpeg"
+              src="/8thmilelogo.png"
               alt="8th Mile Logo"
               width={80}
               height={80}
-              className="object-contain rounded-full"
+              className="object-contain rounded-full dark:invert"
             />
             <Image
-              src="/images/logos/rvce-logo.jpeg"
+              src="/RVCELogoBLACK.png"
               alt="RVCE Logo"
               width={80}
               height={80}
-              className="object-contain rounded-full"
+              className="object-contain dark:invert"
             />
           </div>
 
@@ -29,7 +29,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
             {/* Copyright Text */}
             <p className="text-sm md:text-base">
-              <span className="inline-block">&copy; 8TH MILE 2023</span> <span className="inline-block">R.V. COLLEGE OF ENGINEERING</span>
+              <span className="inline-block">&copy; 8TH MILE 2025</span> <span className="inline-block">R.V. COLLEGE OF ENGINEERING</span>
             </p>
 
             {/* Developed By Section */}

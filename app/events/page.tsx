@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Tabs,
   TabsList,
@@ -8,29 +8,26 @@ import {
   TabsContent,
 } from "@/components/ui/tabs";
 import { EventCard, EventType } from "@/components/ui/3d-event-card";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useViewportScroll, useTransform } from "framer-motion";
 
 export default function EventsPage() {
-  // State to track scroll position for parallax effect
-  const [scrollY, setScrollY] = useState(0);
+  // Framer Motion hooks for smooth, hardware-accelerated scroll-based MotionValues
+  const { scrollY } = useViewportScroll();
   
-  // Update scroll position for parallax effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Hero parallax: image translate and scale, text translate
+  const heroImgY = useTransform(scrollY, [0, 500], [0, 100]);
+  const heroScale = useTransform(scrollY, [0, 500], [1, 1.25]);
+  const heroTextY = useTransform(scrollY, [0, 500], [0, -50]);
+
+  // Card parallax translate
+  const cardParallax = useTransform(scrollY, [0, 500], [0, 50]);
 
   const events: EventType[] = [
     {
       id: 1,
       title: "Hackathon",
       date: "September 15-17",
-      description:
-        "A 48-hour coding marathon with exciting challenges and prizes.",
+      description: "A 48-hour coding marathon with exciting challenges and prizes.",
       category: "Technical",
       image: "/images/image1.jpeg",
     },
@@ -38,8 +35,7 @@ export default function EventsPage() {
       id: 2,
       title: "Tech Talks",
       date: "September 18-19",
-      description:
-        "Industry experts sharing insights on the latest technology trends.",
+      description: "Industry experts sharing insights on the latest technology trends.",
       category: "Technical",
       image: "/images/image2.jpeg",
     },
@@ -53,15 +49,9 @@ export default function EventsPage() {
     },
   ];
 
-  const categories = [...new Set(events.map((event) => event.category))];
+  const categories = Array.from(new Set(events.map((e) => e.category)));
 
-  const MotionGrid = ({
-    children,
-    keyId,
-  }: {
-    children: React.ReactNode;
-    keyId: string;
-  }) => (
+  const MotionGrid = ({ children, keyId }: { children: React.ReactNode; keyId: string }) => (
     <AnimatePresence mode="wait">
       <motion.div
         key={keyId}
@@ -77,39 +67,31 @@ export default function EventsPage() {
   );
 
   return (
-    <div className="bg-background text-foreground">
-      {/* Hero Section with Parallax and Centered Text */}
+    <div className="bg-background text-foreground pb-12 md:pb-24">
+      {/* Hero Section with Framer Motion parallax */}
       <section className="relative">
         <div className="w-full h-64 md:h-80 lg:h-96 overflow-hidden relative">
-          {/* Semi-transparent overlay with subtle parallax */}
           <div className="absolute inset-0 bg-black/50 z-10" />
           
-          {/* Hero Image with parallax effect */}
-          <div 
+          <motion.div
             className="absolute inset-0 h-full w-full"
-            style={{
-              transform: `translateY(${scrollY * 0.2}px) scale(${1 + scrollY * 0.0005})`,
-              transition: "transform 0.05s linear",
-            }}
+            style={{ y: heroImgY, scale: heroScale }}
+            transition={{ ease: 'linear' }}
           >
             <img
               src="/images/eventshero.png"
               alt="Event concert"
               className="w-full h-full object-cover object-center"
             />
-          </div>
+          </motion.div>
           
-          {/* Hero Content with centered text */}
           <div className="absolute inset-0 z-20 flex items-center justify-center px-6 md:px-20">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="max-w-3xl text-center"
-              style={{
-                transform: `translateY(${-scrollY * 0.1}px)`,
-                transition: "transform 0.05s linear",
-              }}
+              style={{ y: heroTextY }}
             >
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2">
                 Upcoming Events
@@ -122,31 +104,26 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* Events Section with subtle parallax on cards */}
+      {/* Events Section with smooth card parallax */}
       <section className="py-8 px-6 md:px-20">
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="w-full justify-start mb-6">
             <TabsTrigger value="all">All</TabsTrigger>
-            {categories.map((category) => (
-              <TabsTrigger key={category} value={category}>
-                {category}
-              </TabsTrigger>
+            {categories.map((cat) => (
+              <TabsTrigger key={cat} value={cat}>{cat}</TabsTrigger>
             ))}
           </TabsList>
 
           <TabsContent value="all">
             <MotionGrid keyId="all">
-              {events.map((event, index) => (
-                <motion.div 
+              {events.map((event, idx) => (
+                <motion.div
                   key={event.id}
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: idx * 0.1 }}
                   viewport={{ once: true, margin: "-100px" }}
-                  style={{
-                    transform: `translateY(${Math.max(0, scrollY - 300) * 0.05 * (index % 3 + 1)}px)`,
-                    transition: "transform 0.1s ease-out",
-                  }}
+                  style={{ y: cardParallax }}
                 >
                   <EventCard event={event} />
                 </motion.div>
@@ -154,22 +131,19 @@ export default function EventsPage() {
             </MotionGrid>
           </TabsContent>
 
-          {categories.map((category) => (
-            <TabsContent key={category} value={category}>
-              <MotionGrid keyId={category}>
+          {categories.map((cat) => (
+            <TabsContent key={cat} value={cat}>
+              <MotionGrid keyId={cat}>
                 {events
-                  .filter((event) => event.category === category)
-                  .map((event, index) => (
-                    <motion.div 
+                  .filter((e) => e.category === cat)
+                  .map((event, idx) => (
+                    <motion.div
                       key={event.id}
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
-                      transition={{ delay: index * 0.1 }}
+                      transition={{ delay: idx * 0.1 }}
                       viewport={{ once: true, margin: "-100px" }}
-                      style={{
-                        transform: `translateY(${Math.max(0, scrollY - 300) * 0.05 * (index % 3 + 1)}px)`,
-                        transition: "transform 0.1s ease-out",
-                      }}
+                      style={{ y: cardParallax }}
                     >
                       <EventCard event={event} />
                     </motion.div>

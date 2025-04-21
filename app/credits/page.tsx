@@ -75,7 +75,7 @@ export default function CreditsPage() {
   ];
 
   return (
-    <div className="bg-background text-foreground min-h-screen">
+    <div className="mt-8 bg-background text-foreground min-h-screen">
       <section className="py-10 px-4 md:px-10 lg:px-20 max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-12">Credits</h1>
 

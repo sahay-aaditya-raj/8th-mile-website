@@ -8,7 +8,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
       <Navbar />
       <Sidebar />
       
-      <div className="pt-8">
+      <div>
         {children}
       </div>
     </ParallaxProvider>

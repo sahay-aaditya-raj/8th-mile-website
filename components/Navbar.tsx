@@ -65,7 +65,7 @@ export default function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.avif" alt="8th-Mile" width={isMobile ? 40 : 50} height={isMobile ? 40 : 50} />
+          <Image src="/8thmilelogocolour.png" alt="8th-Mile" width={isMobile ? 40 : 50} height={isMobile ? 40 : 50} />
         </Link>
 
         {/* Mobile View */}
