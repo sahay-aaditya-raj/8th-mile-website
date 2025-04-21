@@ -5,6 +5,8 @@ import { useNavbar } from "@/contexts/NavbarContext";
 import { useSidebar } from "@/contexts/SidebarContext";
 import { Parallax } from "react-scroll-parallax";
 
+
+
 export default function Page() {
   const { setVisibleSidebar } = useSidebar();
   const { setVisibleNavbar } = useNavbar();
@@ -111,10 +113,10 @@ export default function Page() {
         {/* Hero Section with background image */}
         <section className="relative flex items-center justify-center h-screen w-full">
           {/* Background with parallax effect */}
-          <Parallax translateY={[0, 50]} className="absolute inset-0 w-full h-full">
+          <Parallax  className="absolute inset-0 w-full h-full">
             <div 
               className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full"
-              style={{ backgroundImage: "url('/home-bg.png')" }}
+              style={{ backgroundImage: "url('/background.jpeg')" }}
             />
           </Parallax>
 

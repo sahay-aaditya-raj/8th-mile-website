@@ -1,16 +1,9 @@
-"use client";
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import { ParallaxProvider } from 'react-scroll-parallax';
+import Providers from "./Provider";
+
 export default function Template({ children }: { children: React.ReactNode }) {
   return (
-    <ParallaxProvider>
-      <Navbar />
-      <Sidebar />
-      
-      <div>
-        {children}
-      </div>
-    </ParallaxProvider>
+    <Providers>
+      {children}
+    </Providers>
   );
 }

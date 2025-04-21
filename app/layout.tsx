@@ -1,9 +1,13 @@
-import { ThemeProvider } from "@/components/theme-provider"
 import React from "react"
 import localFont from 'next/font/local'
-import { NavbarProvider } from "@/contexts/NavbarContext"
-import { SidebarProvider } from "@/contexts/SidebarContext";
-import Footer from "@/components/Footer" // Adjust import path if needed
+
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: '8th Mile 2025',
+  description: '8th Mile 2025, official fest of R.V. College of Engineering',
+  icons:"/favicon.ico"
+}
 import "./globals.css"
 
 // fonts
@@ -25,19 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en" suppressHydrationWarning className={`${samarkan.variable} ${akaya.variable}`}>
         <head />
         <body>
-          <ThemeProvider
-            themes={["light", "dark"]}
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-          >
-            <NavbarProvider>
-              <SidebarProvider>
-                {children}
-              </SidebarProvider>
-            </NavbarProvider>
-            <Footer/>
-          </ThemeProvider>
+          {children}
         </body>
       </html>
     </>

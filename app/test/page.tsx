@@ -5,55 +5,56 @@ import { ParallaxBanner } from 'react-scroll-parallax';
 import { Card, CardContent } from '@/components/ui/card';
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import Image from 'next/image';
+import { Typewriter } from 'react-simple-typewriter';
 
 function ThreeDCardDemo() {
-    return (
-      <CardContainer className="inter-var">
-        <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
+  return (
+    <CardContainer className="inter-var">
+      <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
+        <CardItem
+          translateZ="50"
+          className="text-xl font-bold text-neutral-600 dark:text-white"
+        >
+          Make things float in air
+        </CardItem>
+        <CardItem
+          as="p"
+          translateZ="60"
+          className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+        >
+          Hover over this card to unleash the power of CSS perspective
+        </CardItem>
+        <CardItem translateZ="100" className="w-full mt-4">
+          <Image
+            src="/images/image1.jpeg"
+            height="1000"
+            width="1000"
+            className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+            alt="thumbnail"
+          />
+        </CardItem>
+        <div className="flex justify-between items-center mt-20">
           <CardItem
-            translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white"
+            translateZ={20}
+            as="a"
+            href="https://twitter.com/mannupaaji"
+            target="__blank"
+            className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
           >
-            Make things float in air
+            Try now →
           </CardItem>
           <CardItem
-            as="p"
-            translateZ="60"
-            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            translateZ={20}
+            as="button"
+            className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
           >
-            Hover over this card to unleash the power of CSS perspective
+            Sign up
           </CardItem>
-          <CardItem translateZ="100" className="w-full mt-4">
-            <Image
-              src="/images/image1.jpeg"
-              height="1000"
-              width="1000"
-              className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-              alt="thumbnail"
-            />
-          </CardItem>
-          <div className="flex justify-between items-center mt-20">
-            <CardItem
-              translateZ={20}
-              as="a"
-              href="https://twitter.com/mannupaaji"
-              target="__blank"
-              className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
-            >
-              Try now →
-            </CardItem>
-            <CardItem
-              translateZ={20}
-              as="button"
-              className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
-            >
-              Sign up
-            </CardItem>
-          </div>
-        </CardBody>
-      </CardContainer>
-    );
-  }
+        </div>
+      </CardBody>
+    </CardContainer>
+  );
+}
 
 export default function ParallaxPage() {
   const contentRef = useRef(null);
@@ -68,8 +69,20 @@ export default function ParallaxPage() {
             children: (
               <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-purple-700 to-blue-500">
                 <div className="text-center p-4">
-                  <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">Welcome to Our Universe</h1>
-                  <p className="text-xl md:text-2xl text-white mb-8">Scroll down to explore more</p>
+                  <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+                    <Typewriter
+                      words={['Welcome to Our Universe', 'Explore the Unknown', 'Discover New Horizons']}
+                      loop={0}
+                      cursor
+                      cursorStyle="|"
+                      typeSpeed={70}
+                      deleteSpeed={50}
+                      delaySpeed={1000}
+                    />
+                  </h1>
+                  <p className="text-xl md:text-2xl text-white mb-8">
+                    Scroll down to explore more
+                  </p>
                 </div>
               </div>
             ),
@@ -83,9 +96,9 @@ export default function ParallaxPage() {
         {/* Sticky Image Side */}
         <div className="md:w-1/2 relative">
           <div className="sticky top-0 h-screen overflow-hidden bg-gray-100 flex items-center justify-center">
-            <Image 
-              src="/home-bg.png" 
-              alt="Placeholder" 
+            <Image
+              src="/home-bg.png"
+              alt="Placeholder"
               width={600}
               height={800}
               className="object-cover rounded-lg shadow-xl max-h-4/5 max-w-4/5"
@@ -150,9 +163,21 @@ export default function ParallaxPage() {
             children: (
               <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-blue-600 to-teal-500">
                 <div className="text-center p-4">
-                  <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">Join Our Journey</h1>
-                  <p className="text-xl md:text-2xl text-white mb-8">Let&apos;s create something amazing together</p>
-                  <ThreeDCardDemo/>
+                  <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+                    <Typewriter
+                      words={['Join Our Journey', 'Be Part of the Revolution', 'Let’s Innovate Together']}
+                      loop={0}
+                      cursor
+                      cursorStyle="|"
+                      typeSpeed={70}
+                      deleteSpeed={50}
+                      delaySpeed={1000}
+                    />
+                  </h1>
+                  <p className="text-xl md:text-2xl text-white mb-8">
+                    Let&apos;s create something amazing together
+                  </p>
+                  <ThreeDCardDemo />
                 </div>
               </div>
             ),

@@ -59,7 +59,7 @@ export default function Navbar() {
         className={cn(
           "flex items-center justify-between mx-auto px-4 py-2 w-full max-w-[90%] md:max-w-4xl transition-all duration-300",
           isScrolled
-            ? "bg-background/70 backdrop-blur-xl shadow-lg rounded-2xl"
+            ? "bg-background/40 shadow-lg rounded-2xl"
             : "bg-transparent"
         )}
       >
