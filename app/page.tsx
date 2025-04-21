@@ -1,177 +1,96 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import { useNavbar } from "@/contexts/NavbarContext";
-import { useSidebar } from "@/contexts/SidebarContext";
-import { Parallax } from "react-scroll-parallax";
+import React from "react";
 
-
-
-export default function Page() {
-  const { setVisibleSidebar } = useSidebar();
-  const { setVisibleNavbar } = useNavbar();
-  const fullText = "8th Mile ...";
-  const baseText = "8th Mile";
-  const [displayText, setDisplayText] = useState("");
-  const [cursorVisible, setCursorVisible] = useState(true);
-  const videoRef = useRef(null);
-  
-  // Check for horizontal overflow
-  useEffect(() => {
-    const checkOverflow = () => {
-      const body = document.body;
-      const html = document.documentElement;
-      
-      // Get the true width (including any overflow)
-      const scrollWidth = Math.max(
-        body.scrollWidth,
-        body.offsetWidth,
-        html.clientWidth,
-        html.scrollWidth,
-        html.offsetWidth
-      );
-      
-      // Get the viewport width
-      const windowWidth = window.innerWidth;
-      
-      if (scrollWidth > windowWidth) {
-        console.log("Horizontal overflow detected:", scrollWidth - windowWidth, "pixels");
-      }
-    };
-    
-    // Check on mount and window resize
-    checkOverflow();
-    window.addEventListener('resize', checkOverflow);
-    
-    return () => window.removeEventListener('resize', checkOverflow);
-  }, []);
-
-  // Typewriter effect
-  useEffect(() => {
-    let idx = 0;
-    let deleting = false;
-    let timer: string | number | NodeJS.Timeout | undefined;
-
-    const tick = () => {
-      if (!deleting) {
-        setDisplayText(fullText.slice(0, idx + 1));
-        idx++;
-        if (idx === fullText.length) {
-          timer = setTimeout(() => {
-            deleting = true;
-            tick();
-          }, 1000);
-          return;
-        }
-        timer = setTimeout(tick, 100);
-      } else {
-        if (idx > baseText.length) {
-          idx--;
-          setDisplayText(fullText.slice(0, idx));
-          timer = setTimeout(tick, 100);
-        } else {
-          setCursorVisible(false);
-        }
-      }
-    };
-
-    tick();
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Video section observer for navbar visibility
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setVisibleNavbar(false);
-          setVisibleSidebar(false);
-        } else {
-          setVisibleNavbar(true);
-          setVisibleSidebar(true);
-        }
-      });
-    }, { threshold: 0.9 });
-
-    const videoElement = videoRef.current;
-
-    if (videoElement) {
-      observer.observe(videoElement);
-    }
-
-    return () => {
-      if (videoElement) {
-        observer.unobserve(videoElement);
-      }
-    };
-  }, [setVisibleNavbar, setVisibleSidebar]);
-
+export default function HomePage() {
   return (
-    <>
-      {/* Main wrapper with max-width to prevent horizontal scroll */}
-      <div className="bg-background text-foreground font-sans relative mx-auto w-full max-w-full">
-        {/* Hero Section with background image */}
-        <section className="relative flex items-center justify-center h-screen w-full">
-          {/* Background with parallax effect */}
-          <Parallax  className="absolute inset-0 w-full h-full">
-            <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full"
-              style={{ backgroundImage: "url('/background.jpeg')" }}
-            />
-          </Parallax>
-
-          {/* Text content */}
-          <Parallax opacity={[1, 0]} scale={[1, 1.3]} className="relative z-10 w-full px-4">
-            <div className="flex justify-center items-center w-full">
-              <h1 className="text-4xl md:text-8xl font-bold akaya text-white drop-shadow-md text-center break-words">
-                {displayText}
-                {cursorVisible && <span className="inline-block ml-1 animate-blink">|</span>}
-              </h1>
-            </div>
-          </Parallax>
-
-          <style jsx>{`
-            @keyframes blink {
-              0%, 50% { opacity: 1; }
-              50.1%, 100% { opacity: 0; }
-            }
-            .animate-blink { animation: blink 1s steps(1) infinite; }
-          `}</style>
-        </section>
-
-        {/* Full-Screen Video Section */}
-        <section className="relative h-screen w-full">
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            className="object-cover w-full h-full"
-            playsInline // Added for better mobile support
-          >
-            <source src="/demo.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </section>
-
-        {/* About Section with Parallax Effects */}
-        <Parallax
-          translateY={[50, -30]}
-          opacity={[0.2, 1.5]}
-          scale={[0.8, 1]}
-          className="min-h-screen flex flex-col items-center justify-center w-full"
+    <div className="relative w-full overflow-x-hidden">
+      {/* Fixed Background */}
+      <div className="fixed inset-0 -z-10">
+        <video
+          autoPlay
+          loop
+          muted
+          className="absolute top-0 left-0 w-full h-full object-cover"
         >
-          <div className="px-6 py-10 text-center w-full max-w-4xl mx-auto">
-            <h2 className="text-4xl font-semibold mb-6">About the Event</h2>
-            <p className="text-muted-foreground text-xl">
-              8th Mile is the annual techno-cultural fest of RV College of Engineering. It brings together
-              innovation, creativity, and fun through a variety of events and performances.
-            </p>
-          </div>
-        </Parallax>
+          <source src="/demo.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30"></div>
       </div>
-      
 
-    </>
+      {/* Hero Section */}
+      <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative z-10 text-white">
+        <h1 className="text-4xl sm:text-6xl font-bold font-cursive">
+          Welcome to Our Universe
+        </h1>
+        <p className="mt-4 text-lg sm:text-xl">Scroll down to explore more</p>
+      </section>
+
+      {/* Cultural Fest Section */}
+      <section className="relative z-20 bg-white/20 backdrop-blur-sm py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 text-gray-800">
+            Cultural Fest Highlights
+          </h2>
+          
+          {/* Dance Performances */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+            <div className="flex flex-col justify-center">
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Dance Performances</h3>
+              <p className="text-lg text-gray-600">
+                It wouldn't be a cultural fest without getting to witness some mind blowing dance performances on stage. 
+                We were engulfed in a sea of emotions expressed gracefully by classical dancers, but also couldn't stop 
+                ourselves from grooving to the upbeat Hip Hop choreographies.
+              </p>
+            </div>
+            <div className="rounded-xl overflow-hidden shadow-2xl">
+              <img 
+                src="/images/image1.jpeg" 
+                alt="Dance Performance" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Music Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+            <div className="order-2 md:order-1 rounded-xl overflow-hidden shadow-2xl">
+              <img 
+                src="/images/image2.jpeg" 
+                alt="Music Performance" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="order-1 md:order-2 flex flex-col justify-center">
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Musical Nights</h3>
+              <p className="text-lg text-gray-600">
+                Our musical nights featured breathtaking performances from classical instrumentalists 
+                to contemporary bands that had the entire crowd singing along. The fusion of traditional 
+                and modern music created unforgettable moments.
+              </p>
+            </div>
+          </div>
+
+          {/* Art Exhibition */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="flex flex-col justify-center">
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Art Exhibition</h3>
+              <p className="text-lg text-gray-600">
+                The art exhibition showcased incredible talent from our student community, featuring 
+                everything from traditional paintings to digital art installations. Visitors were 
+                mesmerized by the creativity on display.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <img src="/images/image1.jpeg" alt="Art Exhibit 1" className="rounded-lg shadow-md h-48 w-full object-cover" />
+              <img src="/images/image2.jpeg" alt="Art Exhibit 2" className="rounded-lg shadow-md h-48 w-full object-cover" />
+              <img src="/images/image3.jpeg" alt="Art Exhibit 3" className="rounded-lg shadow-md h-48 w-full object-cover" />
+              <img src="/images/eventshero.png" alt="Art Exhibit 4" className="rounded-lg shadow-md h-48 w-full object-cover" />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
