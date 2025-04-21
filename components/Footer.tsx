@@ -29,7 +29,10 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
             {/* Copyright Text */}
             <p className="text-sm md:text-base">
-              <span className="inline-block">&copy; 8TH MILE 2025</span> <span className="inline-block">R.V. COLLEGE OF ENGINEERING</span>
+              <span className="inline-block">&copy; 8TH MILE 2025</span> <span className="inline-block">
+                <Link href="https://www.rvce.edu.in" target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm md:text-base hover:underline hover:text-primary transition-all duration-300 whitespace-nowrap relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-primary after:absolute after:bottom-[0.5px] after:left-0 after:transition-all after:duration-500 hover:after:w-full">R.V. COLLEGE OF ENGINEERING</Link></span>
             </p>
 
             {/* Developed By Section */}
@@ -38,7 +41,7 @@ const Footer = () => {
                 href="https://www.linkedin.com/company/coding-club-rvce/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline decoration-2 hover:decoration-4 transition-all duration-300"
+                className="text-sm md:text-base hover:underline hover:text-primary transition-all duration-300 whitespace-nowrap relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-primary after:absolute after:bottom-[0.5px] after:left-0 after:transition-all after:duration-500 hover:after:w-full"
               >
                 
                 CODING CLUB OF RVCE
@@ -51,13 +54,14 @@ const Footer = () => {
             <div className="flex space-x-8">
               <Link
                 href="/about-us"
-                className="text-sm md:text-base hover:text-primary transition-all duration-300 whitespace-nowrap"
+                className="text-sm md:text-base hover:underline hover:text-primary transition-all duration-300 whitespace-nowrap relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-primary after:absolute after:bottom-1 after:left-0 after:transition-all after:duration-500 hover:after:w-full"
+
               >
                 About Us
               </Link>
               <Link
                 href="/contact"
-                className="text-sm md:text-base hover:text-primary transition-all duration-300 whitespace-nowrap"
+                className="text-sm md:text-base hover:underline hover:text-primary transition-all duration-300 whitespace-nowrap relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-primary after:absolute after:bottom-1 after:left-0 after:transition-all after:duration-500 hover:after:w-full"
               >
                 Contact Us
               </Link>
