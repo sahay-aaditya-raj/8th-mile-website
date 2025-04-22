@@ -11,7 +11,7 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        "fixed z-[60] right-0 top-30 md:top-40 -translate-y-1/2 md:right-0 md:translate-y-[-50%] md:flex md:flex-col md:items-center bg-sidebar/80 backdrop-blur-xl p-2 rounded-l-lg md:rounded-l-lg transition-transform duration-300 ease-in-out",
+        "fixed z-[60] right-0 top-30 md:top-50 -translate-y-1/2 md:right-0 md:translate-y-[-50%] md:flex md:flex-col md:items-center bg-sidebar/80 backdrop-blur-xl p-2 rounded-l-lg md:rounded-l-lg transition-transform duration-300 ease-in-out",
         visibleSidebar ? "translate-x-0" : "translate-x-full"
       )}
     >
