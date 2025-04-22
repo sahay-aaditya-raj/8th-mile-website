@@ -4,125 +4,153 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useNavbar } from "@/contexts/NavbarContext";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
+type NavLink = {
+  name: string;
+  href: string; // Changed from optional to required
+  component?: React.ReactNode;
+};
+
 export default function Navbar() {
-  const { visibleNavbar } = useNavbar();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      if (!mobile) setIsMenuOpen(false); // Close on desktop
+      setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth > 768) setIsMenuOpen(false);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const navLinks = [
+  const navLinks: NavLink[] = [
     { name: "Home", href: "/" },
     { name: "Events", href: "/events" },
     { name: "Gallery", href: "/gallery" },
+    { 
+      name: "Logo", 
+      href: "/", 
+      component: <Image 
+        src="/8thmilelogocolour.png" 
+        alt="8th-Mile" 
+        width={50} 
+        height={50} 
+        className="object-contain" 
+      />
+    },
     { name: "Timeline", href: "/timeline" },
     { name: "Passes", href: "/passes" },
     { name: "Credits", href: "/credits" },
   ];
 
-  const handleLinkClick = () => {
-    if (isMobile) setIsMenuOpen(false);
-  };
-
   return (
-    <header
-      className={cn(
-        "fixed left-0 right-0 z-50 transition-all duration-300 ease-in-out w-full text-4xl",
-        isScrolled ? "top-4" : "top-0",
-        visibleNavbar ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0",
-      )}
-    >
-      <div
-        className={cn(
-          "flex items-center justify-between mx-auto px-4 py-2 w-full max-w-[90%] md:max-w-4xl transition-all duration-300",
-          isScrolled
-            ? "bg-background/40 shadow-lg rounded-2xl"
-            : "bg-transparent"
-        )}
-      >
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/8thmilelogocolour.png" alt="8th-Mile" width={isMobile ? 40 : 50} height={isMobile ? 40 : 50} />
+    <header className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+      isScrolled ? "py-2" : "py-4"
+    )}>
+      {/* Glass background container */}
+      <div className={cn(
+        "absolute inset-0 bg-white/5 backdrop-blur-xl border-b border-white/10",
+        "shadow-lg shadow-black/5",
+        isScrolled ? "bg-white/10" : "bg-white/5"
+      )}></div>
+
+      <div className="container mx-auto px-4 flex items-center justify-between h-16 relative">
+        {/* RVCE Logo */}
+        <Link href="/" className="z-10">
+          <Image 
+            src="/RVCE Corner Logo WHITE.png" 
+            alt="RVCE Logo" 
+            width={200} 
+            height={200} 
+            className="object-contain"
+          />
         </Link>
 
-        {/* Mobile View */}
-        {isMobile ? (
-          <>
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex flex-col gap-1 p-2 rounded-md hover:bg-background/20"
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-2 h-full z-10">
+          {navLinks.map((link) => (
+            <Button
+              key={link.name}
+              variant="ghost"
+              className={cn(
+                "text-white hover:text-white/80 text-lg px-4 py-2",
+                "hover:bg-white/10 transition-colors",
+                "rounded-full backdrop-blur-sm",
+                pathname === link.href && "bg-white/20 font-medium"
+              )}
+              asChild
             >
-              <span className="block w-6 h-0.5 bg-foreground rounded-sm"></span>
-              <span className="block w-6 h-0.5 bg-foreground rounded-sm"></span>
-              <span className="block w-6 h-0.5 bg-foreground rounded-sm"></span>
-            </button>
+              {link.component ? (
+                <div>{link.component}</div>
+              ) : (
+                <Link href={link.href} passHref>
+                  {link.name}
+                </Link>
+              )}
+            </Button>
+          ))}
+        </nav>
 
-            {isMenuOpen && (
-              <div className="absolute top-full right-4 mt-2 bg-background/95 backdrop-blur-xl rounded-xl shadow-xl p-4 w-72 z-50">
-                <ul className="flex flex-col gap-3">
-                  {navLinks.map((link) => (
-                    <li key={link.name}>
-                      <Button
-                        variant={
-                          link.href === "/"
-                            ? pathname === "/" ? "outline" : "ghost"
-                            : pathname?.includes(link.href) ? "outline" : "ghost"
-                        }
-                        
-                        className="w-full justify-start text-lg"
-                        asChild
-                      >
-                        <Link href={link.href} onClick={handleLinkClick}>
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden z-10 flex flex-col gap-1.5 p-2"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Menu"
+        >
+          {/* Hamburger icon lines */}
+        </button>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className={cn(
+            "fixed inset-0 top-16 bg-black/80 backdrop-blur-sm z-40",
+            "flex justify-center pt-8 px-4",
+            "md:hidden"
+          )}>
+            <div className={cn(
+              "w-full max-w-md bg-white/10 backdrop-blur-xl rounded-2xl",
+              "p-6 border border-white/10 shadow-2xl shadow-black/20",
+              "overflow-y-auto max-h-[80vh]"
+            )}>
+              <ul className="flex flex-col gap-2">
+                {navLinks.map((link) => (
+                  <li key={link.name}>
+                    <Button
+                      variant="ghost"
+                      className={cn(
+                        "w-full justify-start text-white text-lg py-4 px-6",
+                        "hover:bg-white/20",
+                        pathname === link.href && "bg-white/20 font-medium"
+                      )}
+                      onClick={() => setIsMenuOpen(false)}
+                      asChild
+                    >
+                      {link.component ? (
+                        <div className="flex justify-center">{link.component}</div>
+                      ) : (
+                        <Link href={link.href} passHref>
                           {link.name}
                         </Link>
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </>
-        ) : (
-          <nav className="flex items-center gap-2">
-            {navLinks.map((link) => (
-              <Button
-                key={link.name}
-                variant={
-                  link.href === "/"
-                    ? pathname === "/" ? "outline" : "ghost"
-                    : pathname?.includes(link.href) ? "outline" : "ghost"
-                }
-                
-                className="p-3 text-xl"
-                asChild
-              >
-                <Link href={link.href}>{link.name}</Link>
-              </Button>
-            ))}
-          </nav>
+                      )}
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         )}
       </div>
     </header>
