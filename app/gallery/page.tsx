@@ -70,7 +70,7 @@ const galleryItems: Record<Category, ItemType[]> = {
 
 export default function GalleryPage() {
   return (
-    <div className="bg-background text-foreground">
+    <div className="bg-background text-foreground mt-20">
       <section className="py-10 px-4 md:px-12 lg:px-20">
         <h1 className="text-5xl font-bold mb-10 text-left">Gallery</h1>
 

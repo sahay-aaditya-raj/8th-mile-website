@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React from "react";
@@ -39,8 +40,8 @@ export default function HomePage() {
             <div className="flex flex-col justify-center">
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Dance Performances</h3>
               <p className="text-lg text-gray-600">
-                It wouldn't be a cultural fest without getting to witness some mind blowing dance performances on stage. 
-                We were engulfed in a sea of emotions expressed gracefully by classical dancers, but also couldn't stop 
+                It wouldn&apos;t be a cultural fest without getting to witness some mind blowing dance performances on stage. 
+                We were engulfed in a sea of emotions expressed gracefully by classical dancers, but also couldn&apos;t stop 
                 ourselves from grooving to the upbeat Hip Hop choreographies.
               </p>
             </div>

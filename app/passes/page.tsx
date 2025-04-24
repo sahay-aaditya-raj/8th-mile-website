@@ -41,7 +41,7 @@ export default function PassesPage() {
   ];
 
   return (
-    <div className="bg-background text-foreground mt-8">
+    <div className="bg-background text-foreground mt-20">
       <section className="py-10 px-6 md:px-20">
         <h1 className="text-4xl font-bold mb-10">Event Passes</h1>
         

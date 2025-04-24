@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React from "react";
@@ -67,7 +68,7 @@ export default function EventsPage() {
   );
 
   return (
-    <div className="bg-background text-foreground pb-12 md:pb-24">
+    <div className="bg-background text-foreground pb-12 md:pb-24 mt-20">
       {/* Hero Section with Framer Motion parallax */}
       <section className="relative">
         <div className="w-full h-64 md:h-80 lg:h-96 overflow-hidden relative">
