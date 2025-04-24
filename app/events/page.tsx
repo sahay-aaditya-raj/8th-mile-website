@@ -72,7 +72,7 @@ export default function EventsPage() {
       {/* Hero Section with Framer Motion parallax */}
       <section className="relative">
         <div className="w-full h-64 md:h-80 lg:h-96 overflow-hidden relative">
-          <div className="absolute inset-0 bg-black/50 z-10" />
+          <div className="absolute inset-0 bg-background/50 z-10" />
           
           <motion.div
             className="absolute inset-0 h-full w-full"

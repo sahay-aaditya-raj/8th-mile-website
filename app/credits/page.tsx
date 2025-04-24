@@ -81,7 +81,7 @@ export default function CreditsPage() {
 
         {/* Website Contributors */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8">Website Contributors</h2>
+          <p className="text-3xl font-bold text-center mb-8">Website Contributors</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {websiteContributors.map((person) => (
               <Card key={person.id} className="p-6">
@@ -99,7 +99,7 @@ export default function CreditsPage() {
 
         {/* Event Contributors */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8">Event Contributors</h2>
+          <p className="text-3xl font-bold text-center mb-8">Event Contributors</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {eventContributors.map((person) => (
               <Card key={person.id} className="p-6">
@@ -117,7 +117,7 @@ export default function CreditsPage() {
 
         {/* Sponsors Section */}
         <div className="mt-12">
-          <h2 className="text-3xl font-bold text-center mb-8">Sponsors</h2>
+          <p className="text-3xl font-bold text-center mb-8">Sponsors</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {sponsors.map((sponsor) => (
               <Card key={sponsor.id} className="p-6">
@@ -138,7 +138,7 @@ export default function CreditsPage() {
 
         {/* Clubs Section */}
         <div className="mt-12">
-          <h2 className="text-3xl font-bold text-center mb-8">Clubs</h2>
+          <p className="text-3xl font-bold text-center mb-8">Clubs</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {clubs.map((club) => (
               <Card key={club.id} className="p-6">
