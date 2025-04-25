@@ -20,13 +20,19 @@ const samarkan = localFont({
 const akaya = localFont({
   src: "../public/fonts/AkayaKanadaka-Regular.ttf",
   display: 'swap',
-  variable: '--font-akaya',
+  variable:'--font-akaya',
+})
+
+const fraunces = localFont({
+  src: "../public/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf",
+  display: 'swap',
+  variable: '--font-fraunces',
 })
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning className={`${samarkan.variable} ${akaya.variable}`}>
+      <html lang="en" suppressHydrationWarning className={`${samarkan.variable} ${akaya.variable} ${fraunces.variable}`}>
         <head />
         <body>
           {children}

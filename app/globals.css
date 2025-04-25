@@ -120,6 +120,10 @@ html, body {
   --sidebar-ring: rgb(130, 130, 130);
 }
 
+.fraunces {
+  font-family: var(--font-fraunces);
+}
+
 .samarkan {
   font-family: var(--font-samarkan);
 }
@@ -129,12 +133,12 @@ html, body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  @apply text-foreground;
+  /* @apply text-foreground; */
   font-family: var(--font-samarkan);
 }
 
 p, span, a, li, strong, em{
-  @apply text-foreground;
+  /* @apply text-foreground; */
   font-family: var(--font-akaya);
 }
 
