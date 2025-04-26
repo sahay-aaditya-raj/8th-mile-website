@@ -1,13 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { BlurFade } from "../../components/magicui/blur-fade";
+import Image from "next/image";
 
-const technical = [
-  { id: 2, image: "/images/gallery/event2.jpeg", caption: "Event 2" },
-];
-
-const cultural = [
+const images = [
   { id: 2, image: "/gallery/cultural/2.png", caption: "Verve" },
   { id: 3, image: "/gallery/cultural/3.png", caption: "Footprints" },
   { id: 5, image: "/gallery/cultural/5.png", caption: "DJ Night" },
@@ -37,18 +33,17 @@ const cultural = [
   { id: 27, image: "/gallery/cultural/27.png", caption: "Verve" },
   { id: 28, image: "/gallery/cultural/28.png", caption: "Clash of Cords" },
   { id: 29, image: "/gallery/cultural/8.png", caption: "Clash of Cords" },
-  // { id: 30, image: "/gallery/cultural/30.png", caption: "Event 30" },
+  { id: 30, image: "/gallery/cultural/30.png", caption: "Event 30" },
   { id: 31, image: "/gallery/cultural/31.png", caption: "Bike Performance" },
   { id: 32, image: "/gallery/cultural/32.png", caption: "Bike Performance" },
   { id: 33, image: "/gallery/cultural/33.png", caption: "Verve" },
   { id: 34, image: "/gallery/cultural/34.png", caption: "Concert" },
-  // { id: 35, image: "/gallery/cultural/35.png", caption: "Event 35" }
+  { id: 35, image: "/gallery/cultural/35.png", caption: "Event 35" }
 ];
 
 export default function GallerySection() {
-  const [activeTab, setActiveTab] = useState<"technical" | "cultural">("technical");
 
-  const images = activeTab === "technical" ? technical : cultural;
+
 
   return (
     <section className="bg-black py-26 px-6 md:px-24 min-h-screen">
@@ -56,41 +51,26 @@ export default function GallerySection() {
         <h2 className="py-8 text-4xl md:text-6xl font-bold text-[#f9dd9c] drop-shadow-lg">
           Our Vibrant Gallery
         </h2>
-        <div className="flex justify-center gap-4 mt-6">
-          <button
-            className={`px-6 py-2 rounded-full font-semibold transition ${activeTab === "technical"
-              ? "bg-gradient-to-r from-[#870903] to-[#e90c00] text-white shadow-lg"
-              : "bg-[#1a4734] text-[#f9dd9c] hover:bg-[#418b24]"
-              }`}
-            onClick={() => setActiveTab("technical")}
-          >
-            Technical
-          </button>
-          <button
-            className={`px-6 py-2 rounded-full font-semibold transition ${activeTab === "cultural"
-              ? "bg-gradient-to-r from-[#870903] to-[#e90c00] text-white shadow-lg"
-              : "bg-[#1a4734] text-[#f9dd9c] hover:bg-[#767975]"
-              }`}
-            onClick={() => setActiveTab("cultural")}
-          >
-            Cultural
-          </button>
-        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {images.map((image, idx) => (
+      <div className="flex gap-8">
+  {/* Create 4 columns */}
+  {[0, 1, 2, 3].map((colIndex) => (
+    <div key={colIndex} className="flex flex-col gap-8 flex-1">
+      {images
+        .filter((_, idx) => idx % 4 === colIndex) // distribute images
+        .map((image, idx) => (
           <BlurFade key={image.image} delay={0.25 + idx * 0.05} inView>
-            <div className="group relative overflow-hidden rounded-lg w-full h-full">
-              <img
-                className="w-full h-full object-cover rounded-lg"
+            <div className="group relative overflow-hidden rounded-lg w-full">
+              <Image
+                className="object-cover rounded-lg"
                 src={image.image}
+                width={500}
+                height={800}
                 alt={`Random stock image ${idx + 1}`}
               />
-
               {/* Vignette overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 group-hover:opacity-80 transition-opacity duration-500"></div>
-
               {/* Caption */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-[#f9dd9c] text-xl opacity-0 group-hover:opacity-100 transition-all duration-500">
                 {image.caption}
@@ -98,7 +78,10 @@ export default function GallerySection() {
             </div>
           </BlurFade>
         ))}
-      </div>
+    </div>
+  ))}
+</div>
+
 
     </section>
   );
