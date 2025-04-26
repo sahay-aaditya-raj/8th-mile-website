@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // src/lib/razorpay.ts
-import { loadScript } from '@/lib/utils';
+import { loadScript } from './utils';
 
 export interface RazorpayOptions {
   key: string;
@@ -17,11 +17,16 @@ export interface RazorpayOptions {
   };
   notes?: Record<string, string>;
   theme?: {
-    color: string;
+    color?: string;
+    backdrop_color?: string;
   };
   handler?: (response: any) => void;
   modal?: {
     ondismiss?: () => void;
+    backdropclose?: boolean;
+    escape?: boolean;
+    confirm_close?: boolean;
+    animation?: boolean;
   };
 }
 
