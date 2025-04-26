@@ -1,130 +1,219 @@
-// src/app/payment/success/page.tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { toast } from 'sonner';
+import { getPass } from '@/data/passes';
+import QRCode from 'qrcode';
 import Link from 'next/link';
-import { PaymentInfo } from '@/types';
-import { formatCurrency } from '@/lib/utils';
+import html2canvas from 'html2canvas';
+
+interface PaymentInfo {
+  name: string;
+  email: string;
+  phone?: string;
+  paymentId: string;
+  orderId: string;
+  passId: string;
+  basePrice?: number;
+  gstAmount?: number;
+  amount?: number;
+}
 
 export default function SuccessPage() {
   const searchParams = useSearchParams();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo | null>(null);
+  const [passName, setPassName] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+
+  const passRef = useRef<HTMLDivElement>(null);
+  const receiptRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const data = searchParams.get('data');
-    if (data) {
-      try {
-        const decodedData = JSON.parse(decodeURIComponent(data)) as PaymentInfo;
-        setPaymentInfo({
-          ...decodedData,
-          status: 'success',
-        });
-      } catch (err) {
-        console.error('Error parsing payment data', err);
+    const init = async () => {
+      const dataParam = searchParams.get('data');
+      const paymentIdParam = searchParams.get('payment_id');
+
+      if (dataParam) {
+        try {
+          const info = JSON.parse(decodeURIComponent(dataParam));
+          const paymentId = info.paymentId ?? info.razorpay_payment_id;
+          const orderId = info.orderId ?? info.razorpay_order_id;
+          if (!paymentId || !orderId) throw new Error('Missing IDs');
+          const passId = info.passId ?? `PASS-${paymentId.substring(0, 8).toUpperCase()}`;
+
+          setPaymentInfo({
+            name: info.name,
+            email: info.email,
+            phone: info.phone,
+            paymentId,
+            orderId,
+            passId,
+            basePrice: info.basePrice,
+            gstAmount: info.gstAmount,
+            amount: info.amount,
+          });
+
+          const matchedPass = getPass(info.passId);
+          setPassName(matchedPass ? matchedPass.name : info.passId);
+
+          const qrUrl = await QRCode.toDataURL(`${window.location.origin}/getpass?payment_id=${paymentId}`, { errorCorrectionLevel: 'H' });
+          setQrCodeUrl(qrUrl);
+
+        } catch (err) {
+          console.error(err);
+          setError('Invalid payment data.');
+        }
+        return;
       }
-    }
+
+      if (!paymentIdParam) {
+        setError('No payment identifier provided.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/payment/lookup?payment_id=${paymentIdParam}`);
+        const json = await res.json();
+        if (!res.ok || !json.success) {
+          setError(json.message || 'Payment not found.');
+          return;
+        }
+        const paymentId = json.data.paymentId;
+        const orderId = json.data.orderId;
+        const passId = json.data.passId ?? `PASS-${paymentId.substring(0, 8).toUpperCase()}`;
+
+        setPaymentInfo({
+          name: json.data.name,
+          email: json.data.email,
+          phone: json.data.phone,
+          paymentId,
+          orderId,
+          passId,
+        });
+
+        const matchedPass = getPass(json.data.passId);
+        setPassName(matchedPass ? matchedPass.name : json.data.passId);
+
+        const qrUrl = await QRCode.toDataURL(`${window.location.origin}/verifypass?payment_id=${paymentId}`, { errorCorrectionLevel: 'H' });
+        setQrCodeUrl(qrUrl);
+
+      } catch {
+        setError('Failed to fetch payment details.');
+      }
+    };
+    init();
   }, [searchParams]);
 
-  if (!paymentInfo) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-background">
-        <div className="text-center">
-          <div className="animate-spin inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full mb-4"></div>
-          <h2 className="text-2xl font-bold text-foreground">Loading payment details...</h2>
-        </div>
-      </div>
-    );
-  }
+  const downloadImage = async (ref: React.RefObject<HTMLDivElement>, filename: string) => {
+    if (!ref.current) return;
+    const canvas = await html2canvas(ref.current, {
+      backgroundColor: null,
+      scale: 2,
+      useCORS: true,
+    });
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
+  const handleDownloadPass = () => {
+    downloadImage(passRef, 'event_pass.png');
+  };
+
+  const handleDownloadReceipt = () => {
+    downloadImage(receiptRef, 'payment_receipt.png');
+  };
+
+  const handleSendEmail = async () => {
+    if (!paymentInfo) return;
+    try {
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(paymentInfo),
+      });
+      if (res.ok) toast.success('Email sent successfully!');
+      else toast.error('Failed to send email.');
+    } catch (err: any) {
+      toast.error(`Something went wrong: ${err.message}`);
+    }
+  };
+
+  if (error) return <div className="p-6 text-center text-red-600 font-semibold">{error}</div>;
+  if (!paymentInfo) return <div className="p-6 text-center text-gray-700">Loading payment details...</div>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-background">
-      <div className="max-w-md w-full bg-card p-8 shadow-lg rounded-lg border-2 border-muted/20">
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center h-16 w-16 bg-green-100 rounded-full mb-4">
-            <svg
-              className="h-8 w-8 text-green-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          </div>
-          <h2 className="text-2xl font-bold text-foreground">Payment Successful!</h2>
-          <p className="text-muted-foreground mt-1">
-            Your event pass has been purchased successfully.
-          </p>
-        </div>
+    <div className="relative min-h-screen bg-cover bg-center p-6" style={{ backgroundImage: "url('/homepageimages/12.png')" }}>
+      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-md"></div>
 
-        <div className="border-t border-b border-border py-4 my-4">
-          <div className="grid grid-cols-2 gap-2">
-            <div className="text-muted-foreground">Name:</div>
-            <div className="font-medium text-right text-foreground">{paymentInfo.name}</div>
-            
-            <div className="text-muted-foreground">Email:</div>
-            <div className="font-medium text-right text-foreground">{paymentInfo.email}</div>
-            
-            {paymentInfo.phone && (
-              <>
-                <div className="text-muted-foreground">Phone:</div>
-                <div className="font-medium text-right text-foreground">{paymentInfo.phone}</div>
-              </>
-            )}
-          </div>
-        </div>
-        
-        <div className="border-b border-border py-4 mb-4">
-          <h3 className="font-medium mb-3">Payment Details</h3>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="text-muted-foreground">Order ID:</div>
-            <div className="font-medium text-sm text-right break-all text-foreground">
-              {paymentInfo.orderId}
-            </div>
-            
-            <div className="text-muted-foreground">Payment ID:</div>
-            <div className="font-medium text-sm text-right break-all text-foreground">
-              {paymentInfo.paymentId}
-            </div>
-          </div>
-        </div>
-        
-        <div className="border-b border-border py-4 mb-4">
-          <h3 className="font-medium mb-3">Price Breakdown</h3>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="text-muted-foreground">Base Price:</div>
-            <div className="text-right text-foreground">
-              {formatCurrency(paymentInfo.basePrice || 0)}
-            </div>
-            
-            <div className="text-muted-foreground">GST (18%):</div>
-            <div className="text-right text-foreground">
-              {formatCurrency(paymentInfo.gstAmount || 0)}
-            </div>
-            
-            <div className="text-muted-foreground font-medium">Total Amount:</div>
-            <div className="font-bold text-right text-foreground">
-              {formatCurrency(paymentInfo.amount)}
-            </div>
-            
-            <div className="col-span-2 text-xs text-muted-foreground italic mt-2">
-              All prices are inclusive of GST
-            </div>
-          </div>
-        </div>
+      <div className="relative z-10 flex flex-col items-center space-y-6">
+        <h1 className="text-3xl font-bold text-white text-center">Payment Successful!</h1>
 
-        <div className="text-center mt-6">
-          <Link
-            href="/"
-            className="inline-block py-2 px-6 bg-primary text-primary-foreground rounded hover:bg-primary/90"
-          >
-            Back to Home
+        <div className="flex flex-wrap gap-4 justify-center">
+          <button onClick={handleDownloadReceipt} className="py-2 px-6 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow-md">
+            Download Receipt
+          </button>
+          <button onClick={handleDownloadPass} className="py-2 px-6 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-md">
+            Download Pass
+          </button>
+          <button onClick={handleSendEmail} className="py-2 px-6 bg-gray-700 hover:bg-gray-800 text-white rounded-lg shadow-md">
+            Send Email
+          </button>
+          <Link href="/" className="py-2 px-6 bg-gray-700 hover:bg-gray-800 text-white rounded-lg shadow-md">
+            Go to Home
           </Link>
+        </div>
+
+        {/* Receipt Template */}
+        <div ref={receiptRef} className="absolute -top-[9999px] left-[9999px]">
+          <div className="p-6 border rounded-lg shadow-md bg-white text-black w-80">
+            <h2 className="text-2xl font-bold text-center mb-4">Receipt</h2>
+            <div className="space-y-2 text-sm">
+              <div><strong>Name:</strong> {paymentInfo.name}</div>
+              <div><strong>Email:</strong> {paymentInfo.email}</div>
+              {paymentInfo.phone && <div><strong>Phone:</strong> {paymentInfo.phone}</div>}
+              <div><strong>Order ID:</strong> {paymentInfo.orderId}</div>
+              <div><strong>Payment ID:</strong> {paymentInfo.paymentId}</div>
+              <div><strong>Pass:</strong> {passName}</div>
+              {paymentInfo.basePrice !== undefined && <div><strong>Base Price:</strong> ₹{paymentInfo.basePrice/100}</div>}
+              {paymentInfo.gstAmount !== undefined && <div><strong>GST:</strong> ₹{paymentInfo.gstAmount/100}</div>}
+              {paymentInfo.amount !== undefined && <div className="font-bold"><strong>Total:</strong> ₹{paymentInfo.amount/100}</div>}
+            </div>
+          </div>
+        </div>
+
+        {/* Pass */}
+        <div 
+          ref={passRef}
+          className="relative rounded-2xl border border-white p-6 shadow-lg w-full max-w-md flex items-center space-y-4 justify-between overflow-hidden"
+          style={{
+            backgroundImage: "url('/images/pass-background.png')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundColor: '#1f2937' // Fallback color if image fails to load
+          }}
+        >
+          {/* Details */}
+          <div className="text-white space-y-1 relative z-10">
+            <h2 className="text-2xl font-bold">Event Pass</h2>
+            <p className="font-semibold">{paymentInfo.name}</p>
+            <p className="text-sm">{paymentInfo.email}</p>
+            {paymentInfo.phone && <p className="text-sm">{paymentInfo.phone}</p>}
+            <p className="mt-2 font-semibold">Pass: {passName}</p>
+            <p className="text-sm">Order ID: {paymentInfo.orderId}</p>
+            <p className="text-sm">Payment ID: {paymentInfo.paymentId}</p>
+          </div>
+
+          {/* Logo and QR */}
+          <div className="flex flex-col items-center relative z-10">
+            <img src="/8thmilelogocolour.png" alt="Logo" className="w-20 h-20 mb-2" />
+            {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" className="w-28 h-28" />}
+          </div>
         </div>
       </div>
     </div>

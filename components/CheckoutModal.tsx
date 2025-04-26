@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// src/components/CheckoutModal.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -13,6 +12,9 @@ import { Pass } from '@/types';
 import { initializeRazorpay, openRazorpayCheckout } from '@/lib/razorpay';
 import { formatCurrency } from '@/lib/utils';
 
+// GST rate in percentage
+const GST_RATE = 18;
+
 interface CheckoutModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -20,30 +22,26 @@ interface CheckoutModalProps {
   razorpayKeyId?: string;
 }
 
-// GST rate in percentage
-const GST_RATE = 18;
-
-export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayKeyId }: CheckoutModalProps) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+export default function CheckoutModal({
+  isOpen,
+  onClose,
+  selectedPass,
+  razorpayKeyId,
+}: CheckoutModalProps) {
+  const [name, setName]             = useState('');
+  const [email, setEmail]           = useState('');
+  const [phone, setPhone]           = useState('');
+  const [isLoading, setIsLoading]   = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [isRazorpayReady, setIsRazorpayReady] = useState(false);
-  const [error, setError] = useState('');
-  const router = useRouter();
+  const [error, setError]           = useState('');
+  const router                      = useRouter();
 
-  // Load Razorpay SDK when dialog opens
   useEffect(() => {
     if (!isOpen) return;
-    (async () => {
-      try {
-        const res = await initializeRazorpay();
-        if (res) setIsRazorpayReady(true);
-      } catch (err) {
-        console.error("Failed to load Razorpay SDK:", err);
-      }
-    })();
+    initializeRazorpay()
+      .then(ok => setIsRazorpayReady(ok))
+      .catch(console.error);
   }, [isOpen]);
 
   const calculatePriceBreakdown = (totalPrice: number) => {
@@ -64,37 +62,26 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
     }
 
     if (!isRazorpayReady) {
-      try {
-        const res = await initializeRazorpay();
-        if (!res) {
-          setError('Razorpay SDK failed to load');
-          setIsLoading(false);
-          return;
-        }
-        setIsRazorpayReady(true);
-      } catch (err: any) {
-        setError('Failed to initialize payment gateway');
-        setIsLoading(false);
-        console.error(err);
-        return;
-      }
+      setError('Payment gateway not ready');
+      setIsLoading(false);
+      return;
     }
 
     try {
-      const response = await fetch('/api/razorpay/create-order', {
+      // 1) create order on your server
+      const createRes = await fetch('/api/razorpay/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ passId: selectedPass.id, name, email, phone }),
       });
-      const data = await response.json();
-      if (!data.success) throw new Error(data.message || 'Failed to create order');
+      const { success, order, pass, message } = await createRes.json();
+      if (!success) throw new Error(message || 'Order creation failed');
 
-      const { order, pass } = data;
       const { basePrice, gstAmount } = calculatePriceBreakdown(pass.price);
 
-      // ➡️ Close our modal first so Razorpay iframe is on top
-      onClose();
+      onClose(); // hide modal
 
+      // 2) open Razorpay
       openRazorpayCheckout({
         key: razorpayKeyId || '',
         amount: order.amount,
@@ -107,31 +94,34 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
         notes: { passId: selectedPass.id, basePrice: `${basePrice}`, gstAmount: `${gstAmount}` },
         theme: { color: '#4f46e5' },
         handler(response: any) {
-          // show loader *after* Razorpay has closed its own modal
           setIsRedirecting(true);
 
-          const paymentInfo = {
-            orderId: response.razorpay_order_id,
-            paymentId: response.razorpay_payment_id,
-            signature: response.razorpay_signature,
+          // 3) verify + store on our server
+          const payload = {
+            razorpay_order_id:   response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature:  response.razorpay_signature,
+
+            // your metadata:
             name,
             email,
             phone,
-            passId: selectedPass.id,
-            amount: pass.price,
+            amount:      pass.price,
             basePrice,
             gstAmount,
+            passId: selectedPass.id,
           };
 
           fetch('/api/razorpay/verify-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(response),
+            body: JSON.stringify(payload),
           })
-            .then(res => res.json())
-            .then(data => {
-              if (data.success) {
-                router.push(`/payment/success?data=${encodeURIComponent(JSON.stringify(paymentInfo))}`);
+            .then(r => r.json())
+            .then((res) => {
+              if (res.success) {
+                // pass the exact same payload to your success page
+                router.push(`/payment/success?data=${encodeURIComponent(JSON.stringify(payload))}`);
               } else {
                 router.push('/payment/failed');
               }
@@ -148,6 +138,7 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
       });
     } catch (err: any) {
       setError(err.message || 'Payment initialization failed');
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -157,11 +148,10 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
 
   const { basePrice, gstAmount } = calculatePriceBreakdown(selectedPass.price);
 
-  // ➡️ Full-screen loader after Razorpay success; pointer-events-none lets clicks pass through
   if (isRedirecting) {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-center bg-white z-50 pointer-events-none">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mb-4"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 mb-4"></div>
         <p className="text-lg font-semibold">Redirecting to Payment Result...</p>
       </div>
     );
@@ -174,7 +164,7 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
           <div className="mb-4 relative w-24 h-24">
             <Image
               src="/8thmilelogocolour.png"
-              alt="8th Mile RVCE Logo"
+              alt="8th Mile Logo"
               fill
               style={{ objectFit: 'contain' }}
               onError={e => ((e.target as HTMLImageElement).style.display = 'none')}
@@ -204,7 +194,7 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder="your.email@example.com"
+              placeholder="you@example.com"
               required
             />
           </div>
@@ -247,7 +237,7 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
             <Button type="button" variant="outline" onClick={onClose} disabled={isLoading}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading} className="cursor-pointer">
+            <Button type="submit" disabled={isLoading}>
               {isLoading ? 'Processing...' : 'Proceed to Pay'}
             </Button>
           </div>

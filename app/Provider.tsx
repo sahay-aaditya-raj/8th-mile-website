@@ -12,6 +12,7 @@ import Navbar from "@/components/Navbar2";
 export default function Providers({children}: {children: React.ReactNode}) {
     const pathname = usePathname();
     const isPaymentRoute = pathname.startsWith('/payment');
+    const isGetpass = pathname.startsWith('/getpass');
     return(
         <ThemeProvider
             themes={["light", "dark"]}
@@ -22,8 +23,8 @@ export default function Providers({children}: {children: React.ReactNode}) {
                 <NavbarProvider>
                     <SidebarProvider>
                         <ParallaxProvider>
-                            {!isPaymentRoute && <Navbar />}
-                            {!isPaymentRoute && <Sidebar />}
+                            {!(isPaymentRoute || isGetpass) && <Navbar />}
+                            {!(isPaymentRoute || isGetpass) && <Sidebar />}
                             <div>
                                 {children}
                             </div>
@@ -31,7 +32,7 @@ export default function Providers({children}: {children: React.ReactNode}) {
                     </SidebarProvider>
                 </NavbarProvider>
                 {/* <Footer/> */}
-            <Footer/>
+                {!(isPaymentRoute || isGetpass) && <Footer />}
         </ThemeProvider>
     )
 }
