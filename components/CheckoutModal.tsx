@@ -28,15 +28,14 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [isRazorpayReady, setIsRazorpayReady] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
 
-  // Load Razorpay SDK & retrieve stored form data when dialog opens
+  // Load Razorpay SDK when dialog opens
   useEffect(() => {
     if (!isOpen) return;
-
-    // initialize razorpay
     (async () => {
       try {
         const res = await initializeRazorpay();
@@ -46,8 +45,6 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
       }
     })();
   }, [isOpen]);
-
-
 
   const calculatePriceBreakdown = (totalPrice: number) => {
     const basePrice = Math.round((totalPrice * 100) / (100 + GST_RATE));
@@ -95,7 +92,7 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
       const { order, pass } = data;
       const { basePrice, gstAmount } = calculatePriceBreakdown(pass.price);
 
-      // close modal so Razorpay iframe is on top
+      // ➡️ Close our modal first so Razorpay iframe is on top
       onClose();
 
       openRazorpayCheckout({
@@ -106,10 +103,13 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
         image: 'https://8th-mile-website.vercel.app/8thmilelogocolour.png',
         description: `Purchase of ${pass.name}`,
         order_id: order.id,
-        prefill: { name, email: email, contact: phone },
+        prefill: { name, email, contact: phone },
         notes: { passId: selectedPass.id, basePrice: `${basePrice}`, gstAmount: `${gstAmount}` },
         theme: { color: '#4f46e5' },
         handler(response: any) {
+          // show loader *after* Razorpay has closed its own modal
+          setIsRedirecting(true);
+
           const paymentInfo = {
             orderId: response.razorpay_order_id,
             paymentId: response.razorpay_payment_id,
@@ -122,6 +122,7 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
             basePrice,
             gstAmount,
           };
+
           fetch('/api/razorpay/verify-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -129,12 +130,21 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
           })
             .then(res => res.json())
             .then(data => {
-              if (data.success) router.push(`/payment/success?data=${encodeURIComponent(JSON.stringify(paymentInfo))}`);
-              else router.push('/payment/failed');
+              if (data.success) {
+                router.push(`/payment/success?data=${encodeURIComponent(JSON.stringify(paymentInfo))}`);
+              } else {
+                router.push('/payment/failed');
+              }
             })
             .catch(() => router.push('/payment/failed'));
         },
-        modal: { ondismiss: () => setIsLoading(false), backdropclose: true, escape: true, confirm_close: true, animation: true },
+        modal: {
+          ondismiss: () => setIsLoading(false),
+          backdropclose: true,
+          escape: true,
+          confirm_close: true,
+          animation: true,
+        },
       });
     } catch (err: any) {
       setError(err.message || 'Payment initialization failed');
@@ -146,6 +156,16 @@ export default function CheckoutModal({ isOpen, onClose, selectedPass, razorpayK
   if (!selectedPass) return null;
 
   const { basePrice, gstAmount } = calculatePriceBreakdown(selectedPass.price);
+
+  // ➡️ Full-screen loader after Razorpay success; pointer-events-none lets clicks pass through
+  if (isRedirecting) {
+    return (
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-white z-50 pointer-events-none">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mb-4"></div>
+        <p className="text-lg font-semibold">Redirecting to Payment Result...</p>
+      </div>
+    );
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={open => !open && onClose()}>
