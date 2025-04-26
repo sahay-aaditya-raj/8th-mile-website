@@ -7,8 +7,11 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { ParallaxProvider } from 'react-scroll-parallax';
+import { usePathname } from 'next/navigation'; // For client components only
 
 export default function Providers({children}: {children: React.ReactNode}) {
+    const pathname = usePathname();
+    const isPaymentRoute = pathname.startsWith('/payment');
     return(
         <ThemeProvider
             themes={["light", "dark"]}
@@ -19,8 +22,8 @@ export default function Providers({children}: {children: React.ReactNode}) {
                 <NavbarProvider>
                     <SidebarProvider>
                         <ParallaxProvider>
-                            <Navbar />
-                            <Sidebar />
+                            {!isPaymentRoute && <Navbar />}
+                            {!isPaymentRoute && <Sidebar />}
                             <div>
                                 {children}
                             </div>
