@@ -1,97 +1,105 @@
-import React from "react";
-import { GalleryCard, GalleryItem as ItemType } from "@/components/ui/3d-gallery-card"; // adjust path as needed
+"use client";
 
-type Category = "Events" | "Workshops" | "Performances";
+import { useState } from "react";
+import { BlurFade } from "../../components/magicui/blur-fade";
 
-const galleryCategories: Category[] = ["Events", "Workshops", "Performances"];
+const technical = [
+  { id: 2, image: "/images/gallery/event2.jpeg", caption: "Event 2" },
+];
 
-const galleryItems: Record<Category, ItemType[]> = {
-  Events: [
-    {
-      id: 1,
-      image: "/images/gallery/event1.jpeg",
-      caption: "Opening Ceremony",
-      description: "The grand start of 8th Mile with traditional lights and speeches."
-    },
-    {
-      id: 2,
-      image: "/images/gallery/event2.jpeg",
-      caption: "Hackathon Day 1",
-      description: "Teams brainstormed ideas and began coding their innovative projects."
-    },
-    {
-      id: 3,
-      image: "/images/gallery/event3.jpeg",
-      caption: "Awards Night",
-      description: "Finale with prize distribution, performances, and celebration."
-    },
-  ],
-  Workshops: [
-    {
-      id: 1,
-      image: "/images/gallery/event1.jpeg",
-      caption: "AI Workshop",
-      description: "Introduction to machine learning and AI models with hands-on projects."
-    },
-    {
-      id: 2,
-      image: "/images/gallery/event2.jpeg",
-      caption: "Web Development",
-      description: "Build responsive websites using modern frameworks like React and Tailwind."
-    },
-    {
-      id: 3,
-      image: "/images/gallery/event3.jpeg",
-      caption: "Design Session",
-      description: "UI/UX design session for budding creatives and developers."
-    },
-  ],
-  Performances: [
-    {
-      id: 1,
-      image: "/images/gallery/event3.jpeg",
-      caption: "Dance Performance",
-      description: "Energetic group dance by our talented students."
-    },
-    {
-      id: 2,
-      image: "/images/gallery/event2.jpeg",
-      caption: "Music Concert",
-      description: "Live music performance featuring student bands and guest artists."
-    },
-    {
-      id: 3,
-      image: "/images/gallery/event1.jpeg",
-      caption: "Theater Show",
-      description: "A dramatic play with engaging storyline and acting."
-    },
-  ],
-};
+const cultural = [
+  { id: 2, image: "/gallery/cultural/2.png", caption: "Verve" },
+  { id: 3, image: "/gallery/cultural/3.png", caption: "Footprints" },
+  { id: 5, image: "/gallery/cultural/5.png", caption: "DJ Night" },
+  { id: 1, image: "/gallery/cultural/1.png", caption: "Amaal Malik" },
+  { id: 7, image: "/gallery/cultural/7.png", caption: "Alaap" },
+  { id: 8, image: "/gallery/cultural/29.png", caption: "Verve" },
+  { id: 4, image: "/gallery/cultural/4.png", caption: "Verve" },
+  { id: 6, image: "/gallery/cultural/6.png", caption: "DJ Night" },
+  { id: 26, image: "/gallery/cultural/26.png", caption: "Footprints" },
+  { id: 9, image: "/gallery/cultural/9.png", caption: "Footprints" },
+  { id: 10, image: "/gallery/cultural/10.png", caption: "Rangataranga" },
+  { id: 11, image: "/gallery/cultural/11.png", caption: "Footprints" },
+  { id: 12, image: "/gallery/cultural/12.png", caption: "Concert" },
+  { id: 13, image: "/gallery/cultural/13.png", caption: "Mr. & Ms. 8th Mile" },
+  { id: 14, image: "/gallery/cultural/14.png", caption: "Verve" },
+  { id: 15, image: "/gallery/cultural/15.png", caption: "Alaap" },
+  { id: 16, image: "/gallery/cultural/16.png", caption: "Mr. & Ms. 8th Mile" },
+  { id: 17, image: "/gallery/cultural/17.png", caption: "Verve" },
+  { id: 18, image: "/gallery/cultural/18.png", caption: "Footprints" },
+  { id: 19, image: "/gallery/cultural/19.png", caption: "Open Mic" },
+  { id: 20, image: "/gallery/cultural/20.png", caption: "Open Mic" },
+  { id: 21, image: "/gallery/cultural/21.png", caption: "" },
+  { id: 22, image: "/gallery/cultural/22.png", caption: "Inauguration" },
+  { id: 23, image: "/gallery/cultural/23.png", caption: "Footprints" },
+  { id: 24, image: "/gallery/cultural/24.png", caption: "Verve" },
+  { id: 25, image: "/gallery/cultural/25.png", caption: "Inauguration" },
+  { id: 27, image: "/gallery/cultural/27.png", caption: "Verve" },
+  { id: 28, image: "/gallery/cultural/28.png", caption: "Clash of Cords" },
+  { id: 29, image: "/gallery/cultural/8.png", caption: "Clash of Cords" },
+  // { id: 30, image: "/gallery/cultural/30.png", caption: "Event 30" },
+  { id: 31, image: "/gallery/cultural/31.png", caption: "Bike Performance" },
+  { id: 32, image: "/gallery/cultural/32.png", caption: "Bike Performance" },
+  { id: 33, image: "/gallery/cultural/33.png", caption: "Verve" },
+  { id: 34, image: "/gallery/cultural/34.png", caption: "Concert" },
+  // { id: 35, image: "/gallery/cultural/35.png", caption: "Event 35" }
+];
 
-export default function GalleryPage() {
+export default function GallerySection() {
+  const [activeTab, setActiveTab] = useState<"technical" | "cultural">("technical");
+
+  const images = activeTab === "technical" ? technical : cultural;
+
   return (
-    <div className="bg-background text-foreground mt-20">
-      <section className="py-10 px-4 md:px-12 lg:px-20">
-        <h1 className="text-5xl font-bold mb-10 text-left">Gallery</h1>
+    <section className="bg-black py-26 px-6 md:px-24 min-h-screen">
+      <div className="text-center mb-12">
+        <h2 className="py-8 text-4xl md:text-6xl font-bold text-[#f9dd9c] drop-shadow-lg">
+          Our Vibrant Gallery
+        </h2>
+        <div className="flex justify-center gap-4 mt-6">
+          <button
+            className={`px-6 py-2 rounded-full font-semibold transition ${activeTab === "technical"
+              ? "bg-gradient-to-r from-[#870903] to-[#e90c00] text-white shadow-lg"
+              : "bg-[#1a4734] text-[#f9dd9c] hover:bg-[#418b24]"
+              }`}
+            onClick={() => setActiveTab("technical")}
+          >
+            Technical
+          </button>
+          <button
+            className={`px-6 py-2 rounded-full font-semibold transition ${activeTab === "cultural"
+              ? "bg-gradient-to-r from-[#870903] to-[#e90c00] text-white shadow-lg"
+              : "bg-[#1a4734] text-[#f9dd9c] hover:bg-[#767975]"
+              }`}
+            onClick={() => setActiveTab("cultural")}
+          >
+            Cultural
+          </button>
+        </div>
+      </div>
 
-        {galleryCategories.map((category, index) => (
-          <div key={category} className="mb-14">
-            <p className="text-3xl font-semibold mb-6 text-left p-0">{category}</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {images.map((image, idx) => (
+          <BlurFade key={image.image} delay={0.25 + idx * 0.05} inView>
+            <div className="group relative overflow-hidden rounded-lg w-full h-full">
+              <img
+                className="w-full h-full object-cover rounded-lg"
+                src={image.image}
+                alt={`Random stock image ${idx + 1}`}
+              />
 
-            {/* Gallery Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {galleryItems[category].map((item) => (
-                <GalleryCard key={item.id} item={item} />
-              ))}
+              {/* Vignette overlay */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 group-hover:opacity-80 transition-opacity duration-500"></div>
+
+              {/* Caption */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-[#f9dd9c] text-xl opacity-0 group-hover:opacity-100 transition-all duration-500">
+                {image.caption}
+              </div>
             </div>
-
-            {/* Separator */}
-            {index < galleryCategories.length - 1 && (
-              <hr className="my-10 border-t border-gray-300 dark:border-gray-700" />
-            )}
-          </div>
+          </BlurFade>
         ))}
-      </section>
-    </div>
+      </div>
+
+    </section>
   );
 }

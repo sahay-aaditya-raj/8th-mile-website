@@ -2,11 +2,13 @@
 
 import { NavbarProvider } from "@/contexts/NavbarContext"
 import { SidebarProvider } from "@/contexts/SidebarContext";
-import Footer from "@/components/Footer"
+// import Footer from "@/components/Footer"
 import { ThemeProvider } from "@/components/theme-provider"
-import Navbar from '@/components/Navbar';
+// import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { ParallaxProvider } from 'react-scroll-parallax';
+import Footer2 from "@/components/Footer2";
+import Navbar2 from "@/components/Navbar2";
 
 export default function Providers({children}: {children: React.ReactNode}) {
     return(
@@ -19,7 +21,7 @@ export default function Providers({children}: {children: React.ReactNode}) {
                 <NavbarProvider>
                     <SidebarProvider>
                         <ParallaxProvider>
-                            <Navbar />
+                            <Navbar2 />
                             <Sidebar />
                             <div>
                                 {children}
@@ -27,7 +29,8 @@ export default function Providers({children}: {children: React.ReactNode}) {
                         </ParallaxProvider>
                     </SidebarProvider>
                 </NavbarProvider>
-            <Footer/>
+                {/* <Footer/> */}
+            <Footer2/>
         </ThemeProvider>
     )
 }
