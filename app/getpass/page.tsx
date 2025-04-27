@@ -51,7 +51,7 @@ export default function VerifyPassPage() {
 
         // Generate QR code
         const qrUrl = await QRCode.toDataURL(
-          `${window.location.origin}/verifypass?payment_id=${paymentId}`,
+          `${window.location.origin}/getpass?payment_id=${paymentId}`,
           { errorCorrectionLevel: 'H' }
         );
         setQrCodeUrl(qrUrl);
