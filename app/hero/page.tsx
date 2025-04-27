@@ -51,10 +51,7 @@ export default function ThreeDMarqueeDemo() {
     ];
     return (
         <div className="mx-auto bg-black">
-            <div className="opacity-20 fixed md:top-24 flex flex-col justify-center items-center w-full z-0 md:h-full">
-                <ThreeDMarquee className="w-full h-full" images={images} />
-                <ThreeDMarquee className="w-full md:hidden" images={images} />
-            </div>
+            
             <div className="relative z-10 flex flex-col justify-center items-center h-screen w-full">
                 <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}

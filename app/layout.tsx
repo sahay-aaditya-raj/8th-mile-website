@@ -17,6 +17,13 @@ const samarkan = localFont({
   variable: '--font-samarkan',
 })
 
+
+const poppins = localFont({
+  src: '../public/fonts/Poppins-Regular.ttf',
+  display: 'swap',
+  variable: '--font-poppins',
+})
+
 const akaya = localFont({
   src: "../public/fonts/AkayaKanadaka-Regular.ttf",
   display: 'swap',
@@ -32,7 +39,7 @@ const fraunces = localFont({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning className={`${samarkan.variable} ${akaya.variable} ${fraunces.variable}`}>
+      <html lang="en" suppressHydrationWarning className={`${samarkan.variable} ${akaya.variable} ${fraunces.variable} ${poppins.variable}`}>
         <head />
         <body>
           {children}

@@ -25,45 +25,42 @@ export default function Navbar() {
         { name: "Credits", href: "/credits" },
     ];
 
-    const logoLink = navLinks.find((l) => l.name === "Logo");
     const otherLinks = navLinks.filter((l) => l.name !== "Logo");
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-black p-2 border-b border-[#ec0900] shadow-md shadow-[#1a4734] transition-all duration-500 ease-in-out">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-                {/* RVCE Logo */}
-                <Link href="/" className="flex-shrink-0">
-                    <div className="flex flex-row p-2">
-                        <Image
-                            src="/8thmilelogocolour.png"
-                            alt="8th-Mile"
-                            width={60}
-                            height={60}
-                            className="object-contain"
-                        />
-                        <Image
-                            src="/RVCE Corner Logo WHITE.png"
-                            alt="RVCE Logo"
-                            width={120}
-                            height={60}
-                            className="object-contain w-full h-auto"
-                            priority
-                        />
-                    </div>
+        <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-[#fff8e7]/80 backdrop-blur-md p-3 px-8 rounded-2xl border border-[#ecd8b1] shadow-sm shadow-[#f0e2c4] transition-all duration-500 ease-in-out w-[90%] max-w-6xl mx-auto">
+            <div className="flex items-center justify-between w-full">
+                {/* Logo */}
+                <Link href="/" className="flex items-center gap-4">
+                    <Image
+                        src="/8thmilelogocolour.png"
+                        alt="8th-Mile"
+                        width={50}
+                        height={50}
+                        className="object-contain"
+                    />
+                    <Image
+                        src="/RVCE Corner Logo BLACK.png"
+                        alt="RVCE Logo"
+                        width={100}
+                        height={50}
+                        className="object-contain h-auto"
+                        priority
+                    />
                 </Link>
 
                 {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center gap-4">
+                <nav className="hidden md:flex items-center gap-10">
                     {navLinks.map((link) =>
                         link.component ? (
-                            <div key={link.name}>{link.component}</div> // Render component directly
+                            <div key={link.name}>{link.component}</div>
                         ) : (
                             <Link
                                 key={link.name}
                                 href={link.href}
                                 className={cn(
-                                    "fraunces text-f9dd9c hover:text-e90c00 text-base lg:text-lg px-3 py-2 transition-colors",
-                                    pathname === link.href && "text-e90c00 font-semibold"
+                                    "poppins font-semibold text-[#442C0D] hover:text-[#1a4734] text-base lg:text-lg transition-colors",
+                                    pathname === link.href && "text-[#1a4734]"
                                 )}
                             >
                                 {link.name}
@@ -71,8 +68,6 @@ export default function Navbar() {
                         )
                     )}
                 </nav>
-
-
 
                 {/* Mobile Menu Button */}
                 <button
@@ -82,58 +77,46 @@ export default function Navbar() {
                 >
                     <span
                         className={cn(
-                            "block w-6 h-0.5 bg-white transition-transform",
-                            isMenuOpen && "rotate-45 translate-y-2 bg-white"
+                            "block w-6 h-0.5 bg-[#442C0D] transition-transform",
+                            isMenuOpen && "rotate-45 translate-y-2 bg-[#442C0D]"
                         )}
                     />
                     <span
                         className={cn(
-                            "block w-6 h-0.5 bg-white transition-opacity",
+                            "block w-6 h-0.5 bg-[#442C0D] transition-opacity",
                             isMenuOpen && "opacity-0"
                         )}
                     />
                     <span
                         className={cn(
-                            "block w-6 h-0.5 bg-white transition-transform",
-                            isMenuOpen && "-rotate-45 -translate-y-2 bg-white"
+                            "block w-6 h-0.5 bg-[#442C0D] transition-transform",
+                            isMenuOpen && "-rotate-45 -translate-y-2 bg-[#442C0D]"
                         )}
                     />
                 </button>
-
-                {/* Mobile Menu Overlay */}
-                {isMenuOpen && (
-                    <div className="fixed inset-0 top-24 bg-black flex flex-col items-center justify-start pt-8 z-10">
-                        {/* Centered Logo */}
-                        {logoLink && (
-                            <div className="mb-6">
-                                <Link href={logoLink.href} onClick={() => setIsMenuOpen(false)}>
-                                    {logoLink.component}
-                                </Link>
-                            </div>
-                        )}
-
-                        {/* Other Links */}
-                        <ul className="flex flex-col gap-4">
-                            {otherLinks.map((link) => (
-                                <li key={link.name}>
-                                    <Link
-                                        key={link.name}
-                                        href={link.href}
-                                        className={cn(
-                                            "fraunces text-f9dd9c hover:text-e90c00 text-base lg:text-lg px-3 py-2 transition-colors",
-                                            pathname === link.href && "text-e90c00 font-semibold"
-                                        )}
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        {link.name}
-                                    </Link>
-
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
             </div>
+
+            {/* Mobile Menu Overlay */}
+            {isMenuOpen && (
+                <div className="fixed inset-0 top-20 bg-[#fff8e7]/95 flex flex-col items-center pt-10 z-10 backdrop-blur-md">
+                    <ul className="flex flex-col gap-8 text-center">
+                        {otherLinks.map((link) => (
+                            <li key={link.name}>
+                                <Link
+                                    href={link.href}
+                                    className={cn(
+                                        "font-semibold text-[#442C0D] hover:text-[#E90C00] text-lg transition-colors",
+                                        pathname === link.href && "text-[#E90C00]"
+                                    )}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    {link.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </header>
     );
 }
