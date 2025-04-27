@@ -85,9 +85,9 @@ const images = [
   { id: 62, image: "/gallery/cultural/62.jpg", caption: "Amaal Mallik" },
   { id: 63, image: "/gallery/cultural/63.jpg", caption: "Amaal Mallik" },
   { id: 64, image: "/gallery/cultural/64.JPG", caption: "Amaal Mallik" },
-  { id: 21, image: "/gallery/cultural/21.png", caption: "Rangataranga" },
-  { id: 78, image: "/gallery/cultural/65.png", caption: "DJ Night" },
-  { id: 79, image: "/gallery/cultural/67.png", caption: "Clash of Chords" },
+ // { id: 21, image: "/gallery/cultural/21.png", caption: "Rangataranga" },
+  //{ id: 78, image: "/gallery/cultural/65.png", caption: "DJ Night" },
+ // { id: 79, image: "/gallery/cultural/67.png", caption: "Clash of Chords" },
   
 ];
 
