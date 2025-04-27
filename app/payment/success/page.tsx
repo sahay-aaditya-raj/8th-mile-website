@@ -98,7 +98,7 @@ export default function SuccessPage() {
         const matchedPass = getPass(json.data.passId);
         setPassName(matchedPass ? matchedPass.name : json.data.passId);
 
-        const qrUrl = await QRCode.toDataURL(`${window.location.origin}/verifypass?payment_id=${paymentId}`, { errorCorrectionLevel: 'H' });
+        const qrUrl = await QRCode.toDataURL(`${window.location.origin}/getpass?payment_id=${paymentId}`, { errorCorrectionLevel: 'H' });
         setQrCodeUrl(qrUrl);
 
       } catch {
