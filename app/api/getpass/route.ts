@@ -1,12 +1,12 @@
 // app/api/verifypass/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
-import { payments } from '@/lib/schema';
-import { eq } from 'drizzle-orm'; // Import eq from drizzle-orm
-
+import { connectToDatabase } from '@/lib/db';
+import Payment from '@/lib/models/Payment';
 
 export async function GET(request: NextRequest) {
   try {
+    await connectToDatabase();
+    
     const { searchParams } = new URL(request.url);
     const paymentId = searchParams.get('payment_id');
 
@@ -17,12 +17,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const payment = await db
-      .select()
-      .from(payments)
-      .where(eq(payments.id, paymentId))
-      .execute()
-      .then((result) => result[0]);
+    const payment = await Payment.findById(paymentId);
 
     if (!payment) {
       return NextResponse.json(
@@ -38,7 +33,7 @@ export async function GET(request: NextRequest) {
         email: payment.email,
         phone: payment.phone,
         orderId: payment.orderId,
-        paymentId: payment.id,
+        paymentId: payment._id,
         basePrice: payment.basePrice,
         gstAmount: payment.gstAmount
       }

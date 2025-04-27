@@ -1,10 +1,13 @@
+// app/api/verify-payment/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { db } from '@/lib/db';
-import { payments } from '@/lib/schema';
+import { connectToDatabase } from '@/lib/db';
+import Payment from '@/lib/models/Payment';
 
 export async function POST(request: NextRequest) {
   try {
+    await connectToDatabase();
+    
     const body = await request.json();
 
     // support both snake_case (backend-style) and camelCase (frontend-style)
@@ -49,19 +52,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 4) Insert into SQLite
-    await db.insert(payments).values({
-      id: razorpay_payment_id,
+    // 4) Insert into MongoDB
+    const newPayment = new Payment({
+      _id: razorpay_payment_id, // Using payment ID as the document ID
       orderId: razorpay_order_id,
       signature: razorpay_signature,
       name,
       email,
-      phone: phone ?? null,
+      phone: phone ?? undefined,
       amount,
       passId: passId,
       basePrice,
       gstAmount,
     });
+
+    await newPayment.save();
 
     return NextResponse.json({
       success: true,
