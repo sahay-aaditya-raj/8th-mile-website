@@ -9,6 +9,7 @@ const technical = [
 
 const cultural = [
   { id: 55, image: "/gallery/cultural/55.JPG", caption: "Cola" },
+]; // Added missing closing bracket here
 
 const images = [
   { id: 2, image: "/gallery/cultural/2.png", caption: "Verve" },
@@ -85,60 +86,103 @@ const images = [
   { id: 27, image: "/gallery/cultural/27.png", caption: "Verve" },
   { id: 53, image: "/gallery/cultural/53.JPG", caption: "Open mic" },
   { id: 54, image: "/gallery/cultural/54.JPG", caption: "Open mic" },
-  { id: 37, image: "/gallery/cultural/37.JPG", caption: "Procession" },
-  { id: 27, image: "/gallery/cultural/27.png", caption: "Verve" },
-  { id: 28, image: "/gallery/cultural/28.png", caption: "Clash of Cords" },
-  { id: 29, image: "/gallery/cultural/8.png", caption: "Clash of Cords" },
-  { id: 30, image: "/gallery/cultural/30.png", caption: "Event 30" },
-  { id: 31, image: "/gallery/cultural/31.png", caption: "Bike Performance" },
-  { id: 32, image: "/gallery/cultural/32.png", caption: "Bike Performance" },
-  { id: 33, image: "/gallery/cultural/33.png", caption: "Verve" },
-  { id: 34, image: "/gallery/cultural/34.png", caption: "Concert" },
-  { id: 35, image: "/gallery/cultural/35.png", caption: "Event 35" }
+  { id: 37, image: "/gallery/cultural/37.JPG", caption: "Procession" }
 ];
 
+// Removed duplicate entries that were at the end of the array
+
 export default function GallerySection() {
-
-
-
   return (
-    <section className="py-26 px-6 md:px-24 min-h-screen bg-[#f9dd9c]">
-      <div className="text-center mb-12">
-        <h2 className="py-8 text-4xl md:text-6xl font-bold text-[#870903] drop-shadow-lg">
+    <section className="py-16 px-4 md:py-26 md:px-12 lg:px-24 min-h-screen bg-[#f9dd9c]">
+      <div className="text-center mb-8 md:mb-12">
+        <h2 className="py-6 md:py-8 text-3xl md:text-5xl lg:text-6xl font-bold text-[#870903] drop-shadow-lg">
           Our Vibrant Gallery
         </h2>
       </div>
 
-      <div className="flex gap-8">
-  {/* Create 4 columns */}
-  {[0, 1, 2, 3].map((colIndex) => (
-    <div key={colIndex} className="flex flex-col gap-8 flex-1">
-      {images
-        .filter((_, idx) => idx % 4 === colIndex) // distribute images
-        .map((image, idx) => (
-          <BlurFade key={image.image} delay={0.25 + idx * 0.05} inView>
+      {/* Mobile gallery (1 column) */}
+      <div className="flex flex-col gap-4 md:hidden">
+        {images.slice(0, 20).map((image, idx) => (
+          <BlurFade key={image.id} delay={0.15 + idx * 0.05} inView>
             <div className="group relative overflow-hidden rounded-lg w-full">
               <Image
-                className="object-cover rounded-lg"
+                className="object-cover rounded-lg w-full"
                 src={image.image}
                 width={500}
-                height={800}
-                alt={`Random stock image ${idx + 1}`}
+                height={600}
+                alt={image.caption || `Gallery image ${image.id}`}
               />
               {/* Vignette overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 group-hover:opacity-80 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50 group-hover:opacity-80 transition-opacity duration-300"></div>
               {/* Caption */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-[#f9dd9c] text-xl opacity-0 group-hover:opacity-100 transition-all duration-500">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-[#f9dd9c] text-lg opacity-100 transition-all duration-300">
                 {image.caption}
               </div>
             </div>
           </BlurFade>
         ))}
-    </div>
-  ))}
-</div>
+        
+        
+      </div>
 
+      {/* Tablet gallery (2 columns) */}
+      <div className="hidden md:flex lg:hidden gap-4">
+        {[0, 1].map((colIndex) => (
+          <div key={colIndex} className="flex flex-col gap-4 flex-1">
+            {images
+              .filter((_, idx) => idx % 2 === colIndex)
+              .slice(0, 15)
+              .map((image, idx) => (
+                <BlurFade key={image.id} delay={0.2 + idx * 0.05} inView>
+                  <div className="group relative overflow-hidden rounded-lg w-full">
+                    <Image
+                      className="object-cover rounded-lg w-full"
+                      src={image.image}
+                      width={500}
+                      height={700}
+                      alt={image.caption || `Gallery image ${image.id}`}
+                    />
+                    {/* Vignette overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 group-hover:opacity-80 transition-opacity duration-300"></div>
+                    {/* Caption */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-[#f9dd9c] text-lg opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      {image.caption}
+                    </div>
+                  </div>
+                </BlurFade>
+              ))}
+          </div>
+        ))}
+      </div>
 
+      {/* Desktop gallery (4 columns) */}
+      <div className="hidden lg:flex gap-4 xl:gap-6">
+        {[0, 1, 2, 3].map((colIndex) => (
+          <div key={colIndex} className="flex flex-col gap-6 flex-1">
+            {images
+              .filter((_, idx) => idx % 4 === colIndex)
+              .map((image, idx) => (
+                <BlurFade key={image.id} delay={0.25 + idx * 0.05} inView>
+                  <div className="group relative overflow-hidden rounded-lg w-full">
+                    <Image
+                      className="object-cover rounded-lg w-full"
+                      src={image.image}
+                      width={500}
+                      height={800}
+                      alt={image.caption || `Gallery image ${image.id}`}
+                    />
+                    {/* Vignette overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 group-hover:opacity-80 transition-opacity duration-500"></div>
+                    {/* Caption */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-[#f9dd9c] text-xl opacity-0 group-hover:opacity-100 transition-all duration-500">
+                      {image.caption}
+                    </div>
+                  </div>
+                </BlurFade>
+              ))}
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
