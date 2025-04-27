@@ -31,13 +31,7 @@ export const ThreeDMarquee = ({
                         className="relative top-96 right-[50%] grid size-full origin-top-left grid-cols-4 gap-8 transform-3d"
                     >
                         {chunks.map((subarray, colIndex) => (
-                            <motion.div
-                                animate={{ y: colIndex % 2 === 0 ? 900 : -900 }}
-                                transition={{
-                                    duration: colIndex % 2 === 0 ? 100 : 100,
-                                    repeat: Infinity,
-                                    repeatType: "reverse",
-                                }}
+                            <div
                                 key={colIndex + "marquee"}
                                 className="flex flex-col items-start gap-8"
                             >
@@ -45,14 +39,7 @@ export const ThreeDMarquee = ({
                                 {subarray.map((image, imageIndex) => (
                                     <div className="relative" key={imageIndex + image}>
                                         <GridLineHorizontal className="-top-4" offset="20px" />
-                                        <motion.img
-                                            whileHover={{
-                                                y: -10,
-                                            }}
-                                            transition={{
-                                                duration: 0.3,
-                                                ease: "easeInOut",
-                                            }}
+                                        <img
                                             key={imageIndex + image}
                                             src={image}
                                             alt={`Image ${imageIndex + 1}`}
@@ -62,7 +49,7 @@ export const ThreeDMarquee = ({
                                         />
                                     </div>
                                 ))}
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 </div>

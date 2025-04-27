@@ -46,9 +46,9 @@ export default function GallerySection() {
 
 
   return (
-    <section className="bg-black py-26 px-6 md:px-24 min-h-screen">
+    <section className="py-26 px-6 md:px-24 min-h-screen bg-[#f9dd9c]">
       <div className="text-center mb-12">
-        <h2 className="py-8 text-4xl md:text-6xl font-bold text-[#f9dd9c] drop-shadow-lg">
+        <h2 className="py-8 text-4xl md:text-6xl font-bold text-[#870903] drop-shadow-lg">
           Our Vibrant Gallery
         </h2>
       </div>
