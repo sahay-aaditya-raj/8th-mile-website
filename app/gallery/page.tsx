@@ -3,14 +3,6 @@
 import { BlurFade } from "../../components/magicui/blur-fade";
 import Image from "next/image";
 
-const technical = [
-  { id: 2, image: "/images/gallery/event2.jpeg", caption: "Event 2" },
-];
-
-const cultural = [
-  { id: 55, image: "/gallery/cultural/55.JPG", caption: "Cola" },
-]; // Added missing closing bracket here
-
 const images = [
   { id: 1, image: "/gallery/cultural/1.png", caption: "Amaal Malik" },
   { id: 65, image: "/gallery/technical/1.JPG", caption: "Hackathon" },

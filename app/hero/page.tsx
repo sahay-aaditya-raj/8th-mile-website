@@ -46,8 +46,6 @@ export default function ThreeDMarqueeDemo() {
         "/homepageimages/6.png",
         "/homepageimages/5.png",
         "/homepageimages/4.png",
-
-
     ];
     return (
         <div className="mx-auto bg-black">
