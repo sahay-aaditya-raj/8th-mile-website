@@ -36,10 +36,16 @@ const fraunces = localFont({
   variable: '--font-fraunces',
 })
 
+const delagothic = localFont({
+  src: "../public/fonts/DelaGothicOne-Regular.ttf",
+  display: 'swap',
+  variable: '--font-delagothic',
+})
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning className={`${samarkan.variable} ${akaya.variable} ${fraunces.variable} ${poppins.variable}`}>
+      <html lang="en" suppressHydrationWarning className={`${samarkan.variable} ${akaya.variable} ${fraunces.variable} ${poppins.variable} ${delagothic.variable}`}>
         <head />
         <body>
           {children}

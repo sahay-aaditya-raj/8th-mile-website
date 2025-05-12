@@ -31,7 +31,7 @@ export default function Navbar() {
         { name: "Gallery", href: "/gallery" },
         { name: "Timeline", href: "/timeline" },
         { name: "Passes", href: "/passes" },
-        { name: "Credits", href: "/new-credits" },
+        { name: "Our Team", href: "/credits" },
     ];
 
     return (
@@ -49,11 +49,11 @@ export default function Navbar() {
                             className="object-contain"
                         />
                         <Image
-                            src="/RVCELogoBLACK.png"
+                            src="/RVCE Corner Logo WHITE.png"
                             alt="RVCE Logo"
-                            width={50}
-                            height={50}
-                            className="object-contain h-auto invert"
+                            width={100}
+                            height={100}
+                            className="object-contain h-auto"
                             priority
                         />
                     </Link>

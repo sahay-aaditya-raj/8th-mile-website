@@ -1,163 +1,195 @@
 "use client";
 
-import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { ThreeDMarquee } from '@/components/ui/3d-marquee';
+import Image from 'next/image';
+import React from 'react'
 
-export default function CreditsPage() {
-  const websiteContributors = [
-    {
-      id: 1,
-      name: "Aaditya Raj",
-      role: "Full-Stack Developer",
-      image: "/images/team/aaditya.jpeg",
-    },
-    {
-      id: 2,
-      name: "Vijesh Shetty",
-      role: "UI/UX Designer",
-      image: "/images/team/vijesh.jpeg",
-    },
-  ];
+const page = () => {
 
-  const eventContributors = [
-    {
-      id: 1,
-      name: "Aaditya Raj",
-      role: "Event Director",
-      image: "/images/team/aaditya.jpeg",
-    },
-    {
-      id: 2,
-      name: "Vijesh Shetty",
-      role: "Technical Head",
-      image: "/images/team/vijesh.jpeg",
-    },
-  ];
+    // const websiteContributors = [
+    //     {
+    //         id: 1,
+    //         name: "Aaditya Raj",
+    //         role: "Full-Stack Developer",
+    //         photo: "/images/team/aaditya.jpeg",
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "Vijesh Shetty",
+    //         role: "UI/UX Designer",
+    //         photo: "/images/team/vijesh.jpeg",
+    //     },
+    //     {
+    //         id: 3,
+    //         name: "Samkit Samsukha",
+    //         role: "Frontend Developer",
+    //         photo: "/images/team/samkit.jpeg",
+    //     }
+    // ];
 
-  const sponsors = [
-    {
-      id: 1,
-      name: "RV College of Engineering",
-      role: "Host Institution",
-      logo: "/images/logos/rvce-logo.jpeg",
-      content: "The prestigious RV College of Engineering is the host institution for this event, providing both logistical and academic support.",
-    },
-    {
-      id: 2,
-      name: "Sponsor",
-      role: "Platinum Sponsor",
-      logo: "/images/logos/sponser.jpeg",
-      content: "Our Platinum Sponsor has been an instrumental partner in making this event possible, offering significant resources and support.",
-    },
-  ];
+    // const sponsors = [
+    // {
+    //     id: 1,
+    //     name: "RV College of Engineering",
+    //     role: "Host Institution",
+    //     logo: "/images/logos/rvce-logo.jpeg",
+    //     content: "The prestigious RV College of Engineering is the host institution for this event, providing both logistical and academic support.",
+    // },
+    // {
+    //     id: 2,
+    //     name: "Sponsor",
+    //     role: "Platinum Sponsor",
+    //     logo: "/images/logos/sponser.jpeg",
+    //     content: "Our Platinum Sponsor has been an instrumental partner in making this event possible, offering significant resources and support.",
+    // },
+    // ];
 
-  const clubs = [
-    {
-      id: 1,
-      name: "Coding Club",
-      role: "Technical Support",
-      logo: "/images/logos/coding-club-logo.png",
-      content: "The Coding Club offers technical expertise and assistance for all the tech-related aspects of the event, ensuring a smooth experience.",
-    },
-    {
-      id: 2,
-      name: "E-Cell",
-      role: "Host Club",
-      logo: "/images/logos/e-cell-logo.jpeg",
-      content: "E-Cell is the host club of the event, responsible for coordinating all the operations, from planning to execution.",
-    },
-  ];
+    // const clubs = [
+    //     {
+    //         id: 1,
+    //         name: "Coding Club",
+    //         role: "Technical Support",
+    //         logo: "/images/logos/coding-club-logo.png",
+    //         content: "The Coding Club offers technical expertise and assistance for all the tech-related aspects of the event, ensuring a smooth experience.",
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "E-Cell",
+    //         role: "Host Club",
+    //         logo: "/images/logos/e-cell-logo.jpeg",
+    //         content: "E-Cell is the host club of the event, responsible for coordinating all the operations, from planning to execution.",
+    //     },
+    // ];
 
-  return (
-    <div className="bg-background text-foreground min-h-screen mt-20">
-      <section className="py-10 px-4 md:px-10 lg:px-20 max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-12">Credits</h1>
+    const convenors = [
+        {
+            id: 1,
+            name: "S Sai Sadan",
+            photo: "/images/team/sai.jpeg",
+        },
+        {
+            id: 2,
+            name: "Manali M Ranade",
+            photo: "/images/team/manali.jpeg",
+        }
+    ]
 
-        {/* Website Contributors */}
-        <div className="mb-16">
-          <p className="text-3xl font-bold text-center mb-8">Website Contributors</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {websiteContributors.map((person) => (
-              <Card key={person.id} className="p-6">
-                <CardHeader className="flex flex-col items-center">
-                  <Avatar className="w-24 h-24 mb-4">
-                    <AvatarImage src={person.image} alt={person.name} />
-                  </Avatar>
-                  <CardTitle className="text-center">{person.name}</CardTitle>
-                  <p className="text-muted-foreground text-center">{person.role}</p>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
+    const coconvenors = [
+        {
+            id: 1,
+            name: "Aadvik Jain",
+            photo: "/images/team/aadvik.jpeg",
+        },
+        {
+            id: 2,
+            name: "prajwal YS",
+            photo: "/images/team/prajwal.jpeg",
+        },
+        {
+            id: 3,
+            name: "Kruthi Jayendra",
+            photo: "/images/team/kruthi.jpeg",
+        },
+    ]
+
+    // const productionDesign = [
+
+    // ]
+
+    // const discom = [
+
+    // ]
+
+    // const publicity = [
+
+    // ]
+
+    // const sponsorship = [
+
+    // ]
+    const images = [
+        "/homepageimages/1.png",
+        "/homepageimages/2.png",
+        "/homepageimages/3.png",
+        "/homepageimages/4.png",
+        "/homepageimages/5.png",
+        "/homepageimages/6.png",
+        "/homepageimages/7.png",
+        "/homepageimages/8.png",
+        "/homepageimages/9.png",
+        "/homepageimages/10.png",
+        "/homepageimages/11.png",
+        "/homepageimages/12.png",
+        "/homepageimages/13.png",
+        "/homepageimages/14.png",
+        "/homepageimages/14.png",
+        "/homepageimages/13.png",
+        "/homepageimages/12.png",
+        "/homepageimages/11.png",
+        "/homepageimages/10.png",
+        "/homepageimages/9.png",
+        "/homepageimages/8.png",
+        "/homepageimages/7.png",
+        "/homepageimages/6.png",
+        "/homepageimages/5.png",
+        "/homepageimages/4.png",
+        "/homepageimages/3.png",
+        "/homepageimages/2.png",
+        "/homepageimages/1.png",
+        "/homepageimages/14.png",
+        "/homepageimages/13.png",
+        "/homepageimages/12.png",
+        "/homepageimages/11.png",
+        "/homepageimages/10.png",
+        "/homepageimages/9.png",
+        "/homepageimages/8.png",
+        "/homepageimages/7.png",
+        "/homepageimages/6.png",
+        "/homepageimages/5.png",
+        "/homepageimages/4.png",
+    ];
+    return (
+        <div className='flex flex-col items-center w-full min-h-screen bg-black py-24'>
+            <div className="fixed md:top-20 flex flex-col justify-center items-center w-full z-0 md:h-full">
+                <Image src={'/backdrop.png'} alt='bg' width={1920} height={1020} className='w-screen h-screen' />
+            </div>
+            <div className="relative z-10 text-6xl samarkan py-8 text-[#f9dd9c]">Our Team</div>
+            <div className="relative z-10 convenors flex flex-col items-center">
+                {/* from-[#870903] to-[#1a4734] */}
+                <div className='relative z-10 fraunces font-bold uppercase text-2xl my-4 w-fit'>Convenors</div>
+                <div className="flex flex-row">
+                    {convenors.map((person) => (
+                        <div
+                            key={person.id}
+                            className="flex flex-col items-center mx-4 p-4 rounded-md bg-black/10 backdrop-blur-md shadow-lg border-2 border-slate-600"
+                        >
+                            <Image
+                                src={'/images/team/aaditya.jpeg'}
+                                alt="photo"
+                                width={200}
+                                height={200}
+                                className="rounded-full"
+                            />
+                            <div className="text-center text-white fraunces text-xl pt-4">{person.name}</div>
+                        </div>
+                    ))}
+
+                </div>
+            </div>
+            <div className="relative z-10 co-convenors flex flex-col items-center">
+                {/* from-[#870903] to-[#1a4734] */}
+                <div className='relative z-10 fraunces font-bold uppercase text-2xl my-4 w-fit'>Co-Convenors</div>
+                <div className="flex flex-row">
+                    {coconvenors.map((person) => (
+                        <div key={person.id} className="flex flex-col items-center mx-4 bg-[#] p-4 border-2 border-slate-600 rounded-md">
+                            <Image src={'/images/team/aaditya.jpeg'} alt='photo' width={200} height={200} className='rounded-full' />
+                            <div className="text-center text-white fraunces text-xl pt-4">{person.name}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
-
-        {/* Event Contributors */}
-        <div className="mb-16">
-          <p className="text-3xl font-bold text-center mb-8">Event Contributors</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {eventContributors.map((person) => (
-              <Card key={person.id} className="p-6">
-                <CardHeader className="flex flex-col items-center">
-                  <Avatar className="w-24 h-24 mb-4">
-                    <AvatarImage src={person.image} alt={person.name} />
-                  </Avatar>
-                  <CardTitle className="text-center">{person.name}</CardTitle>
-                  <p className="text-muted-foreground text-center">{person.role}</p>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Sponsors Section */}
-        <div className="mt-12">
-          <p className="text-3xl font-bold text-center mb-8">Sponsors</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {sponsors.map((sponsor) => (
-              <Card key={sponsor.id} className="p-6">
-                <CardHeader className="flex flex-col items-center">
-                  <Avatar className="w-24 h-24 mb-4">
-                    <AvatarImage src={sponsor.logo} alt={sponsor.name} />
-                  </Avatar>
-                  <CardTitle className="text-center">{sponsor.name}</CardTitle>
-                  <p className="text-muted-foreground text-center">{sponsor.role}</p>
-                </CardHeader>
-                <CardContent className="text-center mt-4">
-                  <p>{sponsor.content}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Clubs Section */}
-        <div className="mt-12">
-          <p className="text-3xl font-bold text-center mb-8">Clubs</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {clubs.map((club) => (
-              <Card key={club.id} className="p-6">
-                <CardHeader className="flex flex-col items-center">
-                  <Avatar className="w-24 h-24 mb-4">
-                    <AvatarImage src={club.logo} alt={club.name} />
-                  </Avatar>
-                  <CardTitle className="text-center">{club.name}</CardTitle>
-                  <p className="text-muted-foreground text-center">{club.role}</p>
-                </CardHeader>
-                <CardContent className="text-center mt-4">
-                  <p>{club.content}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-      </section>
-    </div>
-  );
+    )
 }
+
+export default page

@@ -132,6 +132,10 @@ html, body {
   font-family: var(--font-poppins);
 }
 
+.delagothic {
+  font-family: var(--font-delagothic);
+}
+
 h1, h2, h3, h4, h5, h6 {
   /* @apply text-foreground; */
   font-family: var(--font-samarkan);

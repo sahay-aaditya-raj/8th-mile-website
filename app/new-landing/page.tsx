@@ -13,7 +13,7 @@ const LandingPage = () => {
 
   // Animate sun
   const sunY = useTransform(scrollYProgress, [0, 0.4], [0, 200]);
-  const sunOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  const sunOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
   // Ashtrang text
   const ashtrangOpacity = useTransform(scrollYProgress, [0.20, 0.30], [0, 1]);
@@ -42,32 +42,36 @@ const LandingPage = () => {
       </motion.div>
 
       {/* plane.svg moving diagonally */}
-      {/* <motion.div
-        style={{ x: planeX, y: planeY }}
-        className="fixed right-0 bottom-0 z-20"
+      <motion.div
+        className="fixed top-[400px] left-[850px] z-20"
+        style={{ opacity: elementsOpacity, y: elementsY }}
       >
         <Image src="/plane.svg" alt="plane" width={200} height={200} />
-      </motion.div> */}
+      </motion.div>
 
 
       {/* First screen - 8th Mile */}
       <section className="h-screen relative z-0 p-10">
-        <h1 className="pl-24 z-0 text-[150px] font-bold font-sans pt-16 poppins">8<sup>TH</sup> MILE</h1>
-        <p className='poppins font-bold pl-[390px] -mt-12 text-xl'>TECHNO-CULTURAL FESTIVAL</p>
+        <h1 className="pl-24 z-0 text-[130px] font-bold font-sans pt-16 delagothic">8<sup>th</sup> MILE</h1>
+        <p className='delagothic font-bold pl-[370px] -mt-6 tracking-widest text-xl'>TECHNO-CULTURAL FESTIVAL</p>
       </section>
 
       {/* Second screen - Ashtrang reveal */}
-      <section className="min-h-screen flex pt-36 justify-center z-10 relative">
-        <motion.h2
-          className="text-9xl text-[#f9dd9c] font-semibold"
+      <section className="min-h-screen py-36 z-10 relative flex flex-col justify-center items-center">
+        <motion.div
+          className="text-9xl text-[#f9dd9c] font-semibold samarkan px-4"
           style={{ opacity: ashtrangOpacity, y: ashtrangY }}
         >
-          Ashtrang
-        </motion.h2>
+          Ashtrang{' '}
+        </motion.div>
+        <motion.div className="text-xl text-[#f9dd9c] poppins tracking-widest"
+          style={{ opacity: ashtrangOpacity, y: ashtrangY }}>
+          ROOTS OF CULTURE | WINGS OF TECHNOLOGY
+        </motion.div>
       </section>
 
       {/* Third screen - Hide all elements and show welcome */}
-      <section className="min-h-screen flex flex-col items-center justify-center z-10 relative">
+      <section className="min-h-screen mt-56 flex flex-col items-center justify-center z-10 relative">
         <div className="flex flex-col px-24">
           <motion.div
             initial={{ x: -100, opacity: 0 }}
@@ -90,30 +94,30 @@ const LandingPage = () => {
         </div>
         <div className="flex flex-col px-24 py-10">
           <div className="flex justify-end w-full">
-                              <motion.div initial={{ x: 100, opacity: 0 }}
-                                  whileInView={{ x: 0, opacity: 1 }}
-                                  transition={{ duration: 0.8, delay: 0 }} className="font-sans font-bold text-[#418b24] text-4xl md:text-6xl border-b-2 w-fit border-[#e90c00] mb-4">
-                                  About 8<sup>th</sup> Mile
-                              </motion.div>
-                          </div>
-                          <div className="flex md:flex-row flex-col gap-4">
-                              <motion.div initial={{ scale: 0.5, opacity: 0 }}
-                                  whileInView={{ scale: 1, opacity: 1 }}
-                                  transition={{ duration: 0.8, delay: 0 }} className="hidden md:flex w-2/5 justify-center items-center">
-                                  <Image src={'/amaal.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
-                              </motion.div>
-                              <motion.div initial={{ x: 100, opacity: 0 }}
-                                  whileInView={{ x: 0, opacity: 1 }}
-                                  transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-2xl md:w-3/5">
-                                  The illustrious R V College of Engineering in Bangalore, India, hosts the 8th Mile techno-cultural festival, showcasing the talents of students from across the country, and fostering camaraderie and excellence. This event serves as a platform for students from various educational institutions nationwide to showcase their exceptional talents in technical and non-technical domains. However, the festival&apos;s overarching objective is to promote a sense of camaraderie and sportsmanship among all its participants, inculcating in them a spirit of healthy competition and mutual respect.<br /><br /> R V College of Engineering has a distinguished legacy of excellence in all spheres of academics, athletics, and extracurricular activities. The college has always set the bar high and led the way, leaving an indelible mark on the country&apos;s academic landscape. The 8th Mile festival, which is a true reflection of the college&apos;s diverse and rich culture, serves as a beacon of hope and inspiration for the younger generation of students who aspire to emulate the college&apos;s success story.
-                              </motion.div>
-                              <motion.div initial={{ scale: 0.5, opacity: 0 }}
-                                  whileInView={{ scale: 1, opacity: 1 }}
-                                  transition={{ duration: 0.8, delay: 0 }}
-                                  className="md:hidden flex justify-center items-center">
-                                  <Image src={'/amaal.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
-                              </motion.div>
-                          </div>
+            <motion.div initial={{ x: 100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="font-sans font-bold text-[#418b24] text-4xl md:text-6xl border-b-2 w-fit border-[#e90c00] mb-4">
+              About 8<sup>th</sup> Mile
+            </motion.div>
+          </div>
+          <div className="flex md:flex-row flex-col gap-4">
+            <motion.div initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="hidden md:flex w-2/5 justify-center items-center">
+              <Image src={'/amaal.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
+            </motion.div>
+            <motion.div initial={{ x: 100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-2xl md:w-3/5">
+              The illustrious R V College of Engineering in Bangalore, India, hosts the 8th Mile techno-cultural festival, showcasing the talents of students from across the country, and fostering camaraderie and excellence. This event serves as a platform for students from various educational institutions nationwide to showcase their exceptional talents in technical and non-technical domains. However, the festival&apos;s overarching objective is to promote a sense of camaraderie and sportsmanship among all its participants, inculcating in them a spirit of healthy competition and mutual respect.<br /><br /> R V College of Engineering has a distinguished legacy of excellence in all spheres of academics, athletics, and extracurricular activities. The college has always set the bar high and led the way, leaving an indelible mark on the country&apos;s academic landscape. The 8th Mile festival, which is a true reflection of the college&apos;s diverse and rich culture, serves as a beacon of hope and inspiration for the younger generation of students who aspire to emulate the college&apos;s success story.
+            </motion.div>
+            <motion.div initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }}
+              className="md:hidden flex justify-center items-center">
+              <Image src={'/amaal.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
+            </motion.div>
+          </div>
         </div>
       </section>
     </div>
