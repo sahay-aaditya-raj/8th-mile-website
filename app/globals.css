@@ -128,10 +128,6 @@ html, body {
   font-family: var(--font-samarkan);
 }
 
-.akaya {
-  font-family: var(--font-akaya);
-}
-
 .poppins {
   font-family: var(--font-poppins);
 }
@@ -140,13 +136,6 @@ h1, h2, h3, h4, h5, h6 {
   /* @apply text-foreground; */
   font-family: var(--font-samarkan);
 }
-
-p, span, a, li, strong, em{
-  /* @apply text-foreground; */
-  font-family: var(--font-akaya);
-}
-
-
 
 #youtube-player {
   position: relative;

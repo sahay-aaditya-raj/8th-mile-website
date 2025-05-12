@@ -8,6 +8,7 @@ import Sidebar from '@/components/Sidebar';
 import { ParallaxProvider } from 'react-scroll-parallax';
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar2";
+import Footer2 from "@/components/Footer2";
 
 export default function Providers({children}: {children: React.ReactNode}) {
     const pathname = usePathname();
@@ -32,7 +33,7 @@ export default function Providers({children}: {children: React.ReactNode}) {
                     </SidebarProvider>
                 </NavbarProvider>
                 {/* <Footer/> */}
-                {!(isPaymentRoute || isGetpass) && <Footer />}
+                {!(isPaymentRoute || isGetpass) && <Footer2 />}
         </ThemeProvider>
     )
 }

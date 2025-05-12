@@ -1,0 +1,123 @@
+'use client';
+
+import { motion, useScroll, useTransform } from 'framer-motion';
+import Image from 'next/image';
+import React, { useRef } from 'react';
+
+const LandingPage = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"]
+  });
+
+  // Animate sun
+  const sunY = useTransform(scrollYProgress, [0, 0.4], [0, 200]);
+  const sunOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+
+  // Ashtrang text
+  const ashtrangOpacity = useTransform(scrollYProgress, [0.20, 0.30], [0, 1]);
+  const ashtrangY = useTransform(scrollYProgress, [0.35, 0.55], [40, 0]);
+
+  // Elements disappear on 3rd screen
+  const elementsOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const elementsY = useTransform(scrollYProgress, [0.7, 1], [0, -300]);
+
+  return (
+    <div ref={ref} className="bg-black text-white relative overflow-x-hidden">
+      {/* elements.svg as background */}
+      <motion.div
+        className="fixed -top-32 inset-0 z-10"
+        style={{ opacity: elementsOpacity, y: elementsY }}
+      >
+        <Image src="/elements.svg" alt="bg" layout="fill" objectFit="cover" />
+      </motion.div>
+
+      {/* sun.svg centered */}
+      <motion.div
+        style={{ y: sunY, opacity: sunOpacity }}
+        className="fixed top-2/3 left-1/2 z-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+      >
+        <Image src="/sun.svg" alt="sun" width={400} height={400} />
+      </motion.div>
+
+      {/* plane.svg moving diagonally */}
+      {/* <motion.div
+        style={{ x: planeX, y: planeY }}
+        className="fixed right-0 bottom-0 z-20"
+      >
+        <Image src="/plane.svg" alt="plane" width={200} height={200} />
+      </motion.div> */}
+
+
+      {/* First screen - 8th Mile */}
+      <section className="h-screen relative z-0 p-10">
+        <h1 className="pl-24 z-0 text-[150px] font-bold font-sans pt-16 poppins">8<sup>TH</sup> MILE</h1>
+        <p className='poppins font-bold pl-[390px] -mt-12 text-xl'>TECHNO-CULTURAL FESTIVAL</p>
+      </section>
+
+      {/* Second screen - Ashtrang reveal */}
+      <section className="min-h-screen flex pt-36 justify-center z-10 relative">
+        <motion.h2
+          className="text-9xl text-[#f9dd9c] font-semibold"
+          style={{ opacity: ashtrangOpacity, y: ashtrangY }}
+        >
+          Ashtrang
+        </motion.h2>
+      </section>
+
+      {/* Third screen - Hide all elements and show welcome */}
+      <section className="min-h-screen flex flex-col items-center justify-center z-10 relative">
+        <div className="flex flex-col px-24">
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0 }}
+            className="font-sans font-bold text-[#418b24] text-4xl md:text-6xl border-b-2 w-fit border-[#e90c00] mb-4">About RVCE</motion.div>
+          <div className="flex flex-col md:flex-row gap-4">
+            <motion.div initial={{ x: -100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-2xl md:w-3/5">
+              Rashtreeya Vidyalaya College of Engineering was founded by Late Sri M.C. Shivananda Sharma in 1963. His mission was to Impart Quality Education to all sections of the society. This institution has been set up with the purpose of producing future leaders, innovators, and torchbearers of technology. <br /><br /> As the college completes more than 60 glorious years, it has grown into a place where excellence in instruction and all-around development from the cornerstones of education is imparted to the students. <br /><br />
+              One of the forefronts of quality education in the country, this institution has upheld its standard by training students as well as providing opportunities to those who seek to advance in the fields of science, technology, culture, and sports. It is justified to say that RVCE is a movement that has been in unhindered progress for more than half a century.
+            </motion.div>
+            <motion.div initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="md:w-2/5 flex justify-center items-center">
+              <Image src={'/rvce.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
+            </motion.div>
+          </div>
+        </div>
+        <div className="flex flex-col px-24 py-10">
+          <div className="flex justify-end w-full">
+                              <motion.div initial={{ x: 100, opacity: 0 }}
+                                  whileInView={{ x: 0, opacity: 1 }}
+                                  transition={{ duration: 0.8, delay: 0 }} className="font-sans font-bold text-[#418b24] text-4xl md:text-6xl border-b-2 w-fit border-[#e90c00] mb-4">
+                                  About 8<sup>th</sup> Mile
+                              </motion.div>
+                          </div>
+                          <div className="flex md:flex-row flex-col gap-4">
+                              <motion.div initial={{ scale: 0.5, opacity: 0 }}
+                                  whileInView={{ scale: 1, opacity: 1 }}
+                                  transition={{ duration: 0.8, delay: 0 }} className="hidden md:flex w-2/5 justify-center items-center">
+                                  <Image src={'/amaal.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
+                              </motion.div>
+                              <motion.div initial={{ x: 100, opacity: 0 }}
+                                  whileInView={{ x: 0, opacity: 1 }}
+                                  transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-2xl md:w-3/5">
+                                  The illustrious R V College of Engineering in Bangalore, India, hosts the 8th Mile techno-cultural festival, showcasing the talents of students from across the country, and fostering camaraderie and excellence. This event serves as a platform for students from various educational institutions nationwide to showcase their exceptional talents in technical and non-technical domains. However, the festival&apos;s overarching objective is to promote a sense of camaraderie and sportsmanship among all its participants, inculcating in them a spirit of healthy competition and mutual respect.<br /><br /> R V College of Engineering has a distinguished legacy of excellence in all spheres of academics, athletics, and extracurricular activities. The college has always set the bar high and led the way, leaving an indelible mark on the country&apos;s academic landscape. The 8th Mile festival, which is a true reflection of the college&apos;s diverse and rich culture, serves as a beacon of hope and inspiration for the younger generation of students who aspire to emulate the college&apos;s success story.
+                              </motion.div>
+                              <motion.div initial={{ scale: 0.5, opacity: 0 }}
+                                  whileInView={{ scale: 1, opacity: 1 }}
+                                  transition={{ duration: 0.8, delay: 0 }}
+                                  className="md:hidden flex justify-center items-center">
+                                  <Image src={'/amaal.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
+                              </motion.div>
+                          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default LandingPage;

@@ -91,40 +91,17 @@ const images = [
 
 export default function GallerySection() {
   return (
-    <section className="py-16 px-4 md:py-26 md:px-12 lg:px-24 min-h-screen bg-[#f9dd9c]">
+    <section className="py-24 px-4 md:py-26 md:px-12 lg:px-24 min-h-screen bg-[#0d0d0d] ">
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="py-6 md:py-8 text-3xl md:text-5xl lg:text-6xl font-bold text-[#870903] drop-shadow-lg">
+        <h2 className="py-8 text-3xl md:text-5xl lg:text-6xl font-bold text-[#f9dd9c] drop-shadow-lg">
           Our Vibrant Gallery
         </h2>
       </div>
 
       {/* Mobile gallery (1 column) */}
-      <div className="flex flex-col gap-4 md:hidden">
-        {images.slice(0, 20).map((image, idx) => (
-          <BlurFade key={image.id} delay={0.15 + idx * 0.05} inView>
-            <div className="group relative overflow-hidden rounded-lg w-full">
-              <Image
-                className="object-cover rounded-lg w-full"
-                src={image.image}
-                width={500}
-                height={600}
-                alt={image.caption || `Gallery image ${image.id}`}
-              />
-              {/* Vignette overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50 group-hover:opacity-80 transition-opacity duration-300"></div>
-              {/* Caption */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-[#f9dd9c] text-lg opacity-100 transition-all duration-300">
-                {image.caption}
-              </div>
-            </div>
-          </BlurFade>
-        ))}
-        
-        
-      </div>
 
       {/* Tablet gallery (2 columns) */}
-      <div className="hidden md:flex lg:hidden gap-4">
+      <div className="flex lg:hidden gap-4">
         {[0, 1].map((colIndex) => (
           <div key={colIndex} className="flex flex-col gap-4 flex-1">
             {images
