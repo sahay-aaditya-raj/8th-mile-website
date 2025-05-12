@@ -1,12 +1,20 @@
-// next.config.ts
 import type { NextConfig } from 'next'
 
 const config: NextConfig = {
   eslint: {
-    ignoreDuringBuilds: true, // disables ESLint during builds
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true, // disables TypeScript errors during builds
+    ignoreBuildErrors: true,
+  },
+  async redirects() {
+    return [
+      {
+        source: '/policies',
+        destination: 'https://merchant.razorpay.com/policy/QNVDlKEghhqNcJ/terms', // replace with your actual URL
+        permanent: false, // true for 308 Permanent, false for 307 Temporary
+      },
+    ]
   },
 }
 
