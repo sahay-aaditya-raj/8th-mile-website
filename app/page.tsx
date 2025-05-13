@@ -20,6 +20,8 @@ export default function HomePage() {
     offset: ["start start", "end end"]
   });
 
+
+
   // Animate sun
   const sunY = useTransform(desktopScroll, [0, 0.4], [0, 200]);
   const sunOpacity = useTransform(desktopScroll, [0, 0.25], [1, 0]);
@@ -110,7 +112,7 @@ export default function HomePage() {
               <div className="flex flex-col md:flex-row gap-4">
                 <motion.div initial={{ x: -100, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-2xl md:w-3/5">
+                  transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-xl md:w-3/5">
                   Rashtreeya Vidyalaya College of Engineering was founded by Late Sri M.C. Shivananda Sharma in 1963. His mission was to Impart Quality Education to all sections of the society. This institution has been set up with the purpose of producing future leaders, innovators, and torchbearers of technology. <br /><br /> As the college completes more than 60 glorious years, it has grown into a place where excellence in instruction and all-around development from the cornerstones of education is imparted to the students. <br /><br />
                   One of the forefronts of quality education in the country, this institution has upheld its standard by training students as well as providing opportunities to those who seek to advance in the fields of science, technology, culture, and sports. It is justified to say that RVCE is a movement that has been in unhindered progress for more than half a century.
                 </motion.div>
@@ -137,7 +139,7 @@ export default function HomePage() {
                 </motion.div>
                 <motion.div initial={{ x: 100, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-2xl md:w-3/5">
+                  transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-xl md:w-3/5">
                   The illustrious R V College of Engineering in Bangalore, India, hosts the 8th Mile techno-cultural festival, showcasing the talents of students from across the country, and fostering camaraderie and excellence. This event serves as a platform for students from various educational institutions nationwide to showcase their exceptional talents in technical and non-technical domains. However, the festival&apos;s overarching objective is to promote a sense of camaraderie and sportsmanship among all its participants, inculcating in them a spirit of healthy competition and mutual respect.<br /><br /> R V College of Engineering has a distinguished legacy of excellence in all spheres of academics, athletics, and extracurricular activities. The college has always set the bar high and led the way, leaving an indelible mark on the country&apos;s academic landscape. The 8th Mile festival, which is a true reflection of the college&apos;s diverse and rich culture, serves as a beacon of hope and inspiration for the younger generation of students who aspire to emulate the college&apos;s success story.
                 </motion.div>
                 <motion.div initial={{ scale: 0.5, opacity: 0 }}
@@ -162,8 +164,8 @@ export default function HomePage() {
         />
 
         {/* Concentric Images */}
-        <div className="relative w-full h-screen flex items-center justify-center z-10">
-          <div className="relative w-[400px] h-[400px]">
+        <motion.div className="relative w-full h-screen flex items-center justify-center z-10" >
+          <div className="relative w-[400px] h-[400px]" initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }}>
             {/* Green Ring */}
             <div className="absolute inset-0 mx-auto my-auto z-10 w-[320px] h-[320px]">
               <Image
@@ -205,23 +207,23 @@ export default function HomePage() {
               />
             </div>
             <motion.div className='fixed top-56 right-0 -mr-12'
-              style={{ opacity: mobileElementsOpacity }}>
+              initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} style={{ opacity: mobileElementsOpacity }}>
               <Image src={'/flower1.svg'} width={100} height={50} alt='flower1' />
             </motion.div>
-            <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-52 left-0 -ml-10'>
+            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} style={{ opacity: mobileElementsOpacity }} className='fixed bottom-52 left-0 -ml-10'>
               <Image src={'/flower2.svg'} width={100} height={50} alt='flower2' />
             </motion.div>
-            <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 right-0 -mr-24'>
+            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 right-0 -mr-24'>
               <Image src={'/dance.svg'} width={250} height={200} alt='dance' />
             </motion.div>
-            <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 left-0 -ml-12 '>
+            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 left-0 -ml-12 '>
               <Image src={'/musician.svg'} width={300} height={200} alt='musician' />
             </motion.div>
             <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 left-0 -ml-12 '>
               <Image src={'/endstrip.svg'} width={600} height={200} alt='musician' />
             </motion.div>
           </div>
-        </div>
+        </motion.div>
         <div className="h-screen">
           hello
         </div>
