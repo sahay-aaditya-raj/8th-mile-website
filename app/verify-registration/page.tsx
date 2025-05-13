@@ -1,81 +1,86 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import QRCode from 'qrcode';
 import Image from 'next/image';
-import html2canvas from 'html2canvas';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { getPass } from '@/data/passes';
+import { Button } from '@/components/ui/button';
 import { formatCurrency } from '@/lib/utils';
+import { getEvent } from '@/data/events';
+import html2canvas from 'html2canvas';
 import { toast } from 'react-hot-toast';
+import QRCode from 'qrcode';
 
-interface PaymentInfo {
+interface RegistrationInfo {
   name: string;
   email: string;
   phone?: string;
   paymentId: string;
   orderId: string;
-  passId: string;
-  basePrice?: number;
-  gstAmount?: number;
+  eventId: string;
+  teamSize?: number;
+  teamMembers?: string[];
   amount?: number;
+  createdAt?: string;
 }
 
-export default function VerifyPassPage() {
+export default function VerifyRegistrationPage() {
   const searchParams = useSearchParams();
-  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo | null>(null);
-  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const [registrationInfo, setRegistrationInfo] = useState<RegistrationInfo | null>(null);
+  const [eventName, setEventName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [passName, setPassName] = useState<string | null>(null);
-  
+  const [verified, setVerified] = useState(false);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+
   const passRef = useRef<HTMLDivElement>(null);
   const receiptRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fetchPaymentData = async () => {
-      try {
-        const paymentId = searchParams.get('payment_id');
-
-        if (!paymentId) {
-          throw new Error('Payment ID is required');
-        }
-
-        const response = await fetch(`/api/getpass?payment_id=${paymentId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch payment data');
-        }
-
-        const data = await response.json();
-        if (!data.success) {
-          throw new Error(data.message || 'Invalid payment data');
-        }
-
-        setPaymentInfo(data.payment);
-        
-        // Get pass details
-        const pass = getPass(data.payment.passId);
-        setPassName(pass ? pass.name : 'Event Pass');
-        
+    const fetchRegistration = async () => {
+      const paymentId = searchParams.get('payment_id');
+      
+      if (!paymentId) {
+        setError('No registration ID provided');
         setLoading(false);
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/api/event-registration/lookup?payment_id=${paymentId}`);
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to verify registration');
+        }
+        
+        setRegistrationInfo(data.data);
+        setVerified(true);
+        
+        // Fetch event name
+        const event = getEvent(data.data.eventId);
+        if (event) {
+          setEventName(event.name);
+        } else {
+          setEventName(data.data.eventId);
+        }
 
         // Generate QR code
         const qrUrl = await QRCode.toDataURL(
-          `${window.location.origin}/getpass?payment_id=${paymentId}`,
+          `${window.location.origin}/verify-registration?payment_id=${paymentId}`,
           { errorCorrectionLevel: 'H' }
         );
         setQrCodeUrl(qrUrl);
+        
       } catch (err: any) {
-        setError(err.message);
+        console.error('Error verifying registration:', err);
+        setError(err.message || 'Failed to verify registration');
+      } finally {
         setLoading(false);
       }
     };
-
-    fetchPaymentData();
+    
+    fetchRegistration();
   }, [searchParams]);
 
   const downloadImage = async (ref: React.RefObject<HTMLDivElement | null>, filename: string) => {
@@ -142,11 +147,11 @@ export default function VerifyPassPage() {
   };
 
   const handleDownloadPass = () => {
-    downloadImage(passRef, 'event_pass.png');
+    downloadImage(passRef, 'event_registration.png');
   };
 
   const handleDownloadReceipt = () => {
-    downloadImage(receiptRef, 'pass_receipt.png');
+    downloadImage(receiptRef, 'registration_receipt.png');
   };
 
   if (loading) {
@@ -154,7 +159,7 @@ export default function VerifyPassPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-black p-4">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white text-lg">Loading pass details...</p>
+          <p className="text-white text-lg">Verifying registration...</p>
         </div>
       </div>
     );
@@ -183,11 +188,11 @@ export default function VerifyPassPage() {
     );
   }
 
-  if (!paymentInfo) {
+  if (!registrationInfo || !verified) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-black p-4">
         <div className="bg-black border border-red-500 rounded-lg p-8 max-w-md w-full text-center">
-          <p className="text-red-400">No pass information found.</p>
+          <p className="text-red-400">Registration information could not be verified.</p>
           <div className="mt-6">
             <Link href="/">
               <Button variant="outline" className="text-white border-white">
@@ -200,49 +205,79 @@ export default function VerifyPassPage() {
     );
   }
 
+  // Format registration date
+  const registrationDate = registrationInfo.createdAt 
+    ? new Date(registrationInfo.createdAt).toLocaleDateString() 
+    : 'N/A';
+    
+  const registrationTime = registrationInfo.createdAt
+    ? new Date(registrationInfo.createdAt).toLocaleTimeString()
+    : '';
+
   return (
     <div className="relative min-h-screen bg-cover bg-center p-6" style={{ backgroundImage: "url('/homepageimages/12.png')" }}>
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-md"></div>
 
       <div className="relative z-10 flex flex-col items-center space-y-6 pt-20">
         <div className="max-w-4xl w-full text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-blue-400 mb-4">Event Pass</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-green-400 mb-4">Registration Verified</h1>
           <p className="text-lg md:text-xl text-white mb-8">
-            Welcome to 8th Mile! Your pass has been verified.
+            Your registration for {eventName} has been confirmed.
           </p>
 
-          {/* Pass Card */}
+          {/* Registration Pass Card */}
           <div 
             ref={passRef}
-            className="relative rounded-2xl border border-white p-6 shadow-lg w-full max-w-md mx-auto flex flex-col space-y-4 overflow-hidden bg-gradient-to-br from-blue-900/80 to-purple-900/80"
+            className="relative rounded-2xl border border-white p-6 shadow-lg w-full max-w-md mx-auto flex flex-col space-y-4 overflow-hidden bg-gradient-to-br from-green-900/80 to-emerald-900/80"
           >
-            {/* Logo and Pass Name */}
+            {/* Logo and Event Name */}
             <div className="flex justify-between items-center">
               <div className="relative h-16 w-16">
                 <Image src="/8thmilelogocolour.png" alt="Logo" fill className="object-contain" />
               </div>
               <div className="text-right">
-                <h2 className="text-xl font-bold text-white">Event Pass</h2>
-                <p className="text-lg text-yellow-300">{passName}</p>
+                <h2 className="text-xl font-bold text-white">Event Registration</h2>
+                <p className="text-lg text-yellow-300">{eventName}</p>
               </div>
             </div>
 
             {/* Participant Details */}
             <div className="text-white space-y-1 relative z-10">
-              <h3 className="font-semibold text-lg">Pass Holder</h3>
-              <p className="font-semibold">{paymentInfo.name}</p>
-              <p className="text-sm">{paymentInfo.email}</p>
-              {paymentInfo.phone && <p className="text-sm">{paymentInfo.phone}</p>}
+              <h3 className="font-semibold text-lg">Participant</h3>
+              <p className="font-semibold">{registrationInfo.name}</p>
+              <p className="text-sm">{registrationInfo.email}</p>
+              {registrationInfo.phone && <p className="text-sm">{registrationInfo.phone}</p>}
+              
+              {/* Team Details */}
+              {registrationInfo.teamSize && registrationInfo.teamSize > 1 && (
+                <div className="mt-2">
+                  <h3 className="font-semibold">Team Size: {registrationInfo.teamSize}</h3>
+                  {registrationInfo.teamMembers && registrationInfo.teamMembers.length > 0 && (
+                    <div className="text-sm">
+                      <p className="font-semibold mt-1">Team Members:</p>
+                      <ul className="list-disc list-inside">
+                        {registrationInfo.teamMembers.map((member, index) => (
+                          <li key={index}>{member}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
               
               {/* Payment Details */}
               <div className="mt-4 pt-3 border-t border-white/20">
-                <p className="text-sm">Payment ID: {paymentInfo.paymentId}</p>
-                <p className="text-sm">Order ID: {paymentInfo.orderId}</p>
-                {paymentInfo.amount && (
+                <p className="text-sm">Registration ID: {registrationInfo.paymentId}</p>
+                <p className="text-sm">Order ID: {registrationInfo.orderId}</p>
+                {registrationInfo.amount && (
                   <p className="text-sm mt-1">
-                    Amount Paid: {formatCurrency(paymentInfo.amount)}
+                    Amount Paid: {formatCurrency(registrationInfo.amount)}
                   </p>
                 )}
+                <p className="text-sm mt-1">
+                  Registered On: {registrationDate} {registrationTime}
+                </p>
+                <p className="text-green-300 font-bold mt-2">Status: VALID</p>
               </div>
             </div>
 
@@ -257,8 +292,8 @@ export default function VerifyPassPage() {
             )}
 
             {/* Background Pattern */}
-            <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-gradient-to-r from-blue-500 to-cyan-700 opacity-20 blur-2xl"></div>
-            <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-gradient-to-r from-purple-500 to-pink-700 opacity-20 blur-2xl"></div>
+            <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-gradient-to-r from-green-500 to-teal-700 opacity-20 blur-2xl"></div>
+            <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-gradient-to-r from-teal-500 to-green-700 opacity-20 blur-2xl"></div>
           </div>
 
           {/* Receipt Card */}
@@ -266,51 +301,43 @@ export default function VerifyPassPage() {
             ref={receiptRef}
             className="relative mt-8 rounded-xl border border-gray-200 p-6 bg-white text-black w-full max-w-md mx-auto"
           >
-            <h2 className="text-xl font-bold text-center border-b border-gray-200 pb-2 mb-4">Payment Receipt</h2>
+            <h2 className="text-xl font-bold text-center border-b border-gray-200 pb-2 mb-4">Registration Receipt</h2>
             
             <div className="space-y-4">
               <div className="flex justify-between">
                 <span className="font-medium">Name:</span>
-                <span>{paymentInfo.name}</span>
+                <span>{registrationInfo.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-medium">Pass Type:</span>
-                <span>{passName}</span>
+                <span className="font-medium">Event:</span>
+                <span>{eventName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-medium">Payment ID:</span>
-                <span className="text-sm">{paymentInfo.paymentId}</span>
+                <span className="font-medium">Registration ID:</span>
+                <span className="text-sm">{registrationInfo.paymentId}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-medium">Order ID:</span>
-                <span className="text-sm">{paymentInfo.orderId}</span>
+                <span className="text-sm">{registrationInfo.orderId}</span>
               </div>
               
-              {paymentInfo.amount && (
-                <>
-                  {(paymentInfo.basePrice || paymentInfo.gstAmount) && (
-                    <>
-                      <div className="flex justify-between text-sm">
-                        <span>Base Price:</span>
-                        <span>{formatCurrency(paymentInfo.basePrice || 0)}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span>GST:</span>
-                        <span>{formatCurrency(paymentInfo.gstAmount || 0)}</span>
-                      </div>
-                    </>
-                  )}
-                  <div className="flex justify-between border-t border-gray-200 pt-2 mt-2 font-bold">
-                    <span>Total Amount:</span>
-                    <span>{formatCurrency(paymentInfo.amount)}</span>
-                  </div>
-                </>
+              {registrationInfo.teamSize && registrationInfo.teamSize > 1 && (
+                <div className="flex justify-between">
+                  <span className="font-medium">Team Size:</span>
+                  <span>{registrationInfo.teamSize} members</span>
+                </div>
               )}
               
-              <div className="flex justify-end mt-4">
-                <div className="text-sm text-gray-500">
-                  <p>Date: {new Date().toLocaleDateString()}</p>
+              {registrationInfo.amount && (
+                <div className="flex justify-between border-t border-gray-200 pt-2 mt-2 font-bold">
+                  <span>Total Amount:</span>
+                  <span>{formatCurrency(registrationInfo.amount)}</span>
                 </div>
+              )}
+              
+              <div className="flex justify-between mt-4 text-sm text-gray-500">
+                <span>Registration Date:</span>
+                <span>{registrationDate}</span>
               </div>
             </div>
             
@@ -324,7 +351,7 @@ export default function VerifyPassPage() {
           {/* Action Buttons */}
           <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4 mt-8">
             <Button onClick={handleDownloadPass} variant="secondary" className="px-6">
-              Download Pass
+              Download Registration
             </Button>
             <Button onClick={handleDownloadReceipt} variant="secondary" className="px-6">
               Download Receipt
