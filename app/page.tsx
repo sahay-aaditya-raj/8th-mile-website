@@ -6,29 +6,39 @@ import React, { useRef } from 'react';
 
 export default function HomePage() {
 
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
+  const desktopRef = useRef(null);
+  const mobileRef = useRef(null);
+
+  const { scrollYProgress: desktopScroll } = useScroll({
+    target: desktopRef,
+    offset: ["start start", "end end"]
+  });
+
+  // MOBILE scroll
+  const { scrollYProgress: mobileScroll } = useScroll({
+    target: mobileRef,
     offset: ["start start", "end end"]
   });
 
   // Animate sun
-  const sunY = useTransform(scrollYProgress, [0, 0.4], [0, 200]);
-  const sunOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+  const sunY = useTransform(desktopScroll, [0, 0.4], [0, 200]);
+  const sunOpacity = useTransform(desktopScroll, [0, 0.25], [1, 0]);
 
-  const raysOpacity = useTransform(scrollYProgress, [0, 0.25], [0.3, 0]);
+  const mobileElementsOpacity = useTransform(mobileScroll, [0, 0.25], [1, 0]);
+
+  const raysOpacity = useTransform(desktopScroll, [0, 0.25], [0.3, 0]);
 
   // Ashtrang text
-  const ashtrangOpacity = useTransform(scrollYProgress, [0.20, 0.30], [0, 1]);
-  const ashtrangY = useTransform(scrollYProgress, [0.35, 0.55], [40, 0]);
+  const ashtrangOpacity = useTransform(desktopScroll, [0.20, 0.30], [0, 1]);
+  const ashtrangY = useTransform(desktopScroll, [0.35, 0.55], [40, 0]);
 
   // Elements disappear on 3rd screen
-  const elementsOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
-  const elementsY = useTransform(scrollYProgress, [0.7, 1], [0, -300]);
+  const elementsOpacity = useTransform(desktopScroll, [0, 0.75], [1, 0]);
+  const elementsY = useTransform(desktopScroll, [0.7, 1], [0, -300]);
 
   return (
     <>
-      <div ref={ref} className="md:hidden hidden lg:flex bg-black text-white relative overflow-x-hidden">
+      <div ref={desktopRef} className="md:hidden hidden lg:flex bg-black text-white relative overflow-x-hidden">
         {/* elements.svg as background */}
         <div>
           <motion.div
@@ -141,7 +151,7 @@ export default function HomePage() {
           </section>
         </div>
       </div>
-      <div className="min-h-screen bg-black text-white lg:hidden relative overflow-x-hidden">
+      <div ref={mobileRef} className="min-h-screen bg-black text-white lg:hidden relative overflow-x-hidden">
         {/* Fixed Background Waves */}
         <Image
           src="/waves.svg"
@@ -194,20 +204,25 @@ export default function HomePage() {
                 style={{ transform: 'translateX(1px) translateY(0px)' }}
               />
             </div>
-            <div className='fixed top-56 right-0 -mr-8'>
-              <Image src={'/flower1.svg'} width={100} height={50} alt='flower1'/>
-            </div>
-            <div className='fixed bottom-48 left-0'>
-              <Image src={'/flower2.svg'} width={100} height={50} alt='flower2'/>
-            </div>
-            <div className='fixed bottom-2 right-0 -mr-24'>
-              <Image src={'/dance.svg'} width={300} height={200} alt='dance'/>
-            </div>
-            <div className='fixed bottom-2 left-0 -ml-12 '>
-              <Image src={'/musician.svg'} width={250} height={200} alt='musician'/>
-            </div>
+            <motion.div className='fixed top-56 right-0 -mr-12'
+              style={{ opacity: mobileElementsOpacity }}>
+              <Image src={'/flower1.svg'} width={100} height={50} alt='flower1' />
+            </motion.div>
+            <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-52 left-0 -ml-10'>
+              <Image src={'/flower2.svg'} width={100} height={50} alt='flower2' />
+            </motion.div>
+            <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 right-0 -mr-24'>
+              <Image src={'/dance.svg'} width={250} height={200} alt='dance' />
+            </motion.div>
+            <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 left-0 -ml-12 '>
+              <Image src={'/musician.svg'} width={300} height={200} alt='musician' />
+            </motion.div>
           </div>
         </div>
+        <div className="h-screen">
+          hello
+        </div>
+
       </div>
 
 
