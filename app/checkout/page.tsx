@@ -234,7 +234,7 @@ export default function CheckoutPage() {
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">Price:</span>
                 <span className="font-semibold">
-                  {formatCurrency(pass.price/100)}
+                  {formatCurrency(pass.price)}
                   {pass.isTeamEvent && pass.paymentType === 'per_person' && ' per person'}
                 </span>
               </div>
@@ -247,7 +247,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex items-center justify-between mt-2 text-lg font-bold">
                     <span>Total:</span>
-                    <span>{formatCurrency(calculateTotalAmount()/100)}</span>
+                    <span>{formatCurrency(calculateTotalAmount())}</span>
                   </div>
                 </>
               )}
@@ -390,7 +390,7 @@ export default function CheckoutPage() {
                     className="w-full"
                     disabled={isProcessing}
                   >
-                    {isProcessing ? "Processing..." : `Pay ${formatCurrency(calculateTotalAmount()/100)}`}
+                    {isProcessing ? "Processing..." : `Pay ${formatCurrency(calculateTotalAmount())}`}
                   </Button>
                 </div>
               </form>

@@ -210,7 +210,7 @@ export default function SuccessPage() {
         onDownloadPass={handleDownloadPass}
         onDownloadReceipt={handleDownloadReceipt}
         onSendEmail={handleSendEmail}
-        showEmailButton={true}
+        showEmailButton={false}
         passButtonText="Download Pass"
         receiptButtonText="Download Receipt"
         backUrl="/"

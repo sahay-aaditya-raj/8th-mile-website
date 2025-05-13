@@ -73,7 +73,7 @@ export default function EventRegistrationSuccessPage() {
             amount: info.amount,
           });
 
-          const matchedEvent = getEvent(info.eventId);
+          const matchedEvent = await getEvent(info.eventId);
           setEventName(matchedEvent ? matchedEvent.name : info.eventId);
 
           // Generate QR code for verification
@@ -208,14 +208,14 @@ export default function EventRegistrationSuccessPage() {
         onDownloadPass={handleDownloadPass}
         onDownloadReceipt={handleDownloadReceipt}
         onSendEmail={handleSendEmail}
-        showEmailButton={true}
+        showEmailButton={false}
         passButtonText="Download Registration"
         receiptButtonText="Download Receipt"
         backUrl="/"
         passRef={passRef}
         receiptRef={receiptRef}
-        passFilename={`8thmile-registration-${registrationInfo.paymentId.substring(0, 8)}.png`}
-        receiptFilename={`8thmile-receipt-${registrationInfo.paymentId.substring(0, 8)}.png`}
+        passFilename={`pass-${registrationInfo.paymentId}.png`}
+        receiptFilename={`receipt-${registrationInfo.paymentId}.png`}
       />
     </PageWrapper>
   );

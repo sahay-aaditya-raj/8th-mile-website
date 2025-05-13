@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const event = getEvent(eventId);
+    const event = await getEvent(eventId);
     if (!event) {
       return NextResponse.json(
         { success: false, message: 'Event not found' },

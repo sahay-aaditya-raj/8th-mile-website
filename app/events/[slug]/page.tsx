@@ -21,14 +21,15 @@ const EventDetail = () => {
         if (!params.slug) return;
 
         const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
-        const eventData = getEventBySlug(slug);
-
-        if (eventData) {
-            setEvent(eventData);
-            setRegistrationStatus(isRegistrationOpen(eventData));
-        }
-
-        setLoading(false);
+        const loadEvent = async () => {
+            const eventData = await getEventBySlug(slug);
+            if (eventData) {
+                setEvent(eventData);
+                setRegistrationStatus(isRegistrationOpen(eventData));
+            }
+            setLoading(false);
+        };
+        loadEvent();
     }, [params]);
 
     if (loading) return <div className="text-white text-center py-20">Loading...</div>;

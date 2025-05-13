@@ -34,38 +34,42 @@ export default function EventRegistrationPage() {
       return;
     }
     
-    const eventData = getEvent(eventId);
-    if (!eventData) {
-      setError('Event not found');
+    const loadEvent = async () => {
+      const eventData = await getEvent(eventId);
+      if (!eventData) {
+        setError('Event not found');
+        setLoading(false);
+        return;
+      }
+      
+      // Check if registration is open
+      const status = isRegistrationOpen(eventData);
+      setRegistrationStatus(status);
+      
+      if (!status.isOpen) {
+        setError(`Registration is closed: ${status.reason}`);
+      }
+      
+      setEvent(eventData);
+      
+      // Parse min and max team sizes from the string (e.g., "2-4")
+      const sizeRange = eventData.teamsize.split('-');
+      const minSize = parseInt(sizeRange[0]) || 1;
+      const maxSize = parseInt(sizeRange[1] || sizeRange[0]) || 1;
+      
+      // Initialize with minimum required team size
+      setTeamsize(minSize);
+      
+      // Create team members array of the correct size
+      const initialMembers = Array(minSize).fill(null).map((_, i) => ({
+        name: i === 0 ? name : ''  // First member is the team leader
+      }));
+      
+      setTeamMembers(initialMembers);
       setLoading(false);
-      return;
-    }
+    };
     
-    // Check if registration is open
-    const status = isRegistrationOpen(eventData);
-    setRegistrationStatus(status);
-    
-    if (!status.isOpen) {
-      setError(`Registration is closed: ${status.reason}`);
-    }
-    
-    setEvent(eventData);
-    
-    // Parse min and max team sizes from the string (e.g., "2-4")
-    const sizeRange = eventData.teamsize.split('-');
-    const minSize = parseInt(sizeRange[0]) || 1;
-    const maxSize = parseInt(sizeRange[1] || sizeRange[0]) || 1;
-    
-    // Initialize with minimum required team size
-    setTeamsize(minSize);
-    
-    // Create team members array of the correct size
-    const initialMembers = Array(minSize).fill(null).map((_, i) => ({
-      name: i === 0 ? name : ''  // First member is the team leader
-    }));
-    
-    setTeamMembers(initialMembers);
-    setLoading(false);
+    loadEvent();
   }, [searchParams, name]);
   
   const handleTeamMemberChange = (index: number, value: string) => {

@@ -59,7 +59,7 @@ export default function VerifyRegistrationPage() {
         setVerified(true);
         
         // Fetch event name
-        const event = getEvent(data.data.eventId);
+        const event = await getEvent(data.data.eventId);
         if (event) {
           setEventName(event.name);
         } else {
@@ -151,8 +151,8 @@ export default function VerifyRegistrationPage() {
         backUrl="/"
         passRef={passRef}
         receiptRef={receiptRef}
-        passFilename={`8thmile-registration-${registrationInfo.paymentId.substring(0, 8)}.png`}
-        receiptFilename={`8thmile-receipt-${registrationInfo.paymentId.substring(0, 8)}.png`}
+        passFilename={`pass-${registrationInfo.paymentId}.png`}
+        receiptFilename={`receipt-${registrationInfo.paymentId}.png`}
       />
     </PageWrapper>
   );

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import { allEvents, eventCategories } from '@/data/events';
+import { allEvents, eventCategories, fetchEvents } from '@/data/events';
 import { motion } from 'framer-motion';
 import { isRegistrationOpen } from '@/lib/utils';
 
@@ -13,7 +13,20 @@ const EventsPage = () => {
 
     const [selectedCategory, setSelectedCategory] = useState(initialCategory);
     const [searchQuery, setSearchQuery] = useState('');
+    const [events, setEvents] = useState(allEvents);
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
+
+    useEffect(() => {
+        const loadEvents = async () => {
+            setLoading(true);
+            const fetchedEvents = await fetchEvents();
+            setEvents(fetchedEvents);
+            setLoading(false);
+        };
+
+        loadEvents();
+    }, []);
 
     useEffect(() => {
         // Update URL when category changes without full page reload
@@ -26,7 +39,7 @@ const EventsPage = () => {
         router.push(`/events?${newParams.toString()}`, { scroll: false });
     }, [selectedCategory, router, searchParams]);
 
-    const filteredEvents = allEvents.filter(event => {
+    const filteredEvents = events.filter(event => {
         const matchesCategory =
             selectedCategory === 'All' ||
             event.category === selectedCategory;
@@ -54,6 +67,14 @@ const EventsPage = () => {
             >
                 Events
             </motion.div>
+
+            {/* Loading state */}
+            {loading && (
+                <div className="text-center py-10">
+                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#f9dd9c] border-r-transparent"></div>
+                    <p className="mt-2 text-[#f9dd9c]">Loading events...</p>
+                </div>
+            )}
 
             {/* Search Bar */}
             <div className="flex mx-auto justify-center items-center mb-6 sticky top-32 z-50 bg-transparent w-full max-w-md">
