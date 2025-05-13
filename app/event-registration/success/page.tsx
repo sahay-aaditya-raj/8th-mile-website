@@ -31,12 +31,14 @@ export default function EventRegistrationSuccessPage() {
   const [eventName, setEventName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const passRef = useRef<HTMLDivElement>(null);
   const receiptRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const init = async () => {
+      setLoading(true);
       const dataParam = searchParams.get('data');
       const paymentIdParam = searchParams.get('payment_id');
 
@@ -47,8 +49,17 @@ export default function EventRegistrationSuccessPage() {
           const orderId = info.orderId ?? info.razorpay_order_id;
           
           if (!paymentId || !orderId) throw new Error('Missing IDs');
-
+          
           const eventId = info.eventId ?? `EVENT-${paymentId.substring(0, 8).toUpperCase()}`;
+          
+          // Extract team information
+          const teamSize = info.teamsize || info.teamSize || 1;
+          const teamMembers = Array.isArray(info.teamMembers) ? info.teamMembers : [info.name];
+          
+          // Ensure team leader is properly set
+          if (teamMembers[0] !== info.name) {
+            teamMembers[0] = info.name;
+          }
 
           setRegistrationInfo({
             name: info.name,
@@ -57,8 +68,8 @@ export default function EventRegistrationSuccessPage() {
             paymentId,
             orderId,
             eventId,
-            teamSize: info.teamSize,
-            teamMembers: info.teamMembers,
+            teamSize: teamSize,
+            teamMembers: teamMembers,
             amount: info.amount,
           });
 
@@ -75,12 +86,15 @@ export default function EventRegistrationSuccessPage() {
         } catch (err) {
           console.error(err);
           setError('Invalid registration data.');
+        } finally {
+          setLoading(false);
         }
         return;
       }
 
       if (!paymentIdParam) {
         setError('No payment identifier provided.');
+        setLoading(false);
         return;
       }
 
@@ -96,6 +110,7 @@ export default function EventRegistrationSuccessPage() {
         const paymentId = json.data.paymentId;
         const orderId = json.data.orderId;
         const eventId = json.data.eventId;
+        const teamMembers = Array.isArray(json.data.teamMembers) ? json.data.teamMembers : [json.data.name];
 
         setRegistrationInfo({
           name: json.data.name,
@@ -104,8 +119,8 @@ export default function EventRegistrationSuccessPage() {
           paymentId,
           orderId,
           eventId,
-          teamSize: json.data.teamSize,
-          teamMembers: json.data.teamMembers,
+          teamSize: json.data.teamSize || 1,
+          teamMembers: teamMembers,
           amount: json.data.amount,
         });
 
@@ -114,7 +129,7 @@ export default function EventRegistrationSuccessPage() {
 
         // Generate QR code
         const qrUrl = await QRCode.toDataURL(
-          `${window.location.origin}/verify-registration?payment_id=${paymentId}`, 
+          `${window.location.origin}/verify-registration?payment_id=${paymentId}`,
           { errorCorrectionLevel: 'H' }
         );
         setQrCodeUrl(qrUrl);
@@ -122,6 +137,8 @@ export default function EventRegistrationSuccessPage() {
       } catch (err) {
         console.error(err);
         setError('Could not retrieve registration details. Please contact support.');
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -214,6 +231,17 @@ export default function EventRegistrationSuccessPage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-black p-4">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white mx-auto mb-4"></div>
+          <p className="text-white text-lg">Loading registration details...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (error) return <div className="p-6 text-center text-red-600 font-semibold">{error}</div>;
   if (!registrationInfo) return <div className="p-6 text-center text-gray-700">Loading registration details...</div>;
 
@@ -260,7 +288,9 @@ export default function EventRegistrationSuccessPage() {
                       <p className="font-semibold mt-1">Team Members:</p>
                       <ul className="list-disc list-inside">
                         {registrationInfo.teamMembers.map((member, index) => (
-                          <li key={index}>{member}</li>
+                          <li key={index} className={index === 0 ? "font-bold text-yellow-300" : ""}>
+                            {member} {index === 0 ? "(Team Leader)" : ""}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -326,6 +356,19 @@ export default function EventRegistrationSuccessPage() {
                   <span>{registrationInfo.teamSize} members</span>
                 </div>
               )}
+
+              {registrationInfo.teamSize && registrationInfo.teamSize > 1 && registrationInfo.teamMembers && registrationInfo.teamMembers.length > 0 && (
+                <div className="border-t border-gray-200 pt-2 mt-2">
+                  <span className="font-medium">Team Members:</span>
+                  <ol className="list-decimal list-inside mt-1">
+                    {registrationInfo.teamMembers.map((member, index) => (
+                      <li key={index} className="text-sm">
+                        {index === 0 ? <strong>{member} (Team Leader)</strong> : member}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
               
               {registrationInfo.amount && (
                 <div className="flex justify-between border-t border-gray-200 pt-2 mt-2 font-bold">
@@ -364,9 +407,9 @@ export default function EventRegistrationSuccessPage() {
 
           {/* Back to Events Button */}
           <div className="mt-10">
-            <Link href="/events">
+            <Link href="/">
               <Button variant="outline" className="text-white border-white hover:bg-white hover:text-black">
-                Back to Events
+                Back to Home
               </Button>
             </Link>
           </div>
