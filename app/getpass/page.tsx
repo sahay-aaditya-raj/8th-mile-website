@@ -206,7 +206,7 @@ export default function VerifyPassPage() {
 
       <div className="relative z-10 flex flex-col items-center space-y-6 pt-20">
         <div className="max-w-4xl w-full text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-blue-400 mb-4">Event Pass</h1>
+          <div className="text-4xl md:text-5xl font-bold text-blue-400 mb-4">Event Pass</div>
           <p className="text-lg md:text-xl text-white mb-8">
             Welcome to 8th Mile! Your pass has been verified.
           </p>
@@ -222,7 +222,7 @@ export default function VerifyPassPage() {
                 <Image src="/8thmilelogocolour.png" alt="Logo" fill className="object-contain" />
               </div>
               <div className="text-right">
-                <h2 className="text-xl font-bold text-white">Event Pass</h2>
+                <div className="text-xl font-bold text-white">Event Pass</div>
                 <p className="text-lg text-yellow-300">{passName}</p>
               </div>
             </div>
@@ -266,7 +266,7 @@ export default function VerifyPassPage() {
             ref={receiptRef}
             className="relative mt-8 rounded-xl border border-gray-200 p-6 bg-white text-black w-full max-w-md mx-auto"
           >
-            <h2 className="text-xl font-bold text-center border-b border-gray-200 pb-2 mb-4">Payment Receipt</h2>
+            <div className="text-xl font-bold text-center border-b border-gray-200 pb-2 mb-4">Payment Receipt</div>
             
             <div className="space-y-4">
               <div className="flex justify-between">

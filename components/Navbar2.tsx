@@ -29,7 +29,7 @@ export default function Navbar() {
         { name: "Home", href: "/" },
         { name: "Events", href: "/events" },
         { name: "Gallery", href: "/gallery" },
-        { name: "Timeline", href: "/timeline" },
+        // { name: "Timeline", href: "/timeline" },
         { name: "Passes", href: "/passes" },
         { name: "Our Team", href: "/credits" },
     ];
