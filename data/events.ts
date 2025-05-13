@@ -308,7 +308,7 @@ export const allEvents: Event[] = [
     date: 'September 15-17, 2023',
     time: '9:00 AM - 9:00 AM (48 hours)',
     venue: 'Main Auditorium, RVCE',
-    category: 'Technical',
+    category: 'Gaming',
     photoPath: '/images/events/hackathon-main.jpg',
     prizes: [
       'First Prize: ₹50,000',
