@@ -4,7 +4,7 @@ export const allEvents: Event[] = [
   // Regular events
   {
     id: "mr-ms-8th-mile",
-    photoPath: "/events/mrmrs8thmile.png",
+    photoPath: "/events/mr-ms-8th-mile.png",
     slug: "mrms8thmile",
     name: "Mr & Ms 8th Mile",
     description: "We present Mr. and Ms. 8th Mile, an evening of glamour, and the celebration of true confidence. This extraordinary event will showcase the talents, charm, and elegance of the remarkable individuals in our college community. Featuring three captivating rounds, Mr. and Ms. 8th Mile is designed to bring out the very best in each participant, offering them a platform to shine and mesmerize the audience with their unique abilities and personalities.",
@@ -35,7 +35,7 @@ export const allEvents: Event[] = [
   },
   {
     id: "mooru-mathondu",
-    photoPath: "/events/moorumathondu.png",
+    photoPath: "/events/mooru-mathondu.png",
     slug: "moorumathondu",
     name: "Mooru Mathondu",
     description: "Mooru Mathondu is a vibrant event organized by Kannada CARV that features three dynamic formats of performance: Mad Ads, Mime, and Mono Acting. At the heart of this event is Mad Ads — the flagship segment known for its humor, creativity, and high-energy performances that leave audiences entertained and engaged. Alongside Mad Ads, participants showcase their talent through the silent storytelling of Mime and the emotional depth of Mono Acting. Together, these formats offer a unique blend of theatrical expression, encouraging performers to think on their feet, adapt quickly, and deliver impactful narratives.",
@@ -125,7 +125,7 @@ export const allEvents: Event[] = [
   },
   {
     id: "verve-fashion",
-    photoPath: "/events/vervefashion.png",
+    photoPath: "/events/verve-fashion.png",
     slug: "vervefashion",
     name: "Verve - Fashion Competition",
     description: "Evoke is RVCE's official fashion club, where style meets creativity. From bold runway performances to innovative photoshoots, the club empowers students to express themselves through fashion, modeling, and design. Evoke is all about confidence, art, and making a statement. ",
@@ -154,10 +154,10 @@ export const allEvents: Event[] = [
     registrationOpen: false
   },
   {
-    id: "verve-design",
-    photoPath: "/events/vervedesign.png",
-    slug: "vervedesign",
-    name: "Verve - Design Competition",
+    id: "couture",
+    photoPath: "/events/couture.png",
+    slug: "couture",
+    name: "Couture",
     description: "Unleash your creativity at the Designing Competition by Evoke, RVCE's Fashion Club. From sketches to runway-ready concepts, showcase your flair for style and innovation. Blend trends with imagination, compete with fellow designers, and let your vision redefine fashion. It's your moment to design, dazzle, and dominate the spotlight.",
     date: "31st May, 2025",
     time: "2 p.m. - 4 p.m.",
@@ -216,7 +216,7 @@ export const allEvents: Event[] = [
   },
   {
     id: "dance-battle",
-    photoPath: "/events/dancebattle.png",
+    photoPath: "/events/dance-battle.png",
     slug: "dancebattle",
     name: "Dance Battle",
     description: "Hip-Hop and house, flips and stunts, this crazy dance battle has everything to get your feet moving. Welcome to Flare, where a good sense of musicality and the perfect sense of groove can get you right to the top of this competition. Does your team have what it takes to be at the top in this All Styles battle! ",
@@ -243,7 +243,7 @@ export const allEvents: Event[] = [
   },
   {
     id: "slam poetry",
-    photoPath: "/events/slampoetry.png",
+    photoPath: "/events/poetry-slam.png",
     slug: "slampoetry",
     name: "Slam Poetry",
     description: "A spoken word poetry competition where participants perform their original poems with passion. Judges will score performances based on relevance, creativity and originality. Mics will be provided for clarity. Prize distribution for outstanding poets.",
@@ -272,7 +272,7 @@ export const allEvents: Event[] = [
   },
   {
     id: "canvas-painting",
-    photoPath: "/events/canvaspainting.png",
+    photoPath: "/events/canvas-painting.png",
     slug: "canvaspainting",
     name: "Canvas Painting",
     description: "A spoken word poetry competition where participants perform their original poems with passion. Judges will score performances based on relevance, creativity and originality. Mics will be provided for clarity. Prize distribution for outstanding poets.",
