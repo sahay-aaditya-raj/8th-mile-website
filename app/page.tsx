@@ -194,8 +194,28 @@ export default function HomePage() {
                 style={{ transform: 'translateX(1px) translateY(0px)' }}
               />
             </div>
-
-
+            <div className='fixed top-24 left-0'>
+              <Image src={'/jet.svg'} width={200} height={100} alt='jet'/>
+            </div>
+            <div className='fixed top-56 right-0 -mr-8'>
+              <Image src={'/flower1.svg'} width={100} height={50} alt='flower1'/>
+            </div>
+            <div className='fixed bottom-48 left-0'>
+              <Image src={'/flower2.svg'} width={100} height={50} alt='flower2'/>
+            </div>
+            <div className='fixed bottom-2 right-0 -mr-24'>
+              <Image src={'/dance.svg'} width={300} height={200} alt='dance'/>
+            </div>
+            <div className='fixed bottom-2 left-0 -ml-12 '>
+              <Image src={'/musician.svg'} width={250} height={200} alt='musician'/>
+            </div>
+            <div className='fixed bottom-2 -mb-6 ml-32'>
+              <Image src={'/f1.svg'} width={180} height={200} alt='f1'/>
+            </div>
+            <div className='fixed bottom-36 -mb-6 ml-32'>
+              <Image src={'/laptop.svg'} width={150} height={200} alt='laptop'/>
+            </div>
+            
           </div>
         </div>
       </div>

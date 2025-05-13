@@ -2,7 +2,6 @@
 
 import { NavbarProvider } from "@/contexts/NavbarContext"
 import { SidebarProvider } from "@/contexts/SidebarContext";
-import Footer from "@/components/Footer"
 import { ThemeProvider } from "@/components/theme-provider"
 import Sidebar from '@/components/Sidebar';
 import { ParallaxProvider } from 'react-scroll-parallax';
