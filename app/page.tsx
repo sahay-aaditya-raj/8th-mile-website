@@ -217,6 +217,9 @@ export default function HomePage() {
             <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 left-0 -ml-12 '>
               <Image src={'/musician.svg'} width={300} height={200} alt='musician' />
             </motion.div>
+            <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 left-0 -ml-12 '>
+              <Image src={'/endstrip.svg'} width={600} height={200} alt='musician' />
+            </motion.div>
           </div>
         </div>
         <div className="h-screen">
