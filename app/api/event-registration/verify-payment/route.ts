@@ -18,9 +18,39 @@ export async function POST(request: NextRequest) {
     const email = body.email;
     const phone = body.phone;
     const eventId = body.eventId;
-    const teamSize = body.teamSize || 1;
-    const teamMembers = body.teamMembers || [name];
-
+    
+    // Verify the event exists
+    const event = getEvent(eventId);
+    if (!event) {
+      return NextResponse.json(
+        { success: false, message: 'Event not found' },
+        { status: 400 }
+      );
+    }
+    
+    // Get minimum required team size for this event
+    const minTeamSize = parseInt(event.teamsize.split('-')[0]) || 1;
+    
+    // Ensure team size is at least the minimum required
+    const teamSize = Math.max(minTeamSize, body.teamSize || 1);
+    
+    // Prepare team members array with required checks
+    let teamMembers = body.teamMembers || [name];
+    
+    // Ensure we have the leader's name as the first entry
+    if (!teamMembers[0] || teamMembers[0] === "") {
+      teamMembers[0] = name;
+    }
+    
+    // Ensure array size matches team size
+    if (teamMembers.length < teamSize) {
+      // Add empty slots if needed
+      teamMembers = [...teamMembers, ...Array(teamSize - teamMembers.length).fill("")];
+    } else if (teamMembers.length > teamSize) {
+      // Trim to required size but keep at least minimum size
+      teamMembers = teamMembers.slice(0, Math.max(minTeamSize, teamSize));
+    }
+    
     // Verify Razorpay signature
     const text = `${razorpay_order_id}|${razorpay_payment_id}`;
     const generated_signature = crypto
@@ -35,14 +65,6 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    const event = getEvent(eventId);
-    if (!event) {
-      return NextResponse.json(
-        { success: false, message: 'Event not found' },
-        { status: 400 }
-      );
-    }
-    
     // Double check if registration is still open
     const registrationStatus = isRegistrationOpen(event);
     if (!registrationStatus.isOpen) {
@@ -53,18 +75,20 @@ export async function POST(request: NextRequest) {
     }
 
     // Create event registration record
-    await EventRegistration.create({
-      _id: razorpay_payment_id, // Use payment ID as document ID
-      orderId: razorpay_order_id,
-      signature: razorpay_signature,
+    const registration = new EventRegistration({
+      _id: razorpay_payment_id,
       name,
       email,
       phone,
       eventId,
+      orderId: razorpay_order_id,
+      signature: razorpay_signature, // Add the signature field that's required
       teamSize,
       teamMembers,
-      createdAt: new Date()
+      timestamp: new Date()
     });
+
+    await registration.save();
     
     // Update event registration count
     // Note: In a real implementation, you might want to do this atomically in a database

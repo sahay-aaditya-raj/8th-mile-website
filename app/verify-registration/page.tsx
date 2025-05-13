@@ -257,7 +257,9 @@ export default function VerifyRegistrationPage() {
                       <p className="font-semibold mt-1">Team Members:</p>
                       <ul className="list-disc list-inside">
                         {registrationInfo.teamMembers.map((member, index) => (
-                          <li key={index}>{member}</li>
+                          <li key={index} className={index === 0 ? "font-bold text-yellow-300" : ""}>
+                            {member} {index === 0 ? "(Team Leader)" : ""}
+                          </li>
                         ))}
                       </ul>
                     </div>

@@ -23,6 +23,7 @@ export default function EventRegistrationPage() {
   const [teamsize, setTeamsize] = useState(1);
   const [teamMembers, setTeamMembers] = useState<{name: string}[]>([{name: ''}]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   
   useEffect(() => {
     const eventId = searchParams.get('eventId');
@@ -50,16 +51,22 @@ export default function EventRegistrationPage() {
     
     setEvent(eventData);
     
-    // Initialize team size based on minimum team size
-    const minteamsize = parseInt(eventData.teamsize.split('-')[0]) || 1;
-    setTeamsize(minteamsize);
+    // Parse min and max team sizes from the string (e.g., "2-4")
+    const sizeRange = eventData.teamsize.split('-');
+    const minSize = parseInt(sizeRange[0]) || 1;
+    const maxSize = parseInt(sizeRange[1] || sizeRange[0]) || 1;
     
-    // Initialize team members array
-    const initialMembers = Array(minteamsize).fill(null).map(() => ({ name: '' }));
+    // Initialize with minimum required team size
+    setTeamsize(minSize);
+    
+    // Create team members array of the correct size
+    const initialMembers = Array(minSize).fill(null).map((_, i) => ({
+      name: i === 0 ? name : ''  // First member is the team leader
+    }));
+    
     setTeamMembers(initialMembers);
-    
     setLoading(false);
-  }, [searchParams]);
+  }, [searchParams, name]);
   
   const handleTeamMemberChange = (index: number, value: string) => {
     const newTeamMembers = [...teamMembers];
@@ -70,7 +77,7 @@ export default function EventRegistrationPage() {
   const handleteamsizeChange = (size: number) => {
     if (!event) return;
     
-    // Parse min and max team sizes from the string (e.g., "2-4")
+    // Parse min and max team sizes from the string
     const sizeRange = event.teamsize.split('-');
     const minSize = parseInt(sizeRange[0]) || 1;
     const maxSize = parseInt(sizeRange[1] || sizeRange[0]) || 1;
@@ -81,18 +88,28 @@ export default function EventRegistrationPage() {
     
     // Update team members array
     if (newSize > teamMembers.length) {
+      // Add new empty members
       setTeamMembers([
         ...teamMembers,
         ...Array(newSize - teamMembers.length).fill(null).map(() => ({ name: '' }))
       ]);
     } else if (newSize < teamMembers.length) {
-      setTeamMembers(teamMembers.slice(0, newSize));
+      // Remove excess members but keep at least the minimum required
+      setTeamMembers(teamMembers.slice(0, Math.max(minSize, newSize)));
     }
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!event || !registrationStatus.isOpen) return;
+    
+    // Validate team members - all fields must be filled
+    const emptyMembers = teamMembers.filter((member, index) => !member.name.trim());
+    
+    if (emptyMembers.length > 0) {
+      setError("Please fill in all team member names");
+      return;
+    }
     
     setIsProcessing(true);
     
@@ -103,11 +120,27 @@ export default function EventRegistrationPage() {
         throw new Error('Failed to load payment gateway');
       }
       
-      // Extract registration fee from string (e.g., "₹1,500 per team")
-      const feeStr = event.registrationFee.replace(/[^0-9]/g, '');
-      const fee = parseInt(feeStr) * 100; // Convert to paise
+      // Parse min team size to ensure we meet requirements
+      const minSize = parseInt(event.teamsize.split('-')[0]) || 1;
       
-      // Create order on server
+      // Ensure first member is the team leader
+      if (teamMembers[0].name !== name) {
+        const updatedMembers = [...teamMembers];
+        updatedMembers[0] = { name: name };
+        setTeamMembers(updatedMembers);
+      }
+      
+      // Create a properly formatted team members array
+      const formattedTeamMembers = teamsize >= minSize 
+        ? teamMembers.map(member => member.name.trim())
+        : [name];
+      
+      // Ensure team leader is always included
+      if (formattedTeamMembers[0] !== name) {
+        formattedTeamMembers[0] = name;
+      }
+      
+      // Create order on server with correct team information
       const response = await fetch('/api/event-registration/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -116,8 +149,8 @@ export default function EventRegistrationPage() {
           name,
           email,
           phone,
-          teamsize,
-          teamMembers: teamMembers.map(m => m.name),
+          teamSize: teamsize,
+          teamMembers: formattedTeamMembers,
         }),
       });
       
@@ -140,9 +173,12 @@ export default function EventRegistrationPage() {
         notes: {
           eventId: event.id,
           teamsize,
-          teamMembers: JSON.stringify(teamMembers.map(m => m.name))
+          teamMembers: JSON.stringify(formattedTeamMembers)
         },
         handler(response: any) {
+          // Show loading indicator during redirect
+          setIsRedirecting(true);
+          
           const payload = {
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_order_id: response.razorpay_order_id,
@@ -151,8 +187,8 @@ export default function EventRegistrationPage() {
             email,
             phone,
             eventId: event.id,
-            teamsize,
-            teamMembers: teamMembers.map(m => m.name)
+            teamSize: teamsize,
+            teamMembers: formattedTeamMembers
           };
           
           // Verify payment on server
@@ -172,14 +208,17 @@ export default function EventRegistrationPage() {
             .catch((err) => router.push(`/event-registration/failed?error=${encodeURIComponent(err.message || 'Unknown error occurred')}&eventId=${event.id}`));
         },
         modal: {
-          ondismiss: () => setIsProcessing(false),
+          ondismiss: () => {
+            setIsProcessing(false);
+            setIsRedirecting(false);
+          },
         }
       });
     } catch (err: any) {
       setError(err.message || 'Failed to process registration');
       console.error(err);
-    } finally {
       setIsProcessing(false);
+      setIsRedirecting(false);
     }
   };
   
@@ -336,6 +375,22 @@ export default function EventRegistrationPage() {
           {isProcessing ? "Processing..." : "Register & Pay Now"}
         </button>
       </form>
+    )}
+
+    {(isProcessing || isRedirecting) && (
+      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div className="bg-gray-900 p-6 rounded-lg shadow-lg text-center max-w-md">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-300 mx-auto mb-4"></div>
+          <h3 className="text-xl text-yellow-300 font-bold mb-2">
+            {isRedirecting ? 'Completing Registration...' : 'Processing Payment...'}
+          </h3>
+          <p className="text-gray-300">
+            {isRedirecting 
+              ? 'Please wait while we verify your payment and complete your registration.' 
+              : 'Please complete the payment in the popup window.'}
+          </p>
+        </div>
+      </div>
     )}
   </div>
 );

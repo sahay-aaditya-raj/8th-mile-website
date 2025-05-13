@@ -1,7 +1,7 @@
 import { Event } from '@/types';
-import { hackathonEvents } from './hackathons';
 
-export const regularEvents: Event[] = [
+export const allEvents: Event[] = [
+  // Regular events
   {
     id: "mr-ms-8th-mile",
     photoPath: "/events/mrmrs8thmile.png",
@@ -12,7 +12,7 @@ export const regularEvents: Event[] = [
     time: "X",
     venue: "ECE Seminar Hall & Main Stage",
     registrationFee: "₹250",
-    teamsize: "1 (individual)",
+    teamsize: "1",
     prizes: [
       "Mr. 8th Mile: ₹5000 + Trophy + Coupon worth ₹2000",
       "Ms 8th Mile: ₹5000 + Trophy + Coupon worth ₹2000"
@@ -33,7 +33,7 @@ export const regularEvents: Event[] = [
     currentRegistrations: 0,
     registrationOpen: true
   },
-	{
+  {
     id: "mooru-mathondu",
     photoPath: "/events/moorumathondu.png",
     slug: "moorumathondu",
@@ -64,7 +64,7 @@ export const regularEvents: Event[] = [
     currentRegistrations: 0,
     registrationOpen: false
   },
-	{
+  {
     id: "photo-com",
     photoPath: "/events/photocom.png",
     slug: "photocom",
@@ -94,7 +94,7 @@ export const regularEvents: Event[] = [
     currentRegistrations: 0,
     registrationOpen: false
   },
-	{
+  {
     id: "shaurya",
     photoPath: "/events/shaurya.png",
     slug: "shaurya",
@@ -123,7 +123,7 @@ export const regularEvents: Event[] = [
     currentRegistrations: 0,
     registrationOpen: false
   },
-	{
+  {
     id: "verve-fashion",
     photoPath: "/events/vervefashion.png",
     slug: "vervefashion",
@@ -153,7 +153,7 @@ export const regularEvents: Event[] = [
     currentRegistrations: 0,
     registrationOpen: false
   },
-	{
+  {
     id: "verve-design",
     photoPath: "/events/vervedesign.png",
     slug: "vervedesign",
@@ -182,7 +182,7 @@ export const regularEvents: Event[] = [
     currentRegistrations: 0,
     registrationOpen: false
   },
-	{
+  {
     id: "soul-train",
     photoPath: "/events/soultrain.png",
     slug: "soultrain",
@@ -214,7 +214,7 @@ export const regularEvents: Event[] = [
     currentRegistrations: 0,
     registrationOpen: false
   },
-	{
+  {
     id: "dance-battle",
     photoPath: "/events/dancebattle.png",
     slug: "dancebattle",
@@ -241,7 +241,7 @@ export const regularEvents: Event[] = [
     currentRegistrations: 0,
     registrationOpen: false
   },
-	{
+  {
     id: "slam poetry",
     photoPath: "/events/slampoetry.png",
     slug: "slampoetry",
@@ -270,7 +270,7 @@ export const regularEvents: Event[] = [
     currentRegistrations: 0,
     registrationOpen: false
   },
-	{
+  {
     id: "canvas-painting",
     photoPath: "/events/canvaspainting.png",
     slug: "canvaspainting",
@@ -298,11 +298,90 @@ export const regularEvents: Event[] = [
     registrationDeadline: '',
     currentRegistrations: 0,
     registrationOpen: true
+  },
+  // Technical events (including hackathons)
+  {
+    id: 'code-fusion',
+    slug: 'code-fusion',
+    name: 'Code Fusion',
+    description: 'A 48-hour intensive coding challenge to build innovative solutions',
+    date: 'September 15-17, 2023',
+    time: '9:00 AM - 9:00 AM (48 hours)',
+    venue: 'Main Auditorium, RVCE',
+    category: 'Technical',
+    photoPath: '/images/events/hackathon-main.jpg',
+    prizes: [
+      'First Prize: ₹50,000',
+      'Second Prize: ₹30,000',
+      'Third Prize: ₹20,000',
+      'Best UI/UX: ₹10,000'
+    ],
+    teamsize: '2-4',
+    maxParticipants: 100,
+    registrationFee: '₹1,500 per team',
+    guidelines: [
+      'Teams must consist of 2-4 members',
+      'All team members must be present during the entire duration',
+      'Code must be original and created during the hackathon',
+      'Submission includes source code and presentation'
+    ],
+    contact: [
+      { name: 'Aditya Sharma', phone: '+91 9876543210' },
+      { name: 'Priya Patel', phone: '+91 8765432109' }
+    ],
+    registrationDeadline: '2025-09-10T23:59:59Z',
+    currentRegistrations: 72,
+    registrationOpen: true
+  },
+  {
+    id: 'ai-challenge',
+    slug: 'ai-innovation-challenge',
+    name: 'AI Innovation Challenge',
+    description: 'Develop cutting-edge AI solutions to address real-world problems',
+    date: 'September 16-17, 2023',
+    time: '10:00 AM - 6:00 PM',
+    venue: 'CS Department, RVCE',
+    category: 'Technical',
+    photoPath: '/images/events/ai-hackathon-main.jpg',
+    prizes: [
+      'First Prize: ₹40,000',
+      'Second Prize: ₹25,000',
+      'Best Use of ML: ₹15,000'
+    ],
+    teamsize: '2-3',
+    maxParticipants: 50,
+    registrationFee: '₹1,200 per team',
+    guidelines: [
+      'Focus on AI/ML solutions only',
+      'Pre-trained models are allowed with proper attribution',
+      'Live demo required during presentation',
+      'Solutions will be judged on innovation, impact and technical depth'
+    ],
+    contact: [
+      { name: 'Raj Mehta', phone: '+91 9876543211' },
+      { name: 'Divya S', phone: '+91 8765432108' }
+    ],
+    registrationDeadline: '2023-09-14T23:59:59Z',
+    currentRegistrations: 45,
+    registrationOpen: true
   }
 ];
 
-export const allEvents = [...regularEvents, ...hackathonEvents];
-export const eventCategories = ['All', 'Technical', 'Cultural', 'Gaming', 'Innovative'];
+// Dynamically extract unique categories from events
+const uniqueCategories = [...new Set(allEvents.map(event => event.category))];
+export const eventCategories = ['All', ...uniqueCategories];
+
+export function getTechnicalEvents(): Event[] {
+  return allEvents.filter(event => event.category === 'Technical');
+}
+
+export function getCulturalEvents(): Event[] {
+  return allEvents.filter(event => event.category === 'Cultural');
+}
+
+export function getSportsEvents(): Event[] {
+  return allEvents.filter(event => event.category === 'Sports');
+}
 
 export function getEvent(id: string): Event | undefined {
   return allEvents.find(event => event.id === id);
@@ -310,10 +389,4 @@ export function getEvent(id: string): Event | undefined {
 
 export function getEventBySlug(slug: string): Event | undefined {
   return allEvents.find(event => event.slug === slug);
-}
-
-export function getEventsByCategory(category: string): Event[] {
-  if (category === 'All') return allEvents;
-  if (category === 'Hackathon') return hackathonEvents;
-  return allEvents.filter(event => event.category === category);
 }

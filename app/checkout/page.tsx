@@ -26,6 +26,7 @@ export default function CheckoutPage() {
   const [teamSize, setTeamSize] = useState(1);
   const [participants, setParticipants] = useState<{name: string}[]>([{name: ''}]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
     if (!passId) {
@@ -151,9 +152,12 @@ export default function CheckoutPage() {
           participantsName: JSON.stringify(participantsData)
         },
         handler(response: any) {
+          // Show loading indicator during redirect
+          setIsRedirecting(true);
+          
           const payload = {
-            razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
             razorpay_signature: response.razorpay_signature,
             name,
             email,
@@ -176,13 +180,16 @@ export default function CheckoutPage() {
               if (res.success) {
                 router.push(`/payment/success?data=${encodeURIComponent(JSON.stringify(payload))}`);
               } else {
-                router.push('/payment/failed');
+                router.push(`/payment/failed?error=${encodeURIComponent(res.message || 'Payment verification failed')}&passId=${pass.id}`);
               }
             })
-            .catch(() => router.push('/payment/failed'));
+            .catch((err) => router.push(`/payment/failed?error=${encodeURIComponent(err.message || 'Unknown error occurred')}&passId=${pass.id}`));
         },
         modal: {
-          ondismiss: () => setIsProcessing(false),
+          ondismiss: () => {
+            setIsProcessing(false);
+            setIsRedirecting(false);
+          },
           escape: true,
           backdropclose: false
         }
@@ -391,6 +398,22 @@ export default function CheckoutPage() {
           </Card>
         </div>
       </div>
+
+      {(isProcessing || isRedirecting) && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-gray-900 p-6 rounded-lg shadow-lg text-center max-w-md">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-300 mx-auto mb-4"></div>
+            <h3 className="text-xl text-yellow-300 font-bold mb-2">
+              {isRedirecting ? 'Completing Purchase...' : 'Processing Payment...'}
+            </h3>
+            <p className="text-gray-300">
+              {isRedirecting 
+                ? 'Please wait while we verify your payment and finalize your purchase.' 
+                : 'Please complete the payment in the popup window.'}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
