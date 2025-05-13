@@ -1,88 +1,135 @@
-/* eslint-disable @next/next/no-img-element */
-"use client";
+'use client';
 
-import React from "react";
+import { motion, useScroll, useTransform } from 'framer-motion';
+import Image from 'next/image';
+import React, { useRef } from 'react';
 
 export default function HomePage() {
+
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"]
+  });
+
+  // Animate sun
+  const sunY = useTransform(scrollYProgress, [0, 0.4], [0, 200]);
+  const sunOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+
+  // Ashtrang text
+  const ashtrangOpacity = useTransform(scrollYProgress, [0.20, 0.30], [0, 1]);
+  const ashtrangY = useTransform(scrollYProgress, [0.35, 0.55], [40, 0]);
+
+  // Elements disappear on 3rd screen
+  const elementsOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const elementsY = useTransform(scrollYProgress, [0.7, 1], [0, -300]);
+
   return (
-    <div className="relative w-full overflow-x-hidden">
-      {/* Fixed Background */}
-      <div className="fixed inset-0 -z-10">
-        <video
-          autoPlay
-          loop
-          muted
-          className="absolute top-0 left-0 w-full h-full object-cover"
+    <>
+    <div ref={ref} className="hidden md:flex bg-black text-white relative overflow-x-hidden">
+      {/* elements.svg as background */}
+      <div>
+      <motion.div
+        className="fixed -top-32 inset-0 z-10"
+        style={{ opacity: elementsOpacity, y: elementsY }}
+      >
+        <Image src="/elements.svg" alt="bg" layout="fill" objectFit="cover" />
+      </motion.div>
+
+      {/* sun.svg centered */}
+      <motion.div
+        style={{ y: sunY, opacity: sunOpacity }}
+        className="fixed top-2/3 left-[825px] z-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         >
-          <source src="/demo.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        {/* Overlay */}
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/70 via-black/40 to-transparent dark:from-black/90"></div>
+        <Image src="/sun.svg" alt="sun" width={500} height={500} />
+      </motion.div>
+
+      {/* plane.svg moving diagonally */}
+      <motion.div
+        className="fixed top-[325px] left-[850px] z-20"
+        style={{ opacity: elementsOpacity, y: elementsY }}
+        >
+        <Image src="/plane.svg" alt="plane" width={300} height={200} />
+      </motion.div>
+
+
+      {/* First screen - 8th Mile */}
+      <section className="h-screen relative z-0 p-10">
+        <h1 className="pl-16 z-0 text-[150px] font-bold font-sans pt-16 delagothic">8<sup>th</sup> MILE</h1>
+        <p className='delagothic font-bold pl-[370px] -mt-8 tracking-wider text-2xl'>TECHNO-CULTURAL FESTIVAL</p>
+      </section>
+
+      {/* Second screen - Ashtrang reveal */}
+      <section className="min-h-screen py-36 z-10 relative flex flex-col justify-center items-center">
+        <motion.div
+          className="text-9xl text-[#f9dd9c] font-semibold samarkan px-4"
+          style={{ opacity: ashtrangOpacity, y: ashtrangY }}
+        >
+          Ashtrang{' '}
+        </motion.div>
+        <motion.div className="text-xl text-[#f9dd9c] poppins tracking-widest"
+          style={{ opacity: ashtrangOpacity, y: ashtrangY }}>
+          ROOTS OF CULTURE | WINGS OF TECHNOLOGY
+        </motion.div>
+      </section>
+
+      {/* Third screen - Hide all elements and show welcome */}
+      <section className="min-h-screen mt-56 flex flex-col items-center justify-center z-10 relative">
+        <div className="flex flex-col px-24">
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0 }}
+            className="font-sans font-bold text-[#418b24] text-4xl md:text-6xl border-b-2 w-fit border-[#e90c00] mb-4">About RVCE</motion.div>
+          <div className="flex flex-col md:flex-row gap-4">
+            <motion.div initial={{ x: -100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-2xl md:w-3/5">
+              Rashtreeya Vidyalaya College of Engineering was founded by Late Sri M.C. Shivananda Sharma in 1963. His mission was to Impart Quality Education to all sections of the society. This institution has been set up with the purpose of producing future leaders, innovators, and torchbearers of technology. <br /><br /> As the college completes more than 60 glorious years, it has grown into a place where excellence in instruction and all-around development from the cornerstones of education is imparted to the students. <br /><br />
+              One of the forefronts of quality education in the country, this institution has upheld its standard by training students as well as providing opportunities to those who seek to advance in the fields of science, technology, culture, and sports. It is justified to say that RVCE is a movement that has been in unhindered progress for more than half a century.
+            </motion.div>
+            <motion.div initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="md:w-2/5 flex justify-center items-center">
+              <Image src={'/rvce.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
+            </motion.div>
+          </div>
+        </div>
+        <div className="flex flex-col px-24 py-10">
+          <div className="flex justify-end w-full">
+            <motion.div initial={{ x: 100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="font-sans font-bold text-[#418b24] text-4xl md:text-6xl border-b-2 w-fit border-[#e90c00] mb-4">
+              About 8<sup>th</sup> Mile
+            </motion.div>
+          </div>
+          <div className="flex md:flex-row flex-col gap-4">
+            <motion.div initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="hidden md:flex w-2/5 justify-center items-center">
+              <Image src={'/amaal.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
+            </motion.div>
+            <motion.div initial={{ x: 100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }} className="fraunces text-sm md:text-2xl md:w-3/5">
+              The illustrious R V College of Engineering in Bangalore, India, hosts the 8th Mile techno-cultural festival, showcasing the talents of students from across the country, and fostering camaraderie and excellence. This event serves as a platform for students from various educational institutions nationwide to showcase their exceptional talents in technical and non-technical domains. However, the festival&apos;s overarching objective is to promote a sense of camaraderie and sportsmanship among all its participants, inculcating in them a spirit of healthy competition and mutual respect.<br /><br /> R V College of Engineering has a distinguished legacy of excellence in all spheres of academics, athletics, and extracurricular activities. The college has always set the bar high and led the way, leaving an indelible mark on the country&apos;s academic landscape. The 8th Mile festival, which is a true reflection of the college&apos;s diverse and rich culture, serves as a beacon of hope and inspiration for the younger generation of students who aspire to emulate the college&apos;s success story.
+            </motion.div>
+            <motion.div initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0 }}
+              className="md:hidden flex justify-center items-center">
+              <Image src={'/amaal.png'} alt="rvce college pic" width={500} height={200} className="rounded-xl" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
       </div>
-
-      {/* Hero Section */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative z-10">
-        <div className="bg-background/50 p-4 rounded-xl backdrop-blur-sm">
-          <h1 className="text-4xl sm:text-6xl font-bold font-cursive text-white drop-shadow-lg">
-            Welcome to Our Universe
-          </h1>
-          <p className="mt-4 text-lg sm:text-xl text-white drop-shadow">
-            Scroll down to explore more
-          </p>
-        </div>
-      </section>
-
-      {/* Cultural Fest Section */}
-      <section className="relative z-20 bg-white/40 dark:bg-white/10 backdrop-blur-md py-16 px-4 transition-all duration-300">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 text-gray-800 dark:text-white">
-            Cultural Fest Highlights
-          </h2>
-
-          {/* Dance Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-            <div className="flex flex-col justify-center">
-              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Dance Performances</h3>
-              <p className="text-lg text-gray-600 dark:text-gray-300">
-                It wouldn&apos;t be a cultural fest without getting to witness some mind blowing dance performances...
-              </p>
-            </div>
-            <div className="rounded-xl overflow-hidden shadow-2xl">
-              <img src="/images/image1.jpeg" alt="Dance Performance" className="w-full h-full object-cover" />
-            </div>
-          </div>
-
-          {/* Music Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-            <div className="order-2 md:order-1 rounded-xl overflow-hidden shadow-2xl">
-              <img src="/images/image2.jpeg" alt="Music Performance" className="w-full h-full object-cover" />
-            </div>
-            <div className="order-1 md:order-2 flex flex-col justify-center">
-              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Musical Nights</h3>
-              <p className="text-lg text-gray-600 dark:text-gray-300">
-                Our musical nights featured breathtaking performances from classical instrumentalists...
-              </p>
-            </div>
-          </div>
-
-          {/* Art Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="flex flex-col justify-center">
-              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Art Exhibition</h3>
-              <p className="text-lg text-gray-600 dark:text-gray-300">
-                The art exhibition showcased incredible talent from our student community...
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <img src="/images/image1.jpeg" alt="Art Exhibit 1" className="rounded-lg shadow-md h-48 w-full object-cover" />
-              <img src="/images/image2.jpeg" alt="Art Exhibit 2" className="rounded-lg shadow-md h-48 w-full object-cover" />
-              <img src="/images/image3.jpeg" alt="Art Exhibit 3" className="rounded-lg shadow-md h-48 w-full object-cover" />
-              <img src="/images/eventshero.png" alt="Art Exhibit 4" className="rounded-lg shadow-md h-48 w-full object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
+    <div className='flex md:hidden bg-black text-white relative overflow-x-hidden'>
+      <div>
+        hello
+      </div>
+    </div>
+    </>
   );
 }

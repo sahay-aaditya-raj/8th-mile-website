@@ -24,8 +24,10 @@ const LandingPage = () => {
   const elementsY = useTransform(scrollYProgress, [0.7, 1], [0, -300]);
 
   return (
-    <div ref={ref} className="bg-black text-white relative overflow-x-hidden">
+    <>
+    <div ref={ref} className="hidden md:flex bg-black text-white relative overflow-x-hidden">
       {/* elements.svg as background */}
+      <div>
       <motion.div
         className="fixed -top-32 inset-0 z-10"
         style={{ opacity: elementsOpacity, y: elementsY }}
@@ -36,24 +38,24 @@ const LandingPage = () => {
       {/* sun.svg centered */}
       <motion.div
         style={{ y: sunY, opacity: sunOpacity }}
-        className="fixed top-2/3 left-1/2 z-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-      >
-        <Image src="/sun.svg" alt="sun" width={400} height={400} />
+        className="fixed top-2/3 left-[825px] z-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        >
+        <Image src="/sun.svg" alt="sun" width={500} height={500} />
       </motion.div>
 
       {/* plane.svg moving diagonally */}
       <motion.div
-        className="fixed top-[400px] left-[850px] z-20"
+        className="fixed top-[325px] left-[850px] z-20"
         style={{ opacity: elementsOpacity, y: elementsY }}
-      >
-        <Image src="/plane.svg" alt="plane" width={200} height={200} />
+        >
+        <Image src="/plane.svg" alt="plane" width={300} height={200} />
       </motion.div>
 
 
       {/* First screen - 8th Mile */}
       <section className="h-screen relative z-0 p-10">
-        <h1 className="pl-24 z-0 text-[130px] font-bold font-sans pt-16 delagothic">8<sup>th</sup> MILE</h1>
-        <p className='delagothic font-bold pl-[370px] -mt-6 tracking-widest text-xl'>TECHNO-CULTURAL FESTIVAL</p>
+        <h1 className="pl-16 z-0 text-[150px] font-bold font-sans pt-16 delagothic">8<sup>th</sup> MILE</h1>
+        <p className='delagothic font-bold pl-[370px] -mt-8 tracking-wider text-2xl'>TECHNO-CULTURAL FESTIVAL</p>
       </section>
 
       {/* Second screen - Ashtrang reveal */}
@@ -120,7 +122,14 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      </div>
     </div>
+    <div className='flex md:hidden bg-black text-white relative overflow-x-hidden'>
+      <div>
+        hello
+      </div>
+    </div>
+    </>
   );
 };
 

@@ -120,10 +120,6 @@ html, body {
   --sidebar-ring: rgb(130, 130, 130);
 }
 
-.fraunces {
-  font-family: var(--font-fraunces);
-}
-
 .samarkan {
   font-family: var(--font-samarkan);
 }
