@@ -104,54 +104,13 @@ const page = () => {
 
     // ]
 
-    // const sponsorship = [
-
-    // ]
-    const images = [
-        "/homepageimages/1.png",
-        "/homepageimages/2.png",
-        "/homepageimages/3.png",
-        "/homepageimages/4.png",
-        "/homepageimages/5.png",
-        "/homepageimages/6.png",
-        "/homepageimages/7.png",
-        "/homepageimages/8.png",
-        "/homepageimages/9.png",
-        "/homepageimages/10.png",
-        "/homepageimages/11.png",
-        "/homepageimages/12.png",
-        "/homepageimages/13.png",
-        "/homepageimages/14.png",
-        "/homepageimages/14.png",
-        "/homepageimages/13.png",
-        "/homepageimages/12.png",
-        "/homepageimages/11.png",
-        "/homepageimages/10.png",
-        "/homepageimages/9.png",
-        "/homepageimages/8.png",
-        "/homepageimages/7.png",
-        "/homepageimages/6.png",
-        "/homepageimages/5.png",
-        "/homepageimages/4.png",
-        "/homepageimages/3.png",
-        "/homepageimages/2.png",
-        "/homepageimages/1.png",
-        "/homepageimages/14.png",
-        "/homepageimages/13.png",
-        "/homepageimages/12.png",
-        "/homepageimages/11.png",
-        "/homepageimages/10.png",
-        "/homepageimages/9.png",
-        "/homepageimages/8.png",
-        "/homepageimages/7.png",
-        "/homepageimages/6.png",
-        "/homepageimages/5.png",
-        "/homepageimages/4.png",
-    ];
     return (
-        <div className='flex flex-col items-center w-full min-h-screen bg-black py-24'>
-            <div className="fixed md:top-20 flex flex-col justify-center items-center w-full z-0 md:h-full">
+        <div className='flex flex-col items-center w-full min-h-screen py-24'>
+            <div className="hidden fixed top-0 md:flex flex-col justify-center items-center w-full -z-10 md:h-full">
                 <Image src={'/backdrop.png'} alt='bg' width={1920} height={1020} className='w-screen h-screen' />
+            </div>
+            <div className="md:hidden fixed top-0 flex flex-col justify-center items-center w-full -z-10 md:h-full">
+                <div className='w-screen h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800'></div>
             </div>
             <div className="relative z-10 text-6xl samarkan py-8 text-[#f9dd9c]">Our Team</div>
             <div className="relative z-10 convenors flex flex-col items-center">

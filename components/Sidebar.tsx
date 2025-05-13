@@ -17,11 +17,11 @@ export default function Sidebar() {
     >
       {/* Desktop Sidebar (Always visible on desktop) */}
       <div className="hidden md:flex flex-col gap-4 items-center">
-        <ThemeTogglerButton />
+        {/* <ThemeTogglerButton /> */}
         <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
           <FaLinkedin size={24} className="hover:scale-110 transition-transform text-foreground" />
         </a>
-        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.instagram.com/8thmile.rvce/?hl=en" target="_blank" rel="noopener noreferrer">
           <FaInstagram size={24} className="hover:scale-110 transition-transform text-foreground" />
         </a>
         <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">

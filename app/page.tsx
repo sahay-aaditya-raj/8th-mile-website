@@ -15,6 +15,8 @@ export default function HomePage() {
   // Animate sun
   const sunY = useTransform(scrollYProgress, [0, 0.4], [0, 200]);
   const sunOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+  
+  const raysOpacity = useTransform(scrollYProgress, [0, 0.25], [0.3, 0]);
 
   // Ashtrang text
   const ashtrangOpacity = useTransform(scrollYProgress, [0.20, 0.30], [0, 1]);
@@ -30,7 +32,7 @@ export default function HomePage() {
       {/* elements.svg as background */}
       <div>
       <motion.div
-        className="fixed -top-32 inset-0 z-10"
+        className="fixed -top-32 inset-0 z-15"
         style={{ opacity: elementsOpacity, y: elementsY }}
       >
         <Image src="/elements.svg" alt="bg" layout="fill" objectFit="cover" />
@@ -39,12 +41,23 @@ export default function HomePage() {
       {/* sun.svg centered */}
       <motion.div
         style={{ y: sunY, opacity: sunOpacity }}
-        className="fixed top-2/3 left-[825px] z-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        className="fixed top-2/3 left-[825px] z-10 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         >
         <Image src="/sun.svg" alt="sun" width={500} height={500} />
       </motion.div>
+      <motion.div
+        style={{ opacity: raysOpacity }}
+        className="fixed top-0 left-0 w-screen z-5 pointer-events-none"
+        >
+        <Image src="/rays.svg" alt="sun" width={1000} height={500} className='w-full'/>
+      </motion.div>
 
-      {/* plane.svg moving diagonally */}
+      <motion.div
+        className="fixed top-[375px] left-[550px] z-20"
+        style={{ opacity: elementsOpacity, y: elementsY }}
+        >
+        <Image src="/birds.svg" alt="plane" width={200} height={200} />
+      </motion.div>
       <motion.div
         className="fixed top-[325px] left-[850px] z-20"
         style={{ opacity: elementsOpacity, y: elementsY }}
@@ -61,8 +74,8 @@ export default function HomePage() {
 
       {/* Second screen - Ashtrang reveal */}
       <section className="min-h-screen py-36 z-10 relative flex flex-col justify-center items-center">
-        <motion.div
-          className="text-9xl text-[#f9dd9c] font-semibold samarkan px-4"
+        {/* <motion.div
+          className="text-[150px] text-[#f9dd9c] font-semibold samarkan px-4"
           style={{ opacity: ashtrangOpacity, y: ashtrangY }}
         >
           Ashtrang{' '}
@@ -70,7 +83,10 @@ export default function HomePage() {
         <motion.div className="text-xl text-[#f9dd9c] poppins tracking-widest"
           style={{ opacity: ashtrangOpacity, y: ashtrangY }}>
           ROOTS OF CULTURE | WINGS OF TECHNOLOGY
-        </motion.div>
+        </motion.div> */}
+        <div>
+          <Image src={'/ashtrang.svg'} alt='ashtrang' width={800} height={200} />
+        </div>
       </section>
 
       {/* Third screen - Hide all elements and show welcome */}
@@ -80,7 +96,7 @@ export default function HomePage() {
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0 }}
-            className="font-sans font-bold text-[#418b24] text-4xl md:text-6xl border-b-2 w-fit border-[#e90c00] mb-4">About RVCE</motion.div>
+            className="font-sans font-bold text-[#f9dd9c] text-4xl md:text-6xl w-fit mb-4">About RVCE</motion.div>
           <div className="flex flex-col md:flex-row gap-4">
             <motion.div initial={{ x: -100, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
@@ -99,7 +115,7 @@ export default function HomePage() {
           <div className="flex justify-end w-full">
             <motion.div initial={{ x: 100, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0 }} className="font-sans font-bold text-[#418b24] text-4xl md:text-6xl border-b-2 w-fit border-[#e90c00] mb-4">
+              transition={{ duration: 0.8, delay: 0 }} className="font-sans font-bold text-[#f9dd9c] text-4xl md:text-6xl w-fit mb-4">
               About 8<sup>th</sup> Mile
             </motion.div>
           </div>

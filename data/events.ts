@@ -31,7 +31,7 @@ export const regularEvents: Event[] = [
     category: "Cultural",
     registrationDeadline: '',
     currentRegistrations: 0,
-    registrationOpen: true
+    registrationOpen: true,
   },
 	{
     id: "mooru-mathondu",
@@ -239,7 +239,7 @@ export const regularEvents: Event[] = [
     category: "Cultural",
     registrationDeadline: '',
     currentRegistrations: 0,
-    registrationOpen: false
+    registrationOpen: true
   },
 	{
     id: "slam poetry",
