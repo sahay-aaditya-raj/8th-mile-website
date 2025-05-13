@@ -10,19 +10,15 @@ export const hackathonEvents: Event[] = [
     time: '9:00 AM - 9:00 AM (48 hours)',
     venue: 'Main Auditorium, RVCE',
     category: 'Technical',
-    primaryImage: '/images/events/hackathon-main.jpg',
-    galleryImages: [
-      '/images/events/hackathon-1.jpg',
-      '/images/events/hackathon-2.jpg',
-      '/images/events/hackathon-3.jpg'
-    ],
+    photoPath: '/images/events/hackathon-main.jpg',
+
     prizes: [
       'First Prize: ₹50,000',
       'Second Prize: ₹30,000',
       'Third Prize: ₹20,000',
       'Best UI/UX: ₹10,000'
     ],
-    teamSize: '2-4',
+    teamsize: '2-4',
     maxParticipants: 100,
     registrationFee: '₹1,500 per team',
     guidelines: [
@@ -35,7 +31,7 @@ export const hackathonEvents: Event[] = [
       { name: 'Aditya Sharma', phone: '+91 9876543210' },
       { name: 'Priya Patel', phone: '+91 8765432109' }
     ],
-    registrationDeadline: '2023-09-10T23:59:59Z',  // Fixed deadline
+    registrationDeadline: '2025-09-10T23:59:59Z',  // Fixed deadline
     currentRegistrations: 72,                       // Added initial registrations
     registrationOpen: true                         // Set to open
   },
@@ -48,17 +44,13 @@ export const hackathonEvents: Event[] = [
     time: '10:00 AM - 6:00 PM',
     venue: 'CS Department, RVCE',
     category: 'Technical',
-    primaryImage: '/images/events/ai-hackathon-main.jpg',
-    galleryImages: [
-      '/images/events/ai-hackathon-1.jpg',
-      '/images/events/ai-hackathon-2.jpg'
-    ],
+    photoPath: '/images/events/ai-hackathon-main.jpg',
     prizes: [
       'First Prize: ₹40,000',
       'Second Prize: ₹25,000',
       'Best Use of ML: ₹15,000'
     ],
-    teamSize: '2-3',
+    teamsize: '2-3',
     maxParticipants: 50,
     registrationFee: '₹1,200 per team',
     guidelines: [

@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       name, 
       email, 
       phone, 
-      teamSize = 1,
+      textsize = 1,
       teamMembers = []
     } = body;
 
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     
     // If fee is per person, multiply by team size
     if (!event.registrationFee.includes('per team')) {
-      amount *= teamSize;
+      amount *= textsize;
     }
 
     const receipt = `receipt_${Date.now()}`;
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
         name,
         email,
         phone,
-        teamSize: teamSize.toString(),
+        textsize: textsize.toString(),
         teamMembers: JSON.stringify(teamMembers)
       }
     });

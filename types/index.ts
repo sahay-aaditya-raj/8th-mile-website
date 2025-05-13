@@ -32,6 +32,7 @@ export interface PaymentInfo {
 
 export interface Event {
   id: string;
+  photoPath: string;
   slug: string;
   name: string;
   description: string;
@@ -39,10 +40,8 @@ export interface Event {
   time: string;
   venue: string;
   category: string;
-  primaryImage: string;
-  galleryImages?: string[];
   prizes: string[];
-  teamSize: string;
+  teamsize: string;
   maxParticipants: number;
   registrationFee: string;
   guidelines: string[];
