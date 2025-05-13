@@ -1,6 +1,7 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -55,3 +56,7 @@ export function isRegistrationOpen(event: Event): { isOpen: boolean; reason: str
   // Registration is open
   return { isOpen: true, reason: null };
 }
+
+
+
+

@@ -51,42 +51,8 @@ html, body {
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root {
-  --radius: 0.625rem;
-  --background: rgb(255, 255, 255);
-  --foreground: rgb(38, 38, 38);
-  --card: rgb(255, 255, 255);
-  --card-foreground: rgb(38, 38, 38);
-  --popover: rgb(255, 255, 255);
-  --popover-foreground: rgb(38, 38, 38);
-  --primary: rgb(52, 52, 52);
-  --primary-foreground: rgb(250, 250, 250);
-  --secondary: rgb(230, 240, 250); /* Light blue */
-  --secondary-foreground: rgb(52, 52, 52);
-  --muted: rgb(240, 240, 240); /* Lighter gray */
-  --muted-foreground: rgb(130, 130, 130);
-  --accent: rgb(220, 255, 220); /* Light green */
-  --accent-foreground: rgb(52, 52, 52);
-  --destructive: rgb(180, 60, 60);
-  --border: rgb(235, 235, 235);
-  --input: rgb(235, 235, 235);
-  --ring: rgb(180, 180, 180);
-  --chart-1: rgb(230, 120, 100);
-  --chart-2: rgb(80, 160, 230);
-  --chart-3: rgb(110, 140, 240);
-  --chart-4: rgb(255, 210, 100);
-  --chart-5: rgb(250, 200, 70);
-  --sidebar: rgb(250, 250, 250);
-  --sidebar-foreground: rgb(38, 38, 38);
-  --sidebar-primary: rgb(52, 52, 52);
-  --sidebar-primary-foreground: rgb(250, 250, 250);
-  --sidebar-accent: rgb(247, 247, 247);
-  --sidebar-accent-foreground: rgb(52, 52, 52);
-  --sidebar-border: rgb(235, 235, 235);
-  --sidebar-ring: rgb(180, 180, 180);
-}
 
-.dark {
+:root {
   --background: rgb(38, 38, 38);
   --foreground: rgb(250, 250, 250);
   --card: rgb(52, 52, 52);
@@ -156,8 +122,6 @@ a{
   text-decoration: none;
 }
 
-
-
 /* scrollbar */
 @layer base {
   * {
@@ -184,4 +148,26 @@ a{
   ::-webkit-scrollbar-thumb:hover {
     background-color: var(--sidebar-primary-foreground);
   }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-only, .print-only * {
+    visibility: visible;
+  }
+  .print-only {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+
+/* Ensure better rendering for dom-to-image */
+.rendering {
+  transform-origin: top left;
+  /* Force browser to use standard RGB color space instead of oklch/oklab */
+  color-scheme: light;
 }

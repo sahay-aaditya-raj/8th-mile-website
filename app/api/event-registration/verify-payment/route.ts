@@ -5,6 +5,17 @@ import { connectToDatabase } from '@/lib/db';
 import { getEvent } from '@/data/events';
 import { EventRegistration } from '@/lib/models/EventRegistration';
 import { isRegistrationOpen } from '@/lib/utils';
+import { sendEmail } from '@/lib/server-utils';
+
+// Helper function to get base URL from request
+function getBaseUrl(request: NextRequest): string {
+  // Get host from headers
+  const host = request.headers.get('host') || 'localhost:3000';
+  // Determine protocol based on headers or default (localhost = http, otherwise https)
+  const protocol = request.headers.get('x-forwarded-proto') || 
+                (host.includes('localhost') ? 'http' : 'https');
+  return `${protocol}://${host}`;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -95,6 +106,52 @@ export async function POST(request: NextRequest) {
     // For now, we'll just pretend we're updating a counter
     event.currentRegistrations += parseInt(teamSize);
     
+    // Get base URL for dynamic links
+    const baseUrl = getBaseUrl(request);
+    
+    // Create detailed email content for event registration
+    const teamMembersList = teamMembers.map((member, index) => 
+      `<li>${index === 0 ? `${member} (Team Leader)` : member || 'Not provided'}</li>`
+    ).join('');
+    
+    const emailHtml = `
+      <h2>Event Registration Confirmation</h2>
+      <p>Dear ${name},</p>
+      <p>Thank you for registering for <strong>${event.name}</strong>!</p>
+      
+      <h3>Registration Details:</h3>
+      <ul>
+        <li><strong>Name:</strong> ${name}</li>
+        <li><strong>Email:</strong> ${email}</li>
+        <li><strong>Phone:</strong> ${phone || 'Not provided'}</li>
+        <li><strong>Payment ID:</strong> ${razorpay_payment_id}</li>
+        <li><strong>Order ID:</strong> ${razorpay_order_id}</li>
+        <li><strong>Event:</strong> ${event.name}</li>
+      </ul>
+      
+      <h3>Team Members:</h3>
+      <ol>
+        ${teamMembersList}
+      </ol>
+      
+      <p>
+        <a href="${baseUrl}/events/${eventId}/registration?payment_id=${razorpay_payment_id}" style="padding: 10px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">View Your Registration</a>
+      </p>
+      
+      <p>Please save this email for future reference. We look forward to seeing you at the event!</p>
+    `;
+    
+    try{
+    await sendEmail(
+      email,
+      `Registration Confirmation: ${event.name}`,
+      `Thank you ${name} for registering for ${event.name}. Your payment ID is ${razorpay_payment_id}. View your registration at: ${baseUrl}/events/${eventId}/registration?payment_id=${razorpay_payment_id}`,
+      emailHtml
+    )
+    console.log('Email sent successfully');
+    }catch (error) {
+      console.error('Error sending email:', error);
+    }
     return NextResponse.json({
       success: true,
       message: 'Payment verified and registration saved'
