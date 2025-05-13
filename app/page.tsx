@@ -176,12 +176,12 @@ export default function HomePage() {
             </div>
 
             {/* Orange Ring */}
-            <div className="absolute inset-0 mx-auto my-auto z-30 w-[270px] h-[270px]">
+            <div className="absolute inset-0 mx-auto my-auto z-30 w-[275px] h-[275px]">
               <Image
                 src="/orange.svg"
                 alt="orange ring"
                 fill
-                className="object-contain animate-[spin_30s_linear_infinite]"
+                className="object-contain translate-x-[0px] translate-y-[0px] animate-[spin_30s_linear_infinite]"
               />
             </div>
 
@@ -191,7 +191,7 @@ export default function HomePage() {
                 alt="orange ring"
                 fill
                 className="object-contain"
-                style={{ transform: 'translateX(0px) translateY(1px)' }}
+                style={{ transform: 'translateX(1px) translateY(0px)' }}
               />
             </div>
 
