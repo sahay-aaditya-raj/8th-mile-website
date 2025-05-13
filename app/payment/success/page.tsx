@@ -20,6 +20,8 @@ interface PaymentInfo {
   basePrice?: number;
   gstAmount?: number;
   amount?: number;
+  noOfParticipants?: number;
+  participantsName?: string[];
 }
 
 export default function SuccessPage() {
@@ -108,7 +110,7 @@ export default function SuccessPage() {
     init();
   }, [searchParams]);
 
-  const downloadImage = async (ref: React.RefObject<HTMLDivElement>, filename: string) => {
+  const downloadImage = async (ref: React.RefObject<HTMLDivElement | null>, filename: string) => {
     if (!ref.current) return;
     const canvas = await html2canvas(ref.current, {
       backgroundColor: null,
@@ -184,6 +186,19 @@ export default function SuccessPage() {
               {paymentInfo.gstAmount !== undefined && <div><strong>GST:</strong> ₹{paymentInfo.gstAmount/100}</div>}
               {paymentInfo.amount !== undefined && <div className="font-bold"><strong>Total:</strong> ₹{paymentInfo.amount/100}</div>}
             </div>
+            {(paymentInfo.noOfParticipants ?? 0) > 1 && (
+              <div><strong>Team Size:</strong> {paymentInfo.noOfParticipants}</div>
+            )}
+            {paymentInfo.participantsName && paymentInfo.participantsName.length > 1 && (
+              <div>
+                <strong>Team Members:</strong>
+                <ul className="ml-4 mt-1">
+                  {paymentInfo.participantsName.map((name: string, index: number) => (
+                    <li key={index}>{index === 0 ? `${name} (Team Leader)` : name}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
 
@@ -210,10 +225,10 @@ export default function SuccessPage() {
           </div>
 
           {/* Logo and QR */}
-          <div className="flex flex-col items-center relative z-10">
+          <Link href={`${window.location.origin}/getpass?payment_id=${paymentInfo.paymentId}`} className="flex flex-col items-center relative z-10">
             <img src="/8thmilelogocolour.png" alt="Logo" className="w-20 h-20 mb-2" />
             {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" className="w-28 h-28" />}
-          </div>
+          </Link>
         </div>
       </div>
     </div>

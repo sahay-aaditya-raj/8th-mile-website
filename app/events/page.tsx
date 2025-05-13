@@ -1,234 +1,190 @@
 "use client";
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
-
-const data = [
-    {
-        id: 1,
-        photoPath: '/events/mrmrs8thmile.png',
-        slug: 'mrmrs8thmile',
-        name: 'Mr & Ms 8th Mile',
-        description: 'A beauty pageant that celebrates talent, charisma, and confidence.',
-        date: '29th May, 2025',
-        time: '6:00 PM - 9:00 PM',
-        venue: 'Auditorium',
-        registrationFee: '₹100',
-        prizes: ['Winner: ₹5000', 'Runner-Up: ₹3000'],
-        contact: { name: 'Riya Sharma', phone: '9876543210' },
-        maxParticipants: 50,
-        guidelines: [
-            'Participants must be students of 8th Mile College.',
-            'Each participant will go through a preliminary round.',
-            'Final round includes a Q&A and a talent showcase.',
-            'Judging criteria: confidence, talent, presentation.',
-            'Winners will be crowned Mr. and Ms. 8th Mile.'
-        ],
-        category: 'Cultural',
-    },
-    {
-        id: 2,
-        photoPath: '/events/hackathon.png',
-        name: 'CodeStorm Hackathon',
-        description: 'An overnight hackathon to build innovative tech solutions to real-world problems.',
-        date: '30th May, 2025',
-        time: '9:00 AM - 9:00 PM',
-        venue: 'Tech Hall',
-        registrationFee: '₹200/team',
-        prizes: ['1st: ₹10000', '2nd: ₹5000', 'Best Innovation: ₹3000'],
-        contact: { name: 'Aarav Mehta', phone: '9876509876' },
-        maxParticipants: 25,
-        guidelines: [
-            'Teams of 2-4 participants allowed.',
-            'Any tech stack can be used.',
-            'Themes will be disclosed 1 day prior.',
-            'Bring your own laptops and extension cords.',
-            'Judging based on innovation, execution, and presentation.'
-        ],
-        category: 'Technical',
-    },
-    {
-        id: 3,
-        photoPath: '/events/fashionshow.png',
-        name: 'Rampage - Fashion Show',
-        description: 'Walk the ramp and set the stage on fire with your style and attitude.',
-        date: '28th May, 2025',
-        time: '7:00 PM - 9:00 PM',
-        venue: 'Open Stage',
-        registrationFee: '₹150',
-        prizes: ['Best Model: ₹3000', 'Best Group: ₹5000'],
-        contact: { name: 'Neha Kapoor', phone: '9876549876' },
-        maxParticipants: 30,
-        guidelines: [
-            'Open to individual and group performances.',
-            'Use of props and background music allowed.',
-            'Time limit: 5 minutes per performance.',
-            'Outfit must be appropriate and respectful.',
-        ],
-        category: 'Cultural',
-    },
-    {
-        id: 4,
-        photoPath: '/events/mockauction.png',
-        name: 'Mock IPL Auction',
-        description: 'Showcase your strategy and cricket knowledge in this thrilling auction game.',
-        date: '27th May, 2025',
-        time: '3:00 PM - 6:00 PM',
-        venue: 'Room 204, B-Block',
-        registrationFee: '₹100/team',
-        prizes: ['Winning Team: ₹4000'],
-        contact: { name: 'Siddharth Rao', phone: '9876581230' },
-        maxParticipants: 20,
-        guidelines: [
-            'Teams of 2 participants.',
-            'Each team will get a virtual purse.',
-            'Bid for real players and form your team.',
-            'Judging based on final team value and strategy.',
-        ],
-        category: 'Innovative',
-    },
-    {
-        id: 5,
-        photoPath: '/events/battledance.png',
-        name: 'Dance Battle',
-        description: 'From hip-hop to classical – let your moves speak louder than words.',
-        date: '29th May, 2025',
-        time: '2:00 PM - 5:00 PM',
-        venue: 'Main Stage',
-        registrationFee: '₹100',
-        prizes: ['Solo: ₹2000', 'Group: ₹5000'],
-        contact: { name: 'Tanvi Nair', phone: '9876598765' },
-        maxParticipants: 40,
-        guidelines: [
-            'Solo or group (max 6 members).',
-            'Time limit: 3 minutes (solo), 5 minutes (group).',
-            'Use of props and recorded music allowed.',
-            'Judging based on choreography, energy, and synchronicity.',
-        ],
-        category: 'Cultural',
-    },
-    {
-        id: 6,
-        photoPath: '/events/musictalent.png',
-        name: 'SurSangam - Music Fest',
-        description: 'Solo and group performances in vocal and instrumental categories.',
-        date: '28th May, 2025',
-        time: '10:00 AM - 1:00 PM',
-        venue: 'Music Room',
-        registrationFee: '₹50',
-        prizes: ['Best Vocal: ₹2000', 'Best Instrumental: ₹2000'],
-        contact: { name: 'Rahul Dey', phone: '9876501234' },
-        maxParticipants: 35,
-        guidelines: [
-            'Solo or duo performances only.',
-            'Time limit: 4 minutes.',
-            'Participants must bring their own instruments.',
-            'No vulgar or offensive content.',
-        ],
-        category: 'Cultural',
-    },
-    {
-        id: 7,
-        photoPath: '/events/codethon.png',
-        name: 'AlgoKnights - Coding Challenge',
-        description: 'Competitive coding contest to solve algorithmic problems under pressure.',
-        date: '27th May, 2025',
-        time: '11:00 AM - 1:00 PM',
-        venue: 'Lab 1',
-        registrationFee: '₹50',
-        prizes: ['1st: ₹3000', '2nd: ₹1500'],
-        contact: { name: 'Ankit Das', phone: '9876512345' },
-        maxParticipants: 60,
-        guidelines: [
-            'Individual participation.',
-            '3 coding problems to be solved in 2 hours.',
-            'Languages allowed: C++, Java, Python.',
-            'Internet access prohibited.',
-        ],
-        category: 'Technical',
-    },
-    {
-        id: 8,
-        photoPath: '/events/gamingarena.png',
-        name: 'Gaming Arena - BGMI & FIFA',
-        description: 'Get your squad ready or dribble past your rivals in this gaming showdown.',
-        date: '30th May, 2025',
-        time: '10:00 AM - 4:00 PM',
-        venue: 'GameZone Room',
-        registrationFee: '₹100/player',
-        prizes: ['BGMI Winner Squad: ₹5000', 'FIFA Champion: ₹2000'],
-        contact: { name: 'Karan Singh', phone: '9876523456' },
-        maxParticipants: 80,
-        guidelines: [
-            'BGMI: Squad of 4, devices provided.',
-            'FIFA: Played on PlayStation, knockout format.',
-            'No offensive behavior or foul language allowed.',
-            'Headphones recommended.',
-        ],
-        category: 'Gaming',
-    },
-];
-
-const categories = ['All', 'Cultural', 'Technical', 'Innovative', 'Gaming']
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { allEvents, eventCategories } from '@/data/events';
+import { Badge } from '@/components/ui/badge';
+import { motion } from 'framer-motion';
+import { isRegistrationOpen } from '@/lib/utils';
 
 const EventsPage = () => {
-    const [selectedCategory, setSelectedCategory] = useState('All')
-    const router = useRouter()
+    const searchParams = useSearchParams();
+    const initialCategory = searchParams.get('category') || 'All';
 
-    const filteredEvents = selectedCategory === 'All'
-        ? data
-        : data.filter(event => event.category === selectedCategory)
+    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+    const [searchQuery, setSearchQuery] = useState('');
+    const router = useRouter();
+
+    useEffect(() => {
+        // Update URL when category changes without full page reload
+        const newParams = new URLSearchParams(searchParams);
+        if (selectedCategory === 'All') {
+            newParams.delete('category');
+        } else {
+            newParams.set('category', selectedCategory);
+        }
+        router.push(`/events?${newParams.toString()}`, { scroll: false });
+    }, [selectedCategory, router, searchParams]);
+
+    const filteredEvents = allEvents.filter(event => {
+        const matchesCategory =
+            selectedCategory === 'All' || 
+            (selectedCategory === 'Hackathon' && (event.id.includes('hack') || event.slug.includes('hack'))) || 
+            event.category === selectedCategory;
+        
+        const matchesSearch = event.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+        
+        return matchesCategory && matchesSearch;
+    });
+
+    const fadeInUp = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 }
+    };
 
     return (
-        <div className='bg-black min-h-screen text-white pt-32 px-6'>
-            <div className="samarkan text-7xl text-[#f9dd9c] text-center mb-10">
+        <div className="bg-black min-h-screen text-white pt-32 px-6">
+            {/* Page Heading */}
+            <motion.div 
+                className="samarkan text-7xl text-[#f9dd9c] text-center mb-6"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+            >
                 Events
+            </motion.div>
+
+            {/* Search Bar */}
+            <div className="flex mx-auto justify-center items-center mb-6 sticky top-32 z-50 bg-transparent w-full max-w-md">
+                <input
+                    type="text"
+                    placeholder="Search events..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-4 py-2 rounded-full border border-[#f9dd9c] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f9dd9c] bg-black"
+                />
             </div>
 
             {/* Filter Buttons */}
-            <div className="flex flex-wrap gap-1 md:gap-4 justify-center mb-10">
-                {categories.map(cat => (
+            <div className="flex flex-wrap gap-2 md:gap-4 justify-center mb-10">
+                {eventCategories.map(cat => (
                     <button
                         key={cat}
                         onClick={() => setSelectedCategory(cat)}
-                        className={`cursor-pointer px-2 py-1 md:px-4 md:py-2 border rounded-2xl md:rounded-full transition hover:scale-105  ${selectedCategory === cat
-                            ? 'bg-[#f9dd9c] text-black font-bold'
-                            : 'border-[#f9dd9c] text-[#f9dd9c]'
-                            }`}
+                        className={`cursor-pointer px-3 py-1.5 md:px-4 md:py-2 border rounded-2xl md:rounded-full transition hover:scale-105 ${
+                            selectedCategory === cat
+                                ? 'bg-[#f9dd9c] text-black font-bold'
+                                : 'border-[#f9dd9c] text-[#f9dd9c]'
+                        }`}
                     >
                         {cat}
                     </button>
-
                 ))}
             </div>
+
+            {/* Highlight for Hackathons when selected */}
+            {selectedCategory === 'Hackathon' && (
+                <motion.div 
+                    className="max-w-4xl mx-auto mb-10 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-6 rounded-xl border border-purple-500/50"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <h2 className="text-3xl font-bold text-purple-300 mb-3">Hackathon Events</h2>
+                    <p className="text-gray-300">
+                        Challenge yourself with our cutting-edge hackathons! Collaborate with talented peers, solve real-world problems,
+                        and compete for exciting prizes. Perfect for coders, designers, and innovators alike.
+                    </p>
+                </motion.div>
+            )}
 
             {/* Event Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {filteredEvents.map(event => (
-                    <div
-                        key={event.id}
-                        onClick={() => router.push(`/events/${event.slug}`)}
-                        className="cursor-pointer bg-black rounded-xl overflow-hidden hover:scale-105 transition-transform shadow-sm shadow-[#418b24]"
-                    >
-                        <div className="relative w-full" style={{ paddingBottom: '125%' /* 4:5 aspect ratio */ }}>
-                            <Image
-                                src={event.photoPath}
-                                alt={event.name}
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
-                        <div className="p-4">
-                            <div className="text-base md:text-xl font-bold text-[#f9dd9c]">{event.name}</div>
-                            <p className="text-sm text-gray-400">{event.date}</p>
-                        </div>
-                    </div>
-                ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                {filteredEvents.map((event, index) => {
+                    const registrationStatus = isRegistrationOpen(event);
+                    const remainingSpots = event.maxParticipants - event.currentRegistrations;
+                    const lowSpots = remainingSpots < event.maxParticipants * 0.2;
+                    
+                    return (
+                        <motion.div
+                            key={event.id}
+                            variants={fadeInUp}
+                            initial="hidden"
+                            animate="visible"
+                            transition={{ duration: 0.3, delay: index * 0.1 }}
+                            onClick={() => router.push(`/events/${event.slug}`)}
+                            className={`cursor-pointer bg-black rounded-xl overflow-hidden hover:scale-105 transition-transform shadow-sm shadow-[#418b24] border border-gray-800 h-full flex flex-col ${!registrationStatus.isOpen ? 'opacity-75' : ''}`}
+                        >
+                            <div className="relative w-full" style={{ paddingBottom: '65%' }}>
+                                <Image
+                                    src={event.primaryImage}
+                                    alt={event.name}
+                                    fill
+                                    className="object-cover"
+                                />
+                                <div className="absolute top-2 right-2">
+                                    <Badge
+                                        className={`px-2 py-1 text-xs font-medium ${
+                                            event.category === 'Technical' ? 'bg-blue-500' :
+                                            event.category === 'Cultural' ? 'bg-pink-500' :
+                                            event.category === 'Gaming' ? 'bg-green-500' : 'bg-purple-500'
+                                        }`}
+                                    >
+                                        {event.id.includes('hack') || event.slug.includes('hack') ? 'Hackathon' : event.category}
+                                    </Badge>
+                                </div>
+                                
+                                {/* Registration status indicator */}
+                                <div className="absolute top-2 left-2">
+                                    {registrationStatus.isOpen ? (
+                                        <span className="px-2 py-1 text-xs font-medium bg-green-500 text-white rounded-full">
+                                            Registration Open
+                                        </span>
+                                    ) : (
+                                        <span className="px-2 py-1 text-xs font-medium bg-red-500 text-white rounded-full" 
+                                              title={registrationStatus.reason || undefined}>
+                                            Registration Closed
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                            
+                            <div className="p-4 flex-grow flex flex-col">
+                                <h3 className="text-xl font-bold text-[#f9dd9c] mb-2 line-clamp-1">{event.name}</h3>
+                                <p className="text-sm text-gray-300 mb-3 line-clamp-2 flex-grow">{event.description}</p>
+                                
+                                {/* Show remaining spots warning if low */}
+                                {registrationStatus.isOpen && lowSpots && (
+                                    <div className="text-xs text-yellow-400 mb-2">
+                                        Only {remainingSpots} spot{remainingSpots !== 1 ? 's' : ''} left!
+                                    </div>
+                                )}
+                                
+                                <div className="flex justify-between items-center mt-auto">
+                                    <span className="text-xs bg-[#418b24]/30 text-[#7ceb50] px-2 py-1 rounded">
+                                        {event.registrationFee}
+                                    </span>
+                                    <span className="text-xs text-gray-400">
+                                        {event.date}
+                                    </span>
+                                </div>
+                            </div>
+                        </motion.div>
+                    );
+                })}
             </div>
 
+            {filteredEvents.length === 0 && (
+                <div className="text-center py-20 text-gray-400">
+                    <p className="text-xl">No events found matching your criteria</p>
+                    <p className="mt-2">Try changing your search or category filter</p>
+                </div>
+            )}
         </div>
-    )
-}
+    );
+};
 
-export default EventsPage
+export default EventsPage;

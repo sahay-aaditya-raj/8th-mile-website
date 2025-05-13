@@ -11,7 +11,14 @@ const razorpay = new Razorpay({
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { passId, name, email } = body;
+    const { 
+      passId, 
+      name, 
+      email, 
+      phone, 
+      noOfParticipants = 1, 
+      participantsName = [] 
+    } = body;
 
     if (!passId || !name || !email) {
       return NextResponse.json(
@@ -28,14 +35,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Calculate amount based on pass type and number of participants
+    let amount = pass.price;
+    if (pass.isTeamEvent && pass.paymentType === 'per_person') {
+      amount = pass.price * noOfParticipants;
+    }
+
+    const receipt = `receipt_${Date.now()}`;
+    
     const options = {
-      amount: pass.price,
+      amount,
       currency: 'INR',
-      receipt: `receipt_${Date.now()}`,
+      receipt,
       notes: {
         passId,
         name,
         email,
+        phone: phone || '',
+        noOfParticipants: String(noOfParticipants),
+        participantsName: JSON.stringify(participantsName)
       },
     };
 
@@ -44,12 +62,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       order,
-      pass,
+      pass
     });
   } catch (error) {
-    console.error('Error creating Razorpay order:', error);
+    console.error('Error creating order:', error);
     return NextResponse.json(
-      { success: false, message: 'Error creating order' },
+      { success: false, message: 'Failed to create order' },
       { status: 500 }
     );
   }
