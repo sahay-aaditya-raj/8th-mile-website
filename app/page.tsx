@@ -165,7 +165,7 @@ export default function HomePage() {
 
         {/* Concentric Images */}
         <motion.div className="relative w-full h-screen flex items-center justify-center z-10" >
-          <div className="relative w-[400px] h-[400px]" initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }}>
+          <div className="relative w-[400px] h-[400px]">
             {/* Green Ring */}
             <div className="absolute inset-0 mx-auto my-auto z-10 w-[320px] h-[320px]">
               <Image

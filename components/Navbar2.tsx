@@ -48,6 +48,7 @@ export default function Navbar() {
                             height={50}
                             className="object-contain"
                         />
+                        <span className="w-[1px] h-[42px] bg-white" />
                         <Image
                             src="/RVCE Corner Logo WHITE.png"
                             alt="RVCE Logo"
