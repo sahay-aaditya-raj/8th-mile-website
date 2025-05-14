@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
 			await registration.save();
 			console.log("Registration saved:", registration);
 
-			const url = `${process.env.NEXT_PUBLIC_APP_URL}/verify/${razorpay_payment_id}`;
+			const url = `${process.env.NEXT_PUBLIC_APP_URL}/verify?payment_id=${razorpay_payment_id}`;
 			const emailHtml = `
             <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #2c2c2c; padding: 24px;">
     <h1 style="color: #5a3e2b; font-size: 28px; margin-bottom: 16px;">Payment Confirmation</h1>

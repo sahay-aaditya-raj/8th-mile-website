@@ -33,7 +33,7 @@ export const VerificationCard = forwardRef<HTMLDivElement, VerificationCardProps
     info, 
     title, 
     subtitle, 
-    qrCodeUrl, 
+    qrCodeUrl,
     gradientClasses = "from-blue-900/80 to-purple-900/80",
     verificationUrl,
     additionalInfo
