@@ -3,9 +3,8 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import Link from 'next/link';
 import Image from "next/image";
-import Link from "next/link";
 import { eventPasses } from "@/data/passes";
 import { Pass } from "@/types";
 
@@ -17,14 +16,7 @@ const badgeVariantMap: Record<string, "default" | "secondary" | "outline" | "des
 };
 
 export default function PassesPage() {
-  const [, setSelectedPass] = useState<Pass | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<Record<string, number>>({});
-
-  const handlePassSelect = (pass: Pass) => {
-    setSelectedPass(pass);
-    // Redirect to checkout page with the selected pass
-    window.location.href = `/checkout?passId=${pass.id}`;
-  };
 
   const switchImage = (passId: string, index: number) => {
     setActiveImageIndex({
@@ -133,35 +125,15 @@ export default function PassesPage() {
             </CardContent>
 
             <CardFooter className="mt-auto">
-              <Button
-                variant="default"
-                className="w-full bg-[#f9dd9c] text-black hover:bg-[#fbe8b3]"
-                onClick={() => handlePassSelect(pass)}
+              <Link
+                className="w-full p-2 text-center rounded-2xl bg-[#f9dd9c] text-black hover:bg-[#fbe8b3]"
+                href={`/checkout?passId=${pass.id}`}
               >
                 Get {pass.name}
-              </Button>
+              </Link>
             </CardFooter>
           </Card>
         ))}
-      </div>
-
-      {/* Hackathon Promo */}
-      <div className="mt-16 text-center">
-        <h2 className="text-2xl font-bold text-[#f9dd9c] mb-4">
-          Looking for Hackathons?
-        </h2>
-        <p className="text-gray-400 mb-6">
-          Check out our exciting hackathon events in the events section
-        </p>
-        <Link href="/events?category=Hackathon">
-          <Button
-            variant="outline"
-            className="border-[#f9dd9c] text-[#f9dd9c] hover:bg-[#f9dd9c]/10"
-            size="lg"
-          >
-            View Hackathon Events
-          </Button>
-        </Link>
       </div>
     </section>
   </div>

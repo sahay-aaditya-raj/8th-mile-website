@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -108,23 +109,19 @@ export default function CheckoutPage() {
       if (!razorpayReady) {
         throw new Error('Failed to load payment gateway');
       }
-
-      // Prepare participants data - first participant is team leader
-      const participantsData = participants.map((p, i) => 
-        i === 0 ? name : p.name
-      );
       
       // Create order on server
-      const response = await fetch('/api/razorpay/create-order', {
+      const response = await fetch('/api/rzpay-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          passId: pass.id,
-          name,
-          email,
-          phone,
-          noOfParticipants: teamSize.toString(),
-          participantsName: participantsData
+          type: 'pass',
+          data: {
+            passId: pass.id,
+            name,
+            email,
+            phone,
+          }
         }),
       });
       
@@ -135,21 +132,22 @@ export default function CheckoutPage() {
       }
       
       const { order } = data;
-
+      console.log('Order created:', order);
       // Open Razorpay checkout
+
+
       openRazorpayCheckout({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
         amount: order.amount,
         currency: order.currency,
         name: '8th Mile RVCE',
         image: '/8thmilelogocolour.png',
-        description: `Purchase of ${pass.name}`,
+        description: `Purchase of ${order.notes.name}`,
         order_id: order.id,
-        prefill: { name, email, contact: phone },
+        prefill: { name: order.notes.name, email: order.notes.email, contact: order.notes.phone },
         notes: {
-          passId: pass.id,
-          noOfParticipants: teamSize.toString(),
-          participantsName: JSON.stringify(participantsData)
+          passId: order.notes.passId,
+          type: order.notes.type
         },
         handler(response: any) {
           // Show loading indicator during redirect
@@ -159,18 +157,8 @@ export default function CheckoutPage() {
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_order_id: response.razorpay_order_id,
             razorpay_signature: response.razorpay_signature,
-            name,
-            email,
-            phone,
-            passId: pass.id,
-            amount: calculateTotalAmount(),
-            noOfParticipants: teamSize,
-            participantsName: participantsData,
-            participantsStatus: Array(teamSize).fill(false)
           };
-          
-          // Verify payment on server
-          fetch('/api/razorpay/verify-payment', {
+          fetch('/api/rzpay-verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
@@ -178,7 +166,7 @@ export default function CheckoutPage() {
             .then(r => r.json())
             .then((res) => {
               if (res.success) {
-                router.push(`/payment/success?data=${encodeURIComponent(JSON.stringify(payload))}`);
+                router.push(`/verify?payment_id=${response.razorpay_payment_id}`);
               } else {
                 router.push(`/payment/failed?error=${encodeURIComponent(res.message || 'Payment verification failed')}&passId=${pass.id}`);
               }
