@@ -6,7 +6,7 @@ export const eventPasses: Pass[] = [
     id: 'day-pass',
     name: 'Day Pass',
     description: 'Access to all events on a single day',
-    price: 5000, // in paise (₹50)
+    price: 50, // in paise (₹50)
     features: ["Entry to all events", "Lunch and refreshments", "Digital badge"],
     type: "basic",
     primaryImage: "/images/passes/day-pass-main.jpg",
@@ -19,7 +19,7 @@ export const eventPasses: Pass[] = [
     id: 'full-pass',
     name: 'Full Pass',
     description: 'Unlimited access to all three days',
-    price: 12000, // in paise (₹120)
+    price: 120, // in paise (₹120)
     features: ["Entry to all events", "Daily lunch and refreshments", "Physical badge", "Exclusive merchandise"],
     type: "standard",
     primaryImage: "/images/passes/full-pass-main.jpg",
@@ -33,7 +33,7 @@ export const eventPasses: Pass[] = [
     id: 'vip-pass',
     name: 'VIP Pass',
     description: 'Premium experience across all three days',
-    price: 25000, // in paise (₹250)
+    price: 250, // in paise (₹250)
     features: ["Priority access to all events", "VIP lounges", "Special networking events", "Exclusive merchandise", "Dinner with speakers"],
     type: "premium",
     primaryImage: "/images/passes/vip-pass-main.jpg",

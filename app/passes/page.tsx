@@ -107,7 +107,7 @@ export default function PassesPage() {
                   {pass.type}
                 </Badge>
                 <span className="text-xl font-semibold text-[#f9dd9c]">
-                  ₹{pass.price / 100}
+                  ₹{pass.price}
                 </span>
               </div>
               <CardTitle className="text-white">{pass.name}</CardTitle>
