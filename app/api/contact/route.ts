@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     console.log("Received contact form data:", body.name, body.email, body.message);
 
     await sendEmail(
-      "8thmile.team@gmail.com",
+      "8thmile@rvce.edu.in",
       "Contact Form Submission",
       `Name: ${body.name}\nEmail: ${body.email}\nMessage: ${body.message}\nHave a look at the query`,
       ""
