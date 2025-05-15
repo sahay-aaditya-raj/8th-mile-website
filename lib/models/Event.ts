@@ -31,7 +31,7 @@ const eventSchema = new mongoose.Schema({
   venue: String,
   category: {
     type: String,
-    enum: ['Cultural', 'Technical', 'Sports', 'Workshop', 'Other']
+    enum: ['Cultural', 'Technical', 'Gaming']
   },
   prizes: [String],
   teamsize: String,

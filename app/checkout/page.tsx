@@ -9,7 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { getPass } from '@/data/passes';
 import { initializeRazorpay, openRazorpayCheckout } from '@/lib/razorpay';
-import { formatCurrency } from '@/lib/utils';
 
 export default function CheckoutPage() {
   const searchParams = useSearchParams();
@@ -168,10 +167,10 @@ export default function CheckoutPage() {
               if (res.success) {
                 router.push(`/verify?payment_id=${response.razorpay_payment_id}`);
               } else {
-                router.push(`/payment/failed?error=${encodeURIComponent(res.message || 'Payment verification failed')}&passId=${pass.id}`);
+                router.push(`/failed?error=${encodeURIComponent(res.message || 'Payment verification failed')}`);
               }
             })
-            .catch((err) => router.push(`/payment/failed?error=${encodeURIComponent(err.message || 'Unknown error occurred')}&passId=${pass.id}`));
+            .catch((err) => router.push(`/failed?error=${encodeURIComponent(err.message || 'Unknown error occurred')}`));
         },
         modal: {
           ondismiss: () => {
@@ -222,7 +221,7 @@ export default function CheckoutPage() {
               <div className="flex items-center justify-between text-gray-300">
                 <span>Price:</span>
                 <span className="font-semibold text-white">
-                  {formatCurrency(pass.price)}
+                    ₹ {pass.price}
                   {pass.isTeamEvent && pass.paymentType === 'per_person' && ' per person'}
                 </span>
               </div>
@@ -235,7 +234,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex items-center justify-between mt-2 text-lg font-bold text-[#f9dd9c]">
                     <span>Total:</span>
-                    <span>{formatCurrency(calculateTotalAmount())}</span>
+                    <span>₹ {calculateTotalAmount()}</span>
                   </div>
                 </>
               )}
@@ -380,7 +379,7 @@ export default function CheckoutPage() {
                     className="w-full bg-[#f9dd9c] text-black font-bold hover:bg-yellow-400 transition"
                     disabled={isProcessing}
                   >
-                    {isProcessing ? "Processing..." : `Pay ${formatCurrency(calculateTotalAmount())}`}
+                    {isProcessing ? "Processing..." : `Pay  ₹${calculateTotalAmount()}`}
                   </Button>
                 </div>
               </form>

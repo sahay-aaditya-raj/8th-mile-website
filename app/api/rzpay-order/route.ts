@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
                 );
             }
             const options = {
-                amount: pass.price,
+                amount: pass.price*100,
                 currency: 'INR',
                 receipt: `receipt_${Date.now()}`,
                 notes: {
@@ -38,7 +38,27 @@ export async function POST(request: NextRequest) {
 
         }
         else if(body?.type === "event"){
-
+            const { eventId, name, email, phone, teamSize, teamMembers, feeType, registrationFee, totalAmount } = body?.data;
+            const options = {
+                amount: totalAmount*100, // Convert to paise
+                currency: 'INR',
+                receipt: `receipt_${Date.now()}`,
+                notes: {
+                    type: 'event',
+                    eventId,
+                    name,
+                    email,
+                    phone: phone || '',
+                    teamSize,
+                    teamMembers,
+                    feeType,
+                    registrationFee,
+                    totalAmount
+                }
+            }
+            const order = await razorpay.orders.create(options);
+            console.log('Order created:', order);
+            return NextResponse.json({success: true, order}, {status: 200});
         }
     }catch (error) {
         console.error('Error creating order:', error);

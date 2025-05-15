@@ -30,23 +30,30 @@ export interface PaymentInfo {
   participantsName?: string[];
 }
 
+export interface Contact {
+  name: string;
+  phone: string;
+  email?: string;
+}
+
 export interface Event {
-  id: string;
-  photoPath: string;
+  _id: string; // Event ID like "photo-com"
+  photoPath?: string;
   slug: string;
   name: string;
-  description: string;
-  date: string;
-  time: string;
-  venue: string;
-  category: string;
-  prizes: string[];
-  teamsize: string;
-  maxParticipants: number;
-  registrationFee: string;
-  guidelines: string[];
-  contact: { name: string; phone: string }[];
-  registrationDeadline: string;
-  currentRegistrations: number;
-  registrationOpen: boolean;
+  description?: string;
+  date?: string;
+  time?: string;
+  venue?: string;
+  category?: 'Cultural' | 'Technical' | 'Gaming';
+  prizes?: string[];
+  teamsize?: string;
+  registrationFee?: number;
+  feetype?: 'individuals' | 'team';
+  guidelines?: string[];
+  contact?: Contact[];
+  registrationDeadline?: string;
+  registrationOpen?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

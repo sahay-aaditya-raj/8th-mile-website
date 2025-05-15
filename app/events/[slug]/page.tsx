@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getEventBySlug } from '@/data/events';
 import { isRegistrationOpen } from '@/lib/utils';
 import { Event } from '@/types';
 
@@ -22,18 +21,61 @@ const EventDetail = () => {
 
         const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
         const loadEvent = async () => {
-            const eventData = await getEventBySlug(slug);
-            if (eventData) {
-                setEvent(eventData);
-                setRegistrationStatus(isRegistrationOpen(eventData));
+            try {
+                // Use the new POST API endpoint to get event by slug
+                const response = await fetch('/api/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ slug }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch event');
+                }
+
+                const eventData = await response.json();
+                if (eventData) {
+                    // Ensure the event has an id for backwards compatibility
+                    eventData.id = eventData._id || eventData.slug;
+                    
+                    setEvent(eventData);
+                    
+                    // This checks multiple conditions including registrationOpen
+                    const status = isRegistrationOpen(eventData);
+                    setRegistrationStatus(status);
+                }
+            } catch (error) {
+                console.error('Error fetching event:', error);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
+        
         loadEvent();
     }, [params]);
 
-    if (loading) return <div className="text-white text-center py-20">Loading...</div>;
-    if (!event) return <div className="text-white text-center py-20">Event not found</div>;
+    if (loading) return (
+        <div className="bg-black min-h-screen text-white pt-32 flex items-center justify-center">
+            <div className="text-center">
+                <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#f9dd9c] border-r-transparent"></div>
+                <p className="mt-2 text-[#f9dd9c]">Loading event details...</p>
+            </div>
+        </div>
+    );
+    
+    if (!event) return (
+        <div className="bg-black min-h-screen text-white pt-32 flex items-center justify-center">
+            <div className="text-center">
+                <h2 className="text-2xl font-bold text-[#f9dd9c]">Event not found</h2>
+                <p className="mt-2 text-gray-400">The event you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+                <Link href="/events" className="mt-4 inline-block bg-[#418b24] hover:bg-[#2d6719] text-white py-2 px-4 rounded-lg transition-colors">
+                    Back to Events
+                </Link>
+            </div>
+        </div>
+    );
 
     return (
         <div className="bg-black min-h-screen text-white pt-32 pb-10 px-4 md:px-10">
@@ -41,7 +83,7 @@ const EventDetail = () => {
                 {/* Left Side: Image & Registration */}
                 <div className="w-full md:w-1/2 flex flex-col items-center">
                     <Image
-                        src={event.photoPath}
+                        src={event.photoPath || '/images/event-placeholder.jpg'}
                         alt={event.name}
                         width={400}
                         height={300}
@@ -51,7 +93,7 @@ const EventDetail = () => {
                     <div className="mt-6 w-full max-w-md text-center space-y-3">
                         {registrationStatus.isOpen ? (
                             <Link
-                                href={`/event-registration?eventId=${event.id}`}
+                                href={`/event-checkout?slug=${event.slug}`}
                                 className="block bg-[#418b24] hover:bg-[#2d6719] text-white py-2 px-4 rounded-lg text-lg font-semibold transition-colors"
                             >
                                 Register Now
@@ -68,16 +110,12 @@ const EventDetail = () => {
                             </>
                         )}
 
-                        {registrationStatus.isOpen && (
-                            <p className="text-yellow-300 text-sm">
-                                {event.maxParticipants - event.currentRegistrations} spots remaining out of {event.maxParticipants}
+                        {event.registrationDeadline && (
+                            <p className="text-gray-400 text-sm">
+                                Deadline: {new Date(event.registrationDeadline).toLocaleDateString()} (
+                                {new Date(event.registrationDeadline).toLocaleTimeString()})
                             </p>
                         )}
-
-                        <p className="text-gray-400 text-sm">
-                            Deadline: {new Date(event.registrationDeadline).toLocaleDateString()} (
-                            {new Date(event.registrationDeadline).toLocaleTimeString()})
-                        </p>
                     </div>
                 </div>
 
@@ -90,49 +128,55 @@ const EventDetail = () => {
                     </div>
 
                     {/* Guidelines */}
-                    <div className="bg-black p-4 rounded-lg border border-gray-700">
-                        <h3 className="font-semibold text-lg mb-2 text-white text-center">Guidelines</h3>
-                        <ul className="list-disc list-inside text-sm space-y-1">
-                            {event.guidelines.map((g, i) => (
-                                <li key={i}>{g}</li>
-                            ))}
-                        </ul>
-                    </div>
+                    {event.guidelines && event.guidelines.length > 0 && (
+                        <div className="bg-black p-4 rounded-lg border border-gray-700">
+                            <h3 className="font-semibold text-lg mb-2 text-white text-center">Guidelines</h3>
+                            <ul className="list-disc list-inside text-sm space-y-1">
+                                {event.guidelines.map((g, i) => (
+                                    <li key={i}>{g}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
 
                     {/* Schedule */}
                     <div className="bg-black p-4 rounded-lg border border-gray-700">
                         <h3 className="font-semibold text-lg mb-2">Schedule</h3>
-                        <p className="text-sm">Date: {event.date}</p>
-                        {event.time !== 'X' && <p className="text-sm">Time: {event.time}</p>}
-                        {event.venue !== 'X' && <p className="text-sm">Venue: {event.venue}</p>}
+                        <p className="text-sm">Date: {event.date || 'TBA'}</p>
+                        {event.time && event.time !== 'X' && <p className="text-sm">Time: {event.time}</p>}
+                        {event.venue && event.venue !== 'X' && <p className="text-sm">Venue: {event.venue}</p>}
                     </div>
 
                     {/* Prizes */}
-                    <div className="bg-black p-4 rounded-lg border border-yellow-600 shadow-lg">
-                        <h3 className="font-semibold text-lg mb-2 text-yellow-400">🏆 Prizes</h3>
-                        <ul className="list-disc list-inside text-sm space-y-1">
-                            {event.prizes.map((prize, index) => (
-                                <li key={index}>{prize}</li>
-                            ))}
-                        </ul>
-                    </div>
+                    {event.prizes && event.prizes.length > 0 && (
+                        <div className="bg-black p-4 rounded-lg border border-yellow-600 shadow-lg">
+                            <h3 className="font-semibold text-lg mb-2 text-yellow-400">🏆 Prizes</h3>
+                            <ul className="list-disc list-inside text-sm space-y-1">
+                                {event.prizes.map((prize, index) => (
+                                    <li key={index}>{prize}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
 
                     {/* Registration Info */}
                     <div className="bg-black p-4 rounded-lg border border-gray-700">
                         <h3 className="text-center font-semibold text-lg mb-2">Registration Info</h3>
-                        <p className="text-sm">Amount: <strong>{event.registrationFee}</strong></p>
-                        <p className="text-sm mt-1">Team Size: {event.teamsize}</p>
+                        <p className="text-sm">Amount: <strong>₹{event.registrationFee}</strong> {event.feetype === 'individuals' ? 'per person' : 'per team'}</p>
+                        <p className="text-sm mt-1">Team Size: {event.teamsize || '1'}</p>
                     </div>
 
                     {/* Contacts */}
-                    <div className="bg-black p-4 rounded-lg border border-gray-700">
-                        <h3 className="text-center font-semibold text-lg mb-2">Contact Details</h3>
-                        {event.contact.map((contact, index) => (
-                            <div key={index} className="text-sm mt-1">
-                                <strong>{contact.name}</strong> - {contact.phone}
-                            </div>
-                        ))}
-                    </div>
+                    {event.contact && event.contact.length > 0 && (
+                        <div className="bg-black p-4 rounded-lg border border-gray-700">
+                            <h3 className="text-center font-semibold text-lg mb-2">Contact Details</h3>
+                            {event.contact.map((contact, index) => (
+                                <div key={index} className="text-sm mt-1">
+                                    <strong>{contact.name}</strong> - {contact.phone}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

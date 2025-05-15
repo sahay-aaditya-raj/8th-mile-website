@@ -3,9 +3,37 @@
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import { allEvents, eventCategories, fetchEvents } from '@/data/events';
+import { eventCategories } from '@/data/events'; // Keep importing categories
 import { motion } from 'framer-motion';
-import { isRegistrationOpen } from '@/lib/utils';
+
+// Define interface based on Event model
+interface Contact {
+  name: string;
+  phone: string;
+}
+
+interface Event {
+  _id: string;
+  photoPath?: string;
+  slug: string;
+  name: string;
+  description?: string;
+  date?: string;
+  time?: string;
+  venue?: string;
+  category?: 'Cultural' | 'Technical' | 'Gaming';
+  prizes?: string[];
+  teamsize?: string;
+  registrationFee: number;
+  feetype: 'individuals' | 'team';
+  guidelines?: string[];
+  contact?: Contact[];
+  registrationDeadline?: string;
+  registrationOpen: boolean;
+  currentRegistrations?: number;
+  maxParticipants?: number;
+  id?: string; // For backward compatibility
+}
 
 const EventsPage = () => {
     const searchParams = useSearchParams();
@@ -13,19 +41,39 @@ const EventsPage = () => {
 
     const [selectedCategory, setSelectedCategory] = useState(initialCategory);
     const [searchQuery, setSearchQuery] = useState('');
-    const [events, setEvents] = useState(allEvents);
+    const [events, setEvents] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
-        const loadEvents = async () => {
-            setLoading(true);
-            const fetchedEvents = await fetchEvents();
-            setEvents(fetchedEvents);
-            setLoading(false);
+        const fetchEventsFromAPI = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch('/api/events');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch events');
+                }
+                
+                const data = await response.json();
+                
+                // Ensure each event has an id property (for backward compatibility)
+                const eventsWithIds = data.map((event: Event) => ({
+                    ...event,
+                    id: event._id || event.slug, // Use _id or slug as id if needed for existing code
+                    currentRegistrations: event.currentRegistrations || 0,
+                    maxParticipants: event.maxParticipants || 100
+                }));
+                
+                setEvents(eventsWithIds);
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            } finally {
+                setLoading(false);
+            }
         };
 
-        loadEvents();
+        fetchEventsFromAPI();
     }, []);
 
     useEffect(() => {
@@ -106,60 +154,46 @@ const EventsPage = () => {
             {/* Event Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-6 md:gap-8">
                 {filteredEvents.map((event, index) => {
-                    const registrationStatus = isRegistrationOpen(event);
-                    const remainingSpots = event.maxParticipants - event.currentRegistrations;
-                    const lowSpots = remainingSpots < event.maxParticipants * 0.2;
-
                     return (
                         <motion.div
-                            key={event.id}
+                            key={event.id || event._id || event.slug}
                             variants={fadeInUp}
                             initial="hidden"
                             animate="visible"
                             transition={{ duration: 0.3, delay: index * 0.1 }}
                             onClick={() => router.push(`/events/${event.slug}`)}
-                            className={`cursor-pointer bg-black rounded-xl overflow-hidden hover:scale-105 transition-transform shadow-sm shadow-[#418b24] border border-gray-800 h-full flex flex-col ${!registrationStatus.isOpen ? 'opacity-75' : ''}`}
+                            className={`cursor-pointer bg-black rounded-xl overflow-hidden hover:scale-105 transition-transform shadow-sm shadow-[#418b24] border border-gray-800 h-full flex flex-col`}
                         >
                             <div className="relative w-full" style={{ paddingBottom: '125%' }}>
                                 <Image
-                                    src={event.photoPath}
+                                    src={event.photoPath || '/images/event-placeholder.jpg'}
                                     alt={event.name}
                                     fill
                                     className="object-cover"
                                 />
-
-                                {/* Registration status indicator */}
-                                {/* <div className="absolute top-2 left-2">
-                                    {registrationStatus.isOpen ? (
-                                        <span className="px-2 py-1 text-xs font-medium bg-green-500 text-white rounded-full">
-                                            Registration Open
-                                        </span>
-                                    ) : (
-                                        <span className="px-2 py-1 text-xs font-medium bg-red-500 text-white rounded-full"
-                                            title={registrationStatus.reason || undefined}>
-                                            Registration Closed
-                                        </span>
-                                    )}
-                                </div> */}
                             </div>
 
                             <div className="p-4 flex-grow flex flex-col">
                                 <div className="text-xl font-bold text-[#f9dd9c] mb-2 line-clamp-1 ">{event.name}</div>
                                 <p className="text-sm text-gray-300 mb-3 line-clamp-2 flex-grow">{event.description}</p>
 
-                                {/* Show remaining spots warning if low */}
-                                {registrationStatus.isOpen && lowSpots && (
-                                    <div className="text-xs text-yellow-400 mb-2">
-                                        Only {remainingSpots} spot{remainingSpots !== 1 ? 's' : ''} left!
-                                    </div>
-                                )}
-
-                                <div className="flex justify-between items-center mt-auto">
-                                    <span className="text-xs bg-[#f9dd9c] text-black px-2 py-1 rounded">
-                                        {event.registrationFee}
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-xs text-gray-100">
+                                        Event Type: <span className="text-[#f9dd9c]">{event.teamsize === '1'? 'Individual' : 'Team'}</span>
                                     </span>
                                     <span className="text-xs text-gray-100">
-                                        {event.date}
+                                        {event.teamsize === '1' ? (
+                                            <span className="text-[#f9dd9c]">Solo</span>
+                                            ) : <span className="text-[#f9dd9c]">Team: {event.teamsize}</span>}
+                                    </span>
+                                </div>
+                                <div className="flex justify-between items-center mt-auto">
+                                    <span className="text-xs bg-[#f9dd9c] text-black px-2 py-1 rounded">
+                                        {`₹${event.registrationFee} ${event.teamsize === '1' ? 'per person' : (event.feetype === 'individuals' ? 'per person' : 'per team')}`}
+                                    </span>
+                                    
+                                    <span className="text-xs text-gray-100">
+                                        {event.date || 'TBA'}
                                     </span>
                                 </div>
                             </div>
@@ -168,7 +202,7 @@ const EventsPage = () => {
                 })}
             </div>
 
-            {filteredEvents.length === 0 && (
+            {filteredEvents.length === 0 && !loading && (
                 <div className="text-center py-20 text-gray-400">
                     <p className="text-xl">No events found matching your criteria</p>
                     <p className="mt-2">Try changing your search or category filter</p>
