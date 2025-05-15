@@ -109,43 +109,9 @@ const page = () => {
             <div className="hidden fixed top-0 md:flex flex-col justify-center items-center w-full -z-10 md:h-full">
                 <Image src={'/backdrop.png'} alt='bg' width={1920} height={1020} className='w-screen h-screen' />
             </div>
-            <div className="md:hidden fixed top-0 flex flex-col justify-center items-center w-full -z-10 md:h-full">
-                <div className='w-screen h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800'></div>
-            </div>
-            <div className="relative z-10 text-6xl samarkan py-8 text-[#f9dd9c]">Our Team</div>
-            <div className="relative z-10 convenors flex flex-col items-center">
-                {/* from-[#870903] to-[#1a4734] */}
-                <div className='relative z-10 fraunces font-bold uppercase text-2xl my-4 w-fit'>Convenors</div>
-                <div className="flex flex-row">
-                    {convenors.map((person) => (
-                        <div
-                            key={person.id}
-                            className="flex flex-col items-center mx-4 p-4 rounded-md bg-black/10 backdrop-blur-md shadow-lg border-2 border-slate-600"
-                        >
-                            <Image
-                                src={'/images/team/aaditya.jpeg'}
-                                alt="photo"
-                                width={200}
-                                height={200}
-                                className="rounded-full"
-                            />
-                            <div className="text-center text-white fraunces text-xl pt-4">{person.name}</div>
-                        </div>
-                    ))}
-
-                </div>
-            </div>
-            <div className="relative z-10 co-convenors flex flex-col items-center">
-                {/* from-[#870903] to-[#1a4734] */}
-                <div className='relative z-10 fraunces font-bold uppercase text-2xl my-4 w-fit'>Co-Convenors</div>
-                <div className="flex flex-row">
-                    {coconvenors.map((person) => (
-                        <div key={person.id} className="flex flex-col items-center mx-4 bg-[#] p-4 border-2 border-slate-600 rounded-md">
-                            <Image src={'/images/team/aaditya.jpeg'} alt='photo' width={200} height={200} className='rounded-full' />
-                            <div className="text-center text-white fraunces text-xl pt-4">{person.name}</div>
-                        </div>
-                    ))}
-                </div>
+            <div className='flex flex-col justify-center items-center mt-48 gap-6'>
+                <p className='text-4xl delagothic text-[#f9dd9c]'>Announcing Soon</p>
+                <p className='text-3xl font-semibold text-white'>STAY TUNED</p>
             </div>
         </div>
     )
