@@ -243,7 +243,7 @@ export default function EventRegistrationPage() {
   
   return (
     <div className="bg-black min-h-screen text-white pt-32 pb-10 px-6">
-      <div className="text-3xl font-bold mb-8 text-center text-yellow-300">
+      <div className="text-3xl font-bold mb-8 text-center text-[#f9dd9c]">
         Register for {event.name}
       </div>
 
@@ -315,7 +315,7 @@ export default function EventRegistrationPage() {
                 >
                   -
                 </button>
-                <span className="text-lg font-bold text-yellow-300">{teamsize}</span>
+                <span className="text-lg font-bold text-[#f9dd9c]">{teamsize}</span>
                 <button
                   type="button"
                   onClick={() => handleTeamsizeChange(teamsize + 1)}
@@ -333,7 +333,7 @@ export default function EventRegistrationPage() {
           {/* Team Members */}
           {teamsize > 1 && (
             <div className="space-y-4">
-              <h3 className="font-bold text-yellow-400">Team Members</h3>
+              <p className="font-bold text-[#f9dd9c]">Team Members</p>
               {teamMembers.map((member, index) => (
                 <div key={index} className="space-y-2">
                   <label className="block font-medium text-white">
@@ -357,7 +357,7 @@ export default function EventRegistrationPage() {
 
           {/* Fee Display */}
           <div className="border border-gray-700 p-4 rounded bg-black">
-            <h3 className="font-bold mb-2 text-yellow-400">Registration Fee</h3>
+            <p className="font-bold mb-2 text-[#f9dd9c]">Registration Fee</p>
             <p className="text-lg text-white">₹{event.registrationFee} {event.feetype === 'individuals' ? 'per person' : 'per team'}</p>
 
             {event.teamsize !== "1" && event.feetype === 'individuals' && (
@@ -391,7 +391,7 @@ export default function EventRegistrationPage() {
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div className="bg-[#0a0a0a] p-6 rounded-lg shadow-lg text-center max-w-md border border-gray-700">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-300 mx-auto mb-4"></div>
-            <h3 className="text-xl text-yellow-300 font-bold mb-2">
+            <h3 className="text-xl text-[#f9dd9c] font-bold mb-2">
               {isRedirecting ? 'Completing Registration...' : 'Processing Payment...'}
             </h3>
             <p className="text-gray-300">

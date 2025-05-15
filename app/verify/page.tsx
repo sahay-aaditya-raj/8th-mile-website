@@ -57,7 +57,7 @@ export default function VerifyPage() {
   // Choose gradient based on type
   const gradient = isPass
     ? 'bg-gradient-to-br from-[#1c1c1c] via-[#1e2b1c] to-[#314329]'
-    : 'bg-gradient-to-br from-[#1a1a2e] via-[#2a2a40] to-[#3e3e5c]';
+    : 'bg-gradient-to-br from-[#1b0020] via-purple-950 to-[#1b0020]';
 
   return (
     <div className={`min-h-screen ${gradient} text-white pt-32 px-4`}>

@@ -68,7 +68,7 @@ const EventDetail = () => {
     if (!event) return (
         <div className="bg-black min-h-screen text-white pt-32 flex items-center justify-center">
             <div className="text-center">
-                <h2 className="text-2xl font-bold text-[#f9dd9c]">Event not found</h2>
+                <p className="text-2xl font-bold text-[#f9dd9c]">Event not found</p>
                 <p className="mt-2 text-gray-400">The event you&apos;re looking for doesn&apos;t exist or has been removed.</p>
                 <Link href="/events" className="mt-4 inline-block bg-[#418b24] hover:bg-[#2d6719] text-white py-2 px-4 rounded-lg transition-colors">
                     Back to Events
@@ -123,14 +123,14 @@ const EventDetail = () => {
                 <div className="w-full md:w-1/2 grid grid-cols-1 gap-6">
                     {/* Event Name & Description */}
                     <div className="bg-black p-4 rounded-lg border border-gray-700">
-                        <h2 className="text-yellow-300 text-2xl md:text-3xl font-bold text-center">{event.name}</h2>
+                        <p className="text-[#f9dd9c] delagothic text-2xl md:text-3xl font-bold text-center">{event.name}</p>
                         <p className="mt-2 text-sm">{event.description}</p>
                     </div>
 
                     {/* Guidelines */}
                     {event.guidelines && event.guidelines.length > 0 && (
                         <div className="bg-black p-4 rounded-lg border border-gray-700">
-                            <h3 className="font-semibold text-lg mb-2 text-white text-center">Guidelines</h3>
+                            <p className="font-semibold text-lg mb-2 text-[#f9dd9c] text-center">Guidelines</p>
                             <ul className="list-disc list-inside text-sm space-y-1">
                                 {event.guidelines.map((g, i) => (
                                     <li key={i}>{g}</li>
@@ -139,9 +139,10 @@ const EventDetail = () => {
                         </div>
                     )}
 
-                    {/* Schedule */}
-                    <div className="bg-black p-4 rounded-lg border border-gray-700">
-                        <h3 className="font-semibold text-lg mb-2">Schedule</h3>
+                    <div className="flex flex-col md:flex-row w-full gap-6">
+                        {/* Schedule */}
+                    <div className="w-full md:w-1/2 bg-black p-4 rounded-lg border border-gray-700">
+                        <p className="text-center font-semibold text-lg mb-2 text-[#f9dd9c]">Schedule</p>
                         <p className="text-sm">Date: {event.date || 'TBA'}</p>
                         {event.time && event.time !== 'X' && <p className="text-sm">Time: {event.time}</p>}
                         {event.venue && event.venue !== 'X' && <p className="text-sm">Venue: {event.venue}</p>}
@@ -149,8 +150,8 @@ const EventDetail = () => {
 
                     {/* Prizes */}
                     {event.prizes && event.prizes.length > 0 && (
-                        <div className="bg-black p-4 rounded-lg border border-yellow-600 shadow-lg">
-                            <h3 className="font-semibold text-lg mb-2 text-yellow-400">🏆 Prizes</h3>
+                        <div className="w-full md:w-1/2 bg-black p-4 rounded-lg border border-[#f9dd9c] shadow-lg">
+                            <p className="text-center font-semibold text-lg mb-2 text-[#f9dd9c]">Prizes</p>
                             <ul className="list-disc list-inside text-sm space-y-1">
                                 {event.prizes.map((prize, index) => (
                                     <li key={index}>{prize}</li>
@@ -158,18 +159,20 @@ const EventDetail = () => {
                             </ul>
                         </div>
                     )}
+                    </div>
 
                     {/* Registration Info */}
-                    <div className="bg-black p-4 rounded-lg border border-gray-700">
-                        <h3 className="text-center font-semibold text-lg mb-2">Registration Info</h3>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <div className="w-full md:w-1/2 bg-black p-4 rounded-lg border border-gray-700">
+                        <p className="text-center font-semibold text-lg mb-2 text-[#f9dd9c]">Registration Info</p>
                         <p className="text-sm">Amount: <strong>₹{event.registrationFee}</strong> {event.feetype === 'individuals' ? 'per person' : 'per team'}</p>
                         <p className="text-sm mt-1">Team Size: {event.teamsize || '1'}</p>
                     </div>
 
                     {/* Contacts */}
                     {event.contact && event.contact.length > 0 && (
-                        <div className="bg-black p-4 rounded-lg border border-gray-700">
-                            <h3 className="text-center font-semibold text-lg mb-2">Contact Details</h3>
+                        <div className="w-full md:w-1/2 bg-black p-4 rounded-lg border border-gray-700">
+                            <p className="text-[#f9dd9c] text-center font-semibold text-lg mb-2">Contact Details</p>
                             {event.contact.map((contact, index) => (
                                 <div key={index} className="text-sm mt-1">
                                     <strong>{contact.name}</strong> - {contact.phone}
@@ -177,6 +180,7 @@ const EventDetail = () => {
                             ))}
                         </div>
                     )}
+                    </div>
                 </div>
             </div>
         </div>
