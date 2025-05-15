@@ -23,6 +23,9 @@ const Footer2 = () => {
             className="object-contain"
           />
         </div>
+        <div>
+          <Link href={'/contact'} className="text-gray-400"><p className="fraunces text-xs md:text-sm">Contact Us</p></Link>
+        </div>
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 text-center md:text-left">
           
           {/* Copyright */}

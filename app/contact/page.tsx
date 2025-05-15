@@ -84,106 +84,117 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-background text-foreground mt-20">
-      <section className="py-10 px-6 md:px-20">
-        <h1 className="text-4xl font-bold mb-10">Contact Us</h1>
+    <div className="bg-black text-[#f9dd9c] min-h-screen mt-20">
+  <section className="py-16 px-6 md:px-28 max-w-7xl mx-auto">
+    <p className="text-5xl font-extrabold mb-16 text-center delagothic tracking-tight">
+      Get in Touch
+    </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Left Column - Contact Info */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
-            <div className="space-y-8">
-              {contactInfo.map((info) => (
-                <Card key={info.id} className="p-6">
-                  <CardHeader>
-                    <CardTitle>{info.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline">Email</Badge>
-                        <p>{info.email}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline">Phone</Badge>
-                        <p>{info.phone}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline">Contact Person</Badge>
-                        <p>{info.contactPerson}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column - Form */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
-
-            {alert && (
-              <Alert
-                variant={alert.type === "success" ? "default" : "destructive"}
-                className="mb-4 relative"
-              >
-                {alert.type === "success" ? (
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                ) : (
-                  <AlertTriangle className="h-5 w-5 text-red-500" />
-                )}
-                <AlertTitle>
-                  {alert.type === "success" ? "Success" : "Error"}
-                </AlertTitle>
-                <AlertDescription>{alert.message}</AlertDescription>
-                <button
-                  onClick={() => setAlert(null)}
-                  className="absolute top-2 right-2 text-muted-foreground hover:text-foreground"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </Alert>
-            )}
-
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <div>
-                <Label htmlFor="name" className="mb-1">
-                  Name
-                </Label>
-                <Input id="name" name="name" placeholder="Your name" required />
-              </div>
-              <div>
-                <Label htmlFor="email" className="mb-1">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Your email"
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="message" className="mb-1">
-                  Message
-                </Label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  placeholder="Your message"
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full">
-                Send Message
-              </Button>
-            </form>
-          </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+      {/* Left Column - Contact Info */}
+      <div>
+        <p className="text-3xl font-semibold mb-8">Contact Information</p>
+        <div className="space-y-8">
+          {contactInfo.map((info) => (
+            <Card
+              key={info.id}
+              className="bg-[#1a1a1a] text-[#f9dd9c] transition-transform hover:scale-[1.03] hover:shadow-lg hover:border-[#f9dd9c]"
+            >
+              <CardHeader>
+                <CardTitle className="text-white text-xl font-semibold">{info.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col gap-4 text-sm md:text-base text-white">
+                  <div className="flex items-center gap-3 ">
+                    <Badge variant="outline" className="border-[#f9dd9c] ">Email</Badge>
+                    <p>{info.email}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Badge variant="outline" className="border-[#f9dd9c] ">Phone</Badge>
+                    <p>{info.phone}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Badge variant="outline" className="border-[#f9dd9c]">Contact</Badge>
+                    <p>{info.contactPerson}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </section>
+      </div>
+
+      {/* Right Column - Form */}
+      <div>
+        <p className="text-3xl font-semibold mb-8">Send us a message</p>
+
+        {alert && (
+          <Alert
+            variant={alert.type === "success" ? "default" : "destructive"}
+            className="mb-6 relative bg-[#1a1a1a] border border-[#f9dd9c]"
+          >
+            {alert.type === "success" ? (
+              <CheckCircle className="h-5 w-5 text-green-400" />
+            ) : (
+              <AlertTriangle className="h-5 w-5 text-red-500" />
+            )}
+            <AlertTitle className="text-lg font-semibold">
+              {alert.type === "success" ? "Success" : "Error"}
+            </AlertTitle>
+            <AlertDescription className="text-sm">{alert.message}</AlertDescription>
+            <button
+              onClick={() => setAlert(null)}
+              className="absolute top-2 right-2 text-[#f9dd9c]/60 hover:text-[#f9dd9c]"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </Alert>
+        )}
+
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div className="space-y-2">
+            <Label htmlFor="name" className="text-sm uppercase tracking-wide">Name</Label>
+            <Input
+              id="name"
+              name="name"
+              placeholder="Your name"
+              required
+              className="bg-[#1a1a1a] border-[#f9dd9c] text-[#f9dd9c] placeholder-[#f9dd9c]/60 rounded-md py-2"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-sm uppercase tracking-wide">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Your email"
+              required
+              className="bg-[#1a1a1a] border-[#f9dd9c] text-[#f9dd9c] placeholder-[#f9dd9c]/60 rounded-md py-2"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="message" className="text-sm uppercase tracking-wide">Message</Label>
+            <Textarea
+              id="message"
+              name="message"
+              rows={5}
+              placeholder="Your message"
+              required
+              className="bg-[#1a1a1a] border-[#f9dd9c] text-[#f9dd9c] placeholder-[#f9dd9c]/60 rounded-md"
+            />
+          </div>
+          <Button
+            type="submit"
+            className="w-full bg-[#f9dd9c] text-black font-semibold py-3 text-lg rounded-md hover:bg-[#f5d87e] transition"
+          >
+            Send Message
+          </Button>
+        </form>
+      </div>
     </div>
+  </section>
+</div>
+
   );
 }
