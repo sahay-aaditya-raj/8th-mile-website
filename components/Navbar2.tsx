@@ -87,18 +87,24 @@ export default function Navbar() {
                     {/* Island dock */}
                     <div className="bg-black rounded-2xl border border-gray-800 shadow-lg p-3 flex justify-between items-center text-white">
                         {/* Logo on left side */}
-                        <Link href="/" className="flex items-center gap-2">
-                            <Image
-                                src="/8thmilelogocolour.png"
-                                alt="8th-Mile"
-                                width={40}
-                                height={40}
-                                className="object-contain"
-                            />
-                        </Link>
-
-                        {/* Centered navbar title */}
-                        <span className="poppins font-semibold text-white">8th Mile</span>
+                        <Link href="/" className="flex items-center gap-4 ">
+                        <Image
+                            src="/8thmilelogocolour.png"
+                            alt="8th-Mile"
+                            width={50}
+                            height={50}
+                            className="object-contain"
+                        />
+                        <span className="w-[1px] h-[42px] bg-white" />
+                        <Image
+                            src="/RVCE Corner Logo WHITE.png"
+                            alt="RVCE Logo"
+                            width={100}
+                            height={100}
+                            className="object-contain h-auto"
+                            priority
+                        />
+                    </Link>
 
                         {/* Menu button on right */}
                         <button

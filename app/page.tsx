@@ -23,12 +23,12 @@ export default function HomePage() {
 
 
   // Animate sun
-  const sunY = useTransform(desktopScroll, [0, 0.4], [0, 200]);
+  const sunY = useTransform(desktopScroll, [0, 0.35], [0, 200]);
   const sunOpacity = useTransform(desktopScroll, [0, 0.25], [1, 0]);
 
   const mobileElementsOpacity = useTransform(mobileScroll, [0, 0.25], [1, 0]);
 
-  const raysOpacity = useTransform(desktopScroll, [0, 0.25], [0.3, 0]);
+  const raysOpacity = useTransform(desktopScroll, [0, 0.1], [0.3, 0]);
 
   // Ashtrang text
   const ashtrangOpacity = useTransform(desktopScroll, [0.20, 0.30], [0, 1]);
