@@ -124,27 +124,27 @@ const EventDetail = () => {
                     {/* Event Name & Description */}
                     <div className="bg-black p-4 rounded-lg border border-gray-700">
                         <p className="text-[#f9dd9c] delagothic text-2xl md:text-3xl font-bold text-center">{event.name}</p>
-                        <p className="mt-2 text-sm">{event.description}</p>
+                        <p className="mt-2 text-sm text-center">{event.description}</p>
                     </div>
 
                     <div className="flex flex-col md:flex-row w-full gap-6">
                         {/* Schedule */}
                     <div className="w-full md:w-1/2 bg-black p-4 rounded-lg border border-gray-700">
                         <p className="text-center font-semibold text-lg mb-2 text-[#f9dd9c]">Schedule</p>
-                        <p className="text-sm">Date: {event.date || 'TBA'}</p>
-                        {event.time && event.time !== 'X' && <p className="text-sm">Time: {event.time}</p>}
-                        {event.venue && event.venue !== 'X' && <p className="text-sm">Venue: {event.venue}</p>}
+                        <p className="text-sm text-center md:text-left">Date: {event.date || 'TBA'}</p>
+                        {event.time && event.time !== 'X' && <p className="text-sm text-center md:text-left">Time: {event.time}</p>}
+                        {event.venue && event.venue !== 'X' && <p className="text-sm text-center md:text-left">Venue: {event.venue}</p>}
                     </div>
 
                     {/* Prizes */}
                     {event.prizes && event.prizes.length > 0 && (
                         <div className="w-full md:w-1/2 bg-black p-4 rounded-lg border border-[#f9dd9c] shadow-lg">
                             <p className="text-center font-semibold text-lg mb-2 text-[#f9dd9c]">Prizes</p>
-                            <ul className="list-disc list-inside text-sm space-y-1">
+                            <p className="list-disc list-inside text-sm space-y-1 text-center md:text-left">
                                 {event.prizes.map((prize, index) => (
-                                    <li key={index}>{prize}</li>
+                                    <p key={index}>{prize}</p>
                                 ))}
-                            </ul>
+                            </p>
                         </div>
                     )}
                     </div>
@@ -153,8 +153,8 @@ const EventDetail = () => {
                     <div className="flex flex-col md:flex-row gap-6">
                         <div className="w-full md:w-1/2 bg-black p-4 border border-gray-700">
                         <p className="text-center font-semibold text-lg mb-2 text-[#f9dd9c]">Registration Info</p>
-                        <p className="text-sm">Amount: <strong>₹{event.registrationFee}</strong> {event.feetype === 'individuals' ? 'per person' : 'per team'}</p>
-                        <p className="text-sm mt-1">Team Size: {event.teamsize || '1'}</p>
+                        <p className="text-sm text-center md:text-left">Amount: <strong>₹{event.registrationFee}</strong> {event.feetype === 'individuals' ? 'per person' : 'per team'}</p>
+                        <p className="text-sm mt-1 text-center md:text-left">Team Size: {event.teamsize || '1'}</p>
                     </div>
 
                     {/* Contacts */}
@@ -162,7 +162,7 @@ const EventDetail = () => {
                         <div className="w-full md:w-1/2 bg-black p-4 rounded-lg border border-gray-700">
                             <p className="text-[#f9dd9c] text-center font-semibold text-lg mb-2">Contact Details</p>
                             {event.contact.map((contact, index) => (
-                                <div key={index} className="text-sm mt-1">
+                                <div key={index} className="text-sm mt-1 text-center md:text-left">
                                     <strong>{contact.name}</strong> - {contact.phone}
                                 </div>
                             ))}
