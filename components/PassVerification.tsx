@@ -470,13 +470,13 @@ export default function PassVerification({ data }: PassVerificationProps) {
         </div>
         <div className="flex flex-row gap-6">
           <button
-            onClick={() => downloadAsPDF(passRef, 'pass_verification.pdf')}
+            onClick={() => downloadAsPDF(passRef, `pass-${data._id}.pdf`)}
             className="mt-8 w-1/2 px-6 py-3 rounded-lg font-semibold shadow-md bg-[#f9dd9c] text-black hover:bg-[#ffe9b8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
           >
             Download Pass
           </button>
           <button
-            onClick={() => downloadReceipt(receiptRef, 'payment_receipt.pdf')}
+            onClick={() => downloadReceipt(receiptRef, `payment-receipt-${data._id}.pdf`)}
             className="mt-8 w-1/2 rounded-md px-6 py-3 font-semibold shadow-md bg-[#f9dd9c] text-black hover:bg-[#ffe9b8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
           >
             Download Receipt

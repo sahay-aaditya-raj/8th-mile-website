@@ -1,250 +1,544 @@
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { Card } from '@/components/ui/card';
-import { useRef } from 'react';
 import jsPDF from 'jspdf';
-interface EventVerificationProps {
-  data: {
-    _id: string;
-    orderId: string;
+import html2canvas from 'html2canvas';
+import QRCode from 'qrcode';
+
+interface EventData {
+  type: string;
+  _id: string;
+  orderId: string;
+  name: string;
+  email: string;
+  phone: string;
+  amount: string;
+  classId: string;
+  noOfParticipants?: number;
+  participantsData?: Array<{
     name: string;
-    email: string;
-    phone: string;
-    amount: string;
-    classId: string;
-    noOfParticipants?: number;
-    participantsData?: Array<{
-      name: string;
-      arrived: boolean;
-    }>;
-  };
+    arrived: boolean;
+  }>;
+}
+
+interface EventVerificationProps {
+  data: EventData;
 }
 
 export default function EventVerification({ data }: EventVerificationProps) {
-  const isTeamEvent = data.noOfParticipants && data.noOfParticipants > 1;
-  const cardRef = useRef<HTMLDivElement>(null);
+  const passRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+  const receiptRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+  const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
 
+  // Show participants section only if there's more than one participant
+  const showParticipants = data.noOfParticipants && data.noOfParticipants > 1;
 
-const downloadAsPDF = async () => {
-  const { _id, name, email, phone, amount, orderId, participantsData = [], noOfParticipants } = data;
-  const isTeamEvent = noOfParticipants && noOfParticipants > 1;
-
-  // Create jsPDF instance
-  const pdf = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: 'a4',
-  });
-
-  // Background color (#f9dd9c)
-  pdf.setFillColor(249, 221, 156);
-  pdf.rect(0, 0, 210, 297, 'F'); // Fill entire page
-
-  // Load and add logo image (must be base64 or accessible URL)
-  const logoBase64 = await loadImageAsBase64('/png-ashtrang-cropped.png'); // replace with your actual path or base64 string
-  if (logoBase64) {
-    pdf.addImage(logoBase64, 'PNG', 80, 15, 50, 15); // centered horizontally approx
-  }
-
-  // Text color black
-  pdf.setTextColor(0, 0, 0);
-  pdf.setFont('helvetica', 'bold');
-  pdf.setFontSize(16);
-  pdf.text('Event Pass', 105, 40, { align: 'center' });
-
-  pdf.setFontSize(10);
-  pdf.setFont('helvetica', 'normal');
-  pdf.text(`Registration #: ${_id.substring(0, 8).toUpperCase()}`, 105, 47, { align: 'center' });
-
-  // Starting Y position for details
-  let y = 60;
-
-  // Helper to draw label-value pairs (like table rows)
-  const drawRow = (label: string, value: string, yPos: number) => {
-    pdf.setFont('helvetica', 'bold');
-    pdf.text(label, 20, yPos);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text(value, 90, yPos);
-  };
-
-  // Draw Registrant Details header
-  pdf.setFont('helvetica', 'bold');
-  pdf.setFontSize(12);
-  pdf.text('Registrant Details', 20, y);
-  y += 8;
-
-  pdf.setFontSize(10);
-  drawRow('Name:', name, y); y += 7;
-  drawRow('Email:', email, y); y += 7;
-  drawRow('Phone:', phone, y); y += 10;
-
-  // Draw a horizontal line
-  pdf.setDrawColor(0);
-  pdf.setLineWidth(0.5);
-  pdf.line(15, y, 195, y);
-  y += 10;
-
-  // Team Members (if any)
-  if (isTeamEvent && participantsData.length) {
-    pdf.setFont('helvetica', 'bold');
-    pdf.setFontSize(12);
-    pdf.text('Team Members', 20, y);
-    y += 8;
-
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFontSize(10);
-    participantsData.forEach((p, i) => {
-      const label = i === 0 ? '(Team Leader)' : '';
-      pdf.text(`${p.name} ${label}`, 25, y);
-      y += 7;
-    });
-
-    y += 5;
-    pdf.line(15, y, 195, y);
-    y += 10;
-  }
-
-  // Payment Details header
-  pdf.setFont('helvetica', 'bold');
-  pdf.setFontSize(12);
-  pdf.text('Payment Details', 20, y);
-  y += 8;
-
-  pdf.setFontSize(10);
-  pdf.setFont('helvetica', 'normal');
-  drawRow('Amount Paid:', `₹${amount}`, y); y += 7;
-  drawRow('Payment ID:', _id, y); y += 7;
-  drawRow('Order ID:', `${orderId.substring(0, 12)}...`, y);
-
-  // Save PDF with filename
-  pdf.save(`Event_Pass_${_id.substring(0, 8)}.pdf`);
-};
-
-
-// Helper to load image as base64 string
-const loadImageAsBase64 = (url: string): Promise<string | null> => {
-  return new Promise((resolve) => {
-    const img = typeof window !== "undefined" ? new window.Image() : document.createElement('img');
-    img.crossOrigin = 'Anonymous';
-    img.src = url;
-
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx?.drawImage(img, 0, 0);
-      resolve(canvas.toDataURL('image/png'));
+  useEffect(() => {
+    const generateQRCode = async () => {
+      if (typeof window !== 'undefined') {
+        try {
+          const currentUrl = window.location.href;
+          const qrDataUrl = await QRCode.toDataURL(currentUrl, {
+            errorCorrectionLevel: 'H',
+            margin: 1,
+            width: 200,
+          });
+          setQrCodeUrl(qrDataUrl);
+        } catch (err) {
+          console.error('Error generating QR code:', err);
+        }
+      }
     };
 
-    img.onerror = () => resolve(null);
-  });
-};
+    generateQRCode();
+  }, []);
 
-  return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-8">
-        <p className="text-xl md:text-3xl font-bold text-[#f9dd9c] drop-shadow">Event Registration Verified</p>
-        <p className="mt-2 text-gray-300 text-sm sm:text-base">Your registration has been successfully confirmed!</p>
-      </div>
+  const downloadReceipt = async (ref: React.RefObject<HTMLDivElement>, fileName: string) => {
+    if (!ref.current) return;
 
-      <Card ref={cardRef} className="bg-black border border-gray-700 shadow-2xl rounded-3xl overflow-hidden">
-        <div className="p-3 sm:p-6">
-
-          {/* Header with logo */}
-          <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
-            <div className="relative h-16 w-32 md:w-48">
-              <Image src="/png-ashtrang-cropped.png" alt="8th Mile Logo" fill className="object-contain" />
-            </div>
-            <div className="text-right">
-              <div className="text-xl md:text-2xl font-bold text-white">🎫 Event Pass</div>
-              <div className="text-xs md:text-sm text-[#f9dd9c] tracking-wider">
-                Registration #{data._id.substring(0, 8).toUpperCase()}
-              </div>
-            </div>
-          </div>
-
-          {/* Registration info */}
-          <div className="space-y-6">
-
-            {/* Registrant Details */}
-            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 rounded-xl border border-gray-700/30 shadow-inner">
-              <p className="text-lg font-semibold mb-3 text-[#f9dd9c]">Registrant Details</p>
-              <div className="grid grid-cols-1 gap-3">
-                <div className="flex justify-between text-sm text-white">
-                  <span className="text-gray-400">Name:</span>
-                  <span className="font-medium">{data.name}</span>
-                </div>
-                <div className="flex justify-between text-sm text-white">
-                  <span className="text-gray-400">Email:</span>
-                  <span className="font-medium">{data.email}</span>
-                </div>
-                <div className="flex justify-between text-sm text-white">
-                  <span className="text-gray-400">Phone:</span>
-                  <span className="font-medium">{data.phone}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Team Members */}
-            {isTeamEvent && data.participantsData && (
-              <div className="bg-gradient-to-br from-indigo-950 via-indigo-900 to-indigo-950 p-4 rounded-xl border border-[#f9dd9c]/20">
-                <p className="text-lg font-semibold mb-3 text-[#f9dd9c]">Team Members</p>
-                <ul className="space-y-3 text-sm">
-                  {data.participantsData.map((participant, index) => (
-                    <li key={index} className="flex justify-between items-center">
-                      <span className={index === 0 ? "text-[#f9dd9c] font-medium" : "text-white"}>
-                        {participant.name} {index === 0 ? "(Team Leader)" : ""}
-                      </span>
-                      <span className={`px-2 py-1 text-xs rounded-full font-semibold border ${participant.arrived
-                        ? 'bg-green-900/40 text-green-300 border-green-700'
-                        : 'bg-gray-800 text-gray-400 border-gray-600'
-                        }`}>
-                        {participant.arrived ? 'Checked In' : 'Not Arrived'}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Payment Details */}
-            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900  p-4 rounded-xl border border-gray-700">
-              <p className="text-lg font-semibold mb-3 text-[#f9dd9c]">Payment Details</p>
-              <div className="grid grid-cols-1 gap-3 text-sm text-white">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Amount Paid:</span>
-                  <span className="font-medium">₹{data.amount}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Payment ID:</span>
-                  <span className="font-medium">{data._id}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Order ID:</span>
-                  <span className="font-medium">{data.orderId.substring(0, 12)}...</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Status Badge */}
-          <div className="mt-8 flex md:flex-row flex-col justify-center gap-6">
-            <div className="bg-green-800/30 text-green-300 px-5 py-2 rounded-full font-bold inline-flex items-center justify-center gap-2 shadow-md border border-green-600">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span>VERIFIED</span>
-            </div>
-            <button
-              onClick={downloadAsPDF}
-              className="bg-[#f9dd9c] hover:bg-yellow-300 text-black font-semibold px-6 py-2 rounded-full shadow transition-colors duration-200 border border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-300"
-            >
-              Download Confirmation
-            </button>
-          </div>
+    const simplifiedContent = `
+    <style>
+    @media (max-width: 600px) {
+      div[style*="max-width: 40%"] {
+        max-width: 90% !important;
+        padding: 8px !important;
+        margin: 0 auto !important;
+      }
+      div[style*="display: flex; flex-direction: row; justify-content: space-between"] {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 8px !important;
+        margin-bottom: 12px !important;
+      }
+      div[style*="display: flex; flex-direction: row; justify-content: space-between"] > p {
+        font-size: 16px !important;
+        margin: 0 !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+      }
+      div[style*="display: flex; flex-direction: row; justify-content: space-between"] > img {
+        width: 100px !important;
+        height: auto !important;
+      }
+      table {
+        font-size: 12px !important;
+      }
+      th, td {
+        padding: 6px 8px !important;
+      }
+      tr {
+        border-bottom-width: 1px !important;
+      }
+      div[style*="margin-top: 1.5rem"] {
+        margin-top: 12px !important;
+        padding-top: 8px !important;
+        font-size: 10px !important;
+        color: #9CA3AF !important;
+      }
+    }
+    </style>
+      <div style="width: 100vw; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding-top: 40px; box-sizing: border-box; background: transparent;">
+      <div
+        style="
+        width: 100%;
+        max-width: 40%;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        backdrop-filter: blur(4px);
+        border: 1px solid black;
+        color: #1f2937;
+        font-family: Arial, sans-serif;
+        "
+      >
+        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <p style="font-size: 32px; font-weight: bold; color: #000000; margin: 20px;">
+          Payment Receipt
+        </p>
+        <img src="/png-ashtrang-cropped.png" width="250" height="50" alt="logo" />
         </div>
-      </Card>
+
+        <table
+        style="
+          width: 100%;
+          text-align: left;
+          border-collapse: collapse;
+        "
+        >
+        <tbody>
+          <tr style="border-bottom: 1px solid #D1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Name:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data.name}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #D1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Email:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data.email}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #Ddata.participantsData1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Phone:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data.phone}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #D1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Amount:
+          </th>
+          <td style="padding: 0.5rem 1rem;">₹${data.amount}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #D1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Order ID:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data.orderId}</td>
+          </tr>
+          <tr>
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Payment ID:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data._id}</td>
+          </tr>
+        </tbody>
+        </table>
+        <div
+        style="
+          margin-top: 1.5rem;
+          border-top: 1px solid #4B5563;
+          padding-top: 1rem;
+          font-size: 0.875rem;
+          color: #9CA3AF;
+        "
+        >
+        <p>This receipt confirms your payment and participation.</p>
+        <p>Thank you for registering!</p>
+        </div>
+      </div>
+      </div>
+    `;
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = simplifiedContent;
+    document.body.appendChild(tempDiv);
+
+    const canvas = await html2canvas(tempDiv, {
+      scale: 2,
+      useCORS: true,
+    });
+
+    document.body.removeChild(tempDiv);
+
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+    pdf.save(fileName);
+  };
+
+  const downloadAsPDF = async (ref: React.RefObject<HTMLDivElement>, fileName: string) => {
+    if (!ref.current) return;
+
+    const simplifiedContent = `
+      <style>
+      @media (max-width: 600px) {
+      div[style*="padding: 24px"] {
+        padding: 6px !important;
+      }
+      div[style*="border-radius: 1rem"] {
+        padding: 6px !important;
+      }
+      div[style*="display: flex; flex-direction: row; justify-content: space-between"] {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 8px !important;
+      }
+      div[style*="display: flex; flex-direction: row; justify-content: space-between"] > p {
+        font-size: 14px !important;
+        margin: 0 !important;
+        color: #f9dd9c !important;
+        font-weight: 700 !important;
+      }
+      div[style*="display: flex; flex-direction: row; justify-content: space-between"] > img {
+        width: 120px !important;
+        height: auto !important;
+      }
+      div[style*="display: flex; flex-direction: row; gap: 24px"] {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      div[style*="flex: 1; width: 60%"] {
+        width: 100% !important;
+        margin-bottom: 8px !important;
+      }
+      table {
+        font-size: 10px !important;
+      }
+      th, td {
+        padding: 4px 8px !important;
+      }
+      div[style*="width:40%; flex-shrink: 0"] {
+        width: 100% !important;
+        align-items: center !important;
+      }
+      div[style*="width: 250px; height: 250px"] {
+        width: 90px !important;
+        height: 90px !important;
+      }
+      div[style*="width:40%; flex-shrink: 0"] > p {
+        font-size: 12px !important;
+        margin-bottom: 4px !important;
+        color: #d1d5db !important;
+      }
+      }
+      </style>
+      <div style="padding: 24px;">
+    <div style="padding: 24px; border-radius: 1rem; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3); background: linear-gradient(to bottom right, #1a0020, #3b0764, #1a0020); backdrop-filter: blur(8px); border: 1px solid #d8b4fe; font-family: Arial, sans-serif; color: #f5f3ff;">
+    
+    <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <p style="font-size: 42px; font-weight: bold; color: #f9dd9c; margin: 20px;">
+      Event Verification
+      </p>
+      <img src="/png-ashtrang-cropped.png" width="350" height="50" alt="logo" />
     </div>
 
+    <div style="display: flex; flex-direction: row; gap: 24px; flex-wrap: wrap;">
+      
+      <!-- Table Section -->
+      <div style="flex: 1; width: 60%;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 24px;">
+    <tbody>
+      <tr style="border-bottom: 1px solid #d8b4fe;">
+      <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #d8b4fe;">Payment ID:</th>
+      <td style="padding: 8px 16px 16px 16px;">${data._id}</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #d8b4fe;">
+      <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #d8b4fe;">Order ID:</th>
+      <td style="padding: 8px 16px 16px 16px;">${data.orderId}</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #d8b4fe;">
+      <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #d8b4fe;">Name:</th>
+      <td style="padding: 8px 16px 16px 16px;">${data.name}</td>
+      </tr>
+      ${showParticipants ? `
+      <tr style="border-bottom: 1px solid #d8b4fe;">
+      <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #d8b4fe; vertical-align: text-top;">Participants:</th>
+      <td style="padding: 8px 16px 16px 16px;">
+        ${data.participantsData && data.participantsData.length > 0 ? `
+        <!-- Team Lead -->
+        <div style="margin-bottom: 8px;">
+          <span style="color: #f9dd9c; font-weight: 500;">
+          ${data.participantsData[0].name} (Team Lead)
+          </span>
+        </div>
+        
+        <!-- Other Members -->
+        ${data.participantsData.length > 1 ? `
+          <div style="color: #cbd5e1; font-size: 20px; line-height: 1.4; word-break: break-word;">
+          ${data.participantsData.slice(1).map((p, idx) => `<div key="${idx}">${p.name}</div>`).join("")}
+          </div>
+        ` : ''}
+        ` : ''}
+      </td>
+      </tr>
+      ` : ''}
+      <tr style="border-bottom: 1px solid #d8b4fe;">
+      <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #d8b4fe;">Email:</th>
+      <td style="padding: 8px 16px 16px 16px;">${data.email}</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #d8b4fe;">
+      <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #d8b4fe;">Phone:</th>
+      <td style="padding: 8px 16px 16px 16px;">${data.phone}</td>
+      </tr>
+      <tr>
+      <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #d8b4fe;">Class ID:</th>
+      <td style="padding: 8px 16px 16px 16px;">${data.classId}</td>
+      </tr>
+    </tbody>
+    </table>
+  </div>
+
+
+      <!-- QR Code Section -->
+      <div style="width:40%; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+      <div style="width: 250px; height: 250px; border: 1px solid #4b5563; border-radius: 0.5rem; overflow: hidden; background-color: #1f2937; display: flex; align-items: center; justify-content: center;">
+        <img src="${qrCodeUrl}" alt="QR Code" style="width: 100%; height: 100%; object-fit: contain;" />
+      </div>
+      </div>
+
+    </div>
+    </div>
+  </div>
+
+    `;
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = simplifiedContent;
+    document.body.appendChild(tempDiv);
+
+    const canvas = await html2canvas(tempDiv, {
+      scale: 2,
+      useCORS: true,
+    });
+
+    document.body.removeChild(tempDiv);
+
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+    pdf.save(fileName);
+  };
+
+  return (
+    <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 justify-center items-start">
+      <div ref={passRef} className="flex flex-col w-full md:w-3/5">
+        <div className="p-6 rounded-2xl shadow-lg bg-gradient-to-br from-purple-950 via-purple-900 to-purple-950 backdrop-blur border border-purple-300">
+          <div className="flex flex-row items-center justify-between mb-6">
+            <p className="text-2xl md:text-3xl font-bold text-[#f9dd9c]">
+              Event Verification
+            </p>
+            <Image src={'/ashtrang-cropped.svg'} width={200} height={50} alt='logo' className='w-[150px] md:w-[200px]' />
+          </div>
+          <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
+            <div className="flex-1">
+              <table className="w-full text-left border-collapse">
+                <tbody>
+                  <tr className="border-b border-purple-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Payment ID:</th>
+                    <td className="py-2 px-4">{data._id}</td>
+                  </tr>
+                  <tr className="border-b border-purple-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Order ID:</th>
+                    <td className="py-2 px-4">{data.orderId}</td>
+                  </tr>
+                  <tr className="border-b border-purple-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Name:</th>
+                    <td className="py-2 px-4">{data.name}</td>
+                  </tr>
+                  {showParticipants && (
+                    <tr className="border-b border-purple-300">
+                      <th className="py-2 align-text-top px-4 text-gray-400 font-semibold border-r border-purple-300">Participants:</th>
+                      <td className="py-2 px-4">
+                        <div>
+                          {/* Display team lead prominently */}
+                          {data.participantsData && data.participantsData.length > 0 && (
+                            <div className="mb-1">
+                              <span className="text-yellow-300 font-medium">
+                                {data.participantsData[0].name} (Team Lead)
+                              </span>
+                            </div>
+                          )}
+                          
+                          {/* Display other participants as comma-separated list */}
+                          {data.participantsData && data.participantsData.length > 1 && (
+                            <div className="text-xs text-gray-300 leading-relaxed break-words">
+                              <span className="text-gray-400">Members: </span>
+                              {data.participantsData
+                                .slice(1)
+                                .map(p => p.name)
+                                .join(", ")}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                  <tr className="border-b border-purple-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Email:</th>
+                    <td className="py-2 px-4">{data.email}</td>
+                  </tr>
+                  <tr className="border-b border-purple-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Phone:</th>
+                    <td className="py-2 px-4">{data.phone}</td>
+                  </tr>
+                  <tr className="">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Class ID:</th>
+                    <td className="py-2 px-4">{data.classId}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="flex-shrink-0 flex flex-col items-center">
+              <p className="text-lg font-semibold text-gray-300 mb-2">Verification QR</p>
+              <div className="w-40 h-40 relative">
+                {qrCodeUrl ? (
+                  <Image
+                    src={qrCodeUrl}
+                    alt="QR Code"
+                    fill
+                    className="object-contain rounded-lg border border-gray-600"
+                  />
+                ) : (
+                  <div className="w-40 h-40 flex items-center justify-center bg-gray-800 rounded-lg">
+                    <p>Loading QR...</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-row gap-6">
+          <button
+            onClick={() => downloadAsPDF(passRef, `event-pass-${data._id}.pdf`)}
+            className="mt-8 w-1/2 px-6 py-3 rounded-lg font-semibold shadow-md bg-[#f9dd9c] text-black hover:bg-[#ffe9b8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+          >
+            Download Event Pass
+          </button>
+          <button
+            onClick={() => downloadReceipt(receiptRef, `event-receipt-${data._id}.pdf`)}
+            className="mt-8 w-1/2 rounded-md px-6 py-3 font-semibold shadow-md bg-[#f9dd9c] text-black hover:bg-[#ffe9b8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+          >
+            Download Receipt
+          </button>
+        </div>
+      </div>
+      <div ref={receiptRef} className="w-full md:w-2/5 p-6 rounded-2xl shadow-lg bg-white backdrop-blur border border-black text-gray-900">
+        <p className="text-2xl md:text-3xl font-bold mb-6 text-black">Payment Receipt</p>
+        <table className="w-full text-left border-collapse text-sm md:text-base">
+          <tbody>
+            <tr className="border-b border-gray-300">
+              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Name:</th>
+              <td className="py-2 px-4">{data.name}</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Email:</th>
+              <td className="py-2 px-4">{data.email}</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Phone:</th>
+              <td className="py-2 px-4">{data.phone}</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Amount:</th>
+              <td className="py-2 px-4">₹{data.amount}</td>
+            </tr>
+            <tr className="border-b border-gray-300">
+              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Order ID:</th>
+              <td className="py-2 px-4">{data.orderId}</td>
+            </tr>
+            <tr>
+              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Payment ID:</th>
+              <td className="py-2 px-4">{data._id}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="mt-6 border-t border-gray-600 pt-4 text-sm text-gray-400">
+          <p>This receipt confirms your payment and participation.</p>
+          <p>Thank you for registering!</p>
+        </div>
+      </div>
+    </div>
   );
 }
