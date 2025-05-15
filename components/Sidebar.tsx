@@ -27,7 +27,7 @@ export default function Sidebar() {
 " target="_blank" rel="noopener noreferrer">
           <FaYoutube size={24} className="hover:scale-110 transition-transform text-foreground" />
         </a>
-        <a href="mailto:8thmile.team@gmail.com" target="_blank" rel="noopener noreferrer">
+        <a href="mailto:8thmile@rvce.edu.in" target="_blank" rel="noopener noreferrer">
             <FaEnvelope size={16} className="hover:scale-110 transition-transform text-foreground" />
             </a>
       </div>
@@ -65,7 +65,7 @@ export default function Sidebar() {
 " target="_blank" rel="noopener noreferrer">
             <FaYoutube size={16} className="hover:scale-110 transition-transform text-foreground" />
           </a>
-          <a href="mailto:8thmile.team@gmail.com" target="_blank" rel="noopener noreferrer">
+          <a href="mailto:8thmile@rvce.edu.in" target="_blank" rel="noopener noreferrer">
             <FaEnvelope size={16} className="hover:scale-110 transition-transform text-foreground" />
           </a>
         </div>
