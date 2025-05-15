@@ -53,6 +53,60 @@ export default function PassVerification({ data }: PassVerificationProps) {
     if (!ref.current) return;
 
     const simplifiedContent = `
+    <style>
+    @media (max-width: 600px) {
+  /* Container: reduce max-width and padding */
+  div[style*="max-width: 40%"] {
+    max-width: 90% !important;
+    padding: 8px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Title and logo container stack vertically with center alignment */
+  div[style*="display: flex; flex-direction: row; justify-content: space-between"] {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Title smaller font size and margin */
+  div[style*="display: flex; flex-direction: row; justify-content: space-between"] > p {
+    font-size: 16px !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
+    color: #000000 !important;
+  }
+
+  /* Logo smaller */
+  div[style*="display: flex; flex-direction: row; justify-content: space-between"] > img {
+    width: 100px !important;
+    height: auto !important;
+  }
+
+  /* Table font size and padding smaller */
+  table {
+    font-size: 12px !important;
+  }
+
+  th, td {
+    padding: 6px 8px !important;
+  }
+
+  /* Table border thickness reduced */
+  tr {
+    border-bottom-width: 1px !important;
+  }
+
+  /* Footer text smaller and tighter */
+  div[style*="margin-top: 1.5rem"] {
+    margin-top: 12px !important;
+    padding-top: 8px !important;
+    font-size: 10px !important;
+    color: #9CA3AF !important;
+  }
+}
+</style>
       <div style="width: 100vw; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding-top: 40px; box-sizing: border-box; background: transparent;">
       <div
         style="
@@ -204,6 +258,76 @@ export default function PassVerification({ data }: PassVerificationProps) {
     if (!ref.current) return;
 
     const simplifiedContent = `
+      <style>
+      @media (max-width: 600px) {
+  div[style*="padding: 24px"] {
+    padding: 6px !important;
+  }
+
+  div[style*="border-radius: 1rem"] {
+    padding: 6px !important;
+  }
+
+  /* Title and logo container */
+  div[style*="display: flex; flex-direction: row; justify-content: space-between"] {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  /* Title smaller font */
+  div[style*="display: flex; flex-direction: row; justify-content: space-between"] > p {
+    font-size: 14px !important;
+    margin: 0 !important;
+    color: #f9dd9c !important;
+    font-weight: 700 !important;
+  }
+
+  /* Logo smaller */
+  div[style*="display: flex; flex-direction: row; justify-content: space-between"] > img {
+    width: 120px !important;
+    height: auto !important;
+  }
+
+  /* Main flex container vertical */
+  div[style*="display: flex; flex-direction: row; gap: 24px"] {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  /* Table section full width and font smaller */
+  div[style*="flex: 1; width: 60%"] {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+  }
+
+  table {
+    font-size: 10px !important;
+  }
+
+  th, td {
+    padding: 4px 8px !important;
+  }
+
+  /* QR code container full width and smaller */
+  div[style*="width:40%; flex-shrink: 0"] {
+    width: 100% !important;
+    align-items: center !important;
+  }
+
+  div[style*="width: 250px; height: 250px"] {
+    width: 90px !important;
+    height: 90px !important;
+  }
+
+  div[style*="width:40%; flex-shrink: 0"] > p {
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
+    color: #d1d5db !important;
+  }
+}
+
+      </style>
       <div style="padding: 24px;">
   <div style="padding: 24px; border-radius: 1rem; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3); background: linear-gradient(to bottom right, #1e1b4b, #312e81, #1e1b4b); backdrop-filter: blur(8px); border: 1px solid #93c5fd; font-family: Arial, sans-serif; color: #e0e7ff;">
     
@@ -251,7 +375,7 @@ export default function PassVerification({ data }: PassVerificationProps) {
 
       <!-- QR Code Section -->
       <div style="width:40%; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <p style="font-size: 24px; font-weight: 600; color: #d1d5db; margin-bottom: 8px;">Verification QR</p>
+
         <div style="width: 250px; height: 250px; border: 1px solid #4b5563; border-radius: 0.5rem; overflow: hidden; background-color: #1f2937; display: flex; align-items: center; justify-content: center;">
           <img src="${qrCodeUrl}" alt="QR Code" style="width: 100%; height: 100%; object-fit: contain;" />
         </div>
