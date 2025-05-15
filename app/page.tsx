@@ -213,14 +213,14 @@ export default function HomePage() {
             <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} style={{ opacity: mobileElementsOpacity }} className='fixed bottom-52 left-0 -ml-10'>
               <Image src={'/flower2.svg'} width={100} height={50} alt='flower2' />
             </motion.div>
-            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 right-0 -mr-24'>
-              <Image src={'/dance.svg'} width={250} height={200} alt='dance' />
+            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 right-0 -mr-18'>
+              <Image src={'/dance.svg'} width={200} height={100} alt='dance' />
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 left-0 -ml-12 '>
-              <Image src={'/musician.svg'} width={300} height={200} alt='musician' />
+              <Image src={'/musician.svg'} width={250} height={200} alt='musician' />
             </motion.div>
             <motion.div style={{ opacity: mobileElementsOpacity }} className='fixed bottom-2 left-0 -ml-12 '>
-              <Image src={'/endstrip.svg'} width={600} height={200} alt='musician' />
+              <Image src={'/endstrip.svg'} width={600} height={200} alt='endstrip' />
             </motion.div>
           </div>
         </motion.div>
