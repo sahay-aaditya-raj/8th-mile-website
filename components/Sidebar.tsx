@@ -1,5 +1,5 @@
 "use client";
-import { FaLinkedin, FaInstagram, FaYoutube, FaChevronLeft } from "react-icons/fa";
+import { FaLinkedin, FaInstagram, FaYoutube, FaChevronLeft, FaEnvelope } from "react-icons/fa";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/contexts/SidebarContext";
@@ -20,12 +20,16 @@ export default function Sidebar() {
         <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
           <FaLinkedin size={24} className="hover:scale-110 transition-transform text-foreground" />
         </a>
-        <a href="https://www.instagram.com/8thmile.rvce/?hl=en" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.instagram.com/8thmile.rvce?igsh=MWxmYWl6aDJ0dTYy">
           <FaInstagram size={24} className="hover:scale-110 transition-transform text-foreground" />
         </a>
-        <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://youtube.com/@8thmilervce55?si=owO-hJfKsTe2EZpn
+" target="_blank" rel="noopener noreferrer">
           <FaYoutube size={24} className="hover:scale-110 transition-transform text-foreground" />
         </a>
+        <a href="mailto:8thmile.team@gmail.com" target="_blank" rel="noopener noreferrer">
+            <FaEnvelope size={16} className="hover:scale-110 transition-transform text-foreground" />
+            </a>
       </div>
 
       {/* Mobile Toggle & Content */}
@@ -54,11 +58,15 @@ export default function Sidebar() {
           <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
             <FaLinkedin size={16} className="hover:scale-110 transition-transform text-foreground" />
           </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/8thmile.rvce?igsh=MWxmYWl6aDJ0dTYy" target="_blank" rel="noopener noreferrer">
             <FaInstagram size={16} className="hover:scale-110 transition-transform text-foreground" />
           </a>
-          <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://youtube.com/@8thmilervce55?si=owO-hJfKsTe2EZpn
+" target="_blank" rel="noopener noreferrer">
             <FaYoutube size={16} className="hover:scale-110 transition-transform text-foreground" />
+          </a>
+          <a href="mailto:8thmile.team@gmail.com" target="_blank" rel="noopener noreferrer">
+            <FaEnvelope size={16} className="hover:scale-110 transition-transform text-foreground" />
           </a>
         </div>
       </div>

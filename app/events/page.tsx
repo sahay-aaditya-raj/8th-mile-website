@@ -162,7 +162,7 @@ const EventsPage = () => {
                             animate="visible"
                             transition={{ duration: 0.3, delay: index * 0.1 }}
                             onClick={() => router.push(`/events/${event.slug}`)}
-                            className={`cursor-pointer bg-black rounded-xl overflow-hidden hover:scale-105 transition-transform shadow-sm shadow-[#418b24] border border-gray-800 h-full flex flex-col`}
+                            className={`cursor-pointer bg-black overflow-hidden hover:scale-105 transition-transform shadow-sm shadow-[#418b24]  h-full flex flex-col`}
                         >
                             <div className="relative w-full" style={{ paddingBottom: '125%' }}>
                                 <Image
