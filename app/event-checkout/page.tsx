@@ -214,7 +214,7 @@ export default function EventRegistrationPage() {
             .then(r => r.json())
             .then(data => {
               if (data.success) {
-                alert('Payment successful! Redirecting...\nCheck Your Email for Confirmation');
+                alert('Payment successful! Redirecting...\nCheck Your Email/Spam for Confirmation');
                 router.push(`/verify?payment_id=${response.razorpay_payment_id}`);
               } else {
                 router.push(`/failed?error=${encodeURIComponent(data.message || 'Payment verification failed')}`);

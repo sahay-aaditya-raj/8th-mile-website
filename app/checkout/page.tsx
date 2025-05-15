@@ -165,7 +165,7 @@ export default function CheckoutPage() {
             .then(r => r.json())
             .then((res) => {
               if (res.success) {
-                alert('Payment successful! Redirecting...\nCheck Your Email for Confirmation');
+                alert('Payment successful! Redirecting...\nCheck Your Email/Spam for Confirmation');
                 router.push(`/verify?payment_id=${response.razorpay_payment_id}`);
               } else {
                 router.push(`/failed?error=${encodeURIComponent(res.message || 'Payment verification failed')}`);
