@@ -30,7 +30,7 @@ export default function Navbar() {
         { name: "Events", href: "/events" },
         { name: "Gallery", href: "/gallery" },
         // { name: "Timeline", href: "/timeline" },
-        { name: "Passes", href: "/passes" },
+        // { name: "Passes", href: "/passes" },
         { name: "Our Team", href: "/credits" },
     ];
 

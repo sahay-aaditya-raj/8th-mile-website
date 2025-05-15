@@ -127,18 +127,6 @@ const EventDetail = () => {
                         <p className="mt-2 text-sm">{event.description}</p>
                     </div>
 
-                    {/* Guidelines */}
-                    {event.guidelines && event.guidelines.length > 0 && (
-                        <div className="bg-black p-4 rounded-lg border border-gray-700">
-                            <p className="font-semibold text-lg mb-2 text-[#f9dd9c] text-center">Guidelines</p>
-                            <ul className="list-disc list-inside text-sm space-y-1">
-                                {event.guidelines.map((g, i) => (
-                                    <li key={i}>{g}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
                     <div className="flex flex-col md:flex-row w-full gap-6">
                         {/* Schedule */}
                     <div className="w-full md:w-1/2 bg-black p-4 rounded-lg border border-gray-700">
@@ -163,7 +151,7 @@ const EventDetail = () => {
 
                     {/* Registration Info */}
                     <div className="flex flex-col md:flex-row gap-6">
-                        <div className="w-full md:w-1/2 bg-black p-4 rounded-lg border border-gray-700">
+                        <div className="w-full md:w-1/2 bg-black p-4 border border-gray-700">
                         <p className="text-center font-semibold text-lg mb-2 text-[#f9dd9c]">Registration Info</p>
                         <p className="text-sm">Amount: <strong>₹{event.registrationFee}</strong> {event.feetype === 'individuals' ? 'per person' : 'per team'}</p>
                         <p className="text-sm mt-1">Team Size: {event.teamsize || '1'}</p>
@@ -181,6 +169,19 @@ const EventDetail = () => {
                         </div>
                     )}
                     </div>
+
+                    {/* Guidelines */}
+                    {event.guidelines && event.guidelines.length > 0 && (
+                        <div className="bg-black p-4 rounded-lg border border-gray-700">
+                            <p className="font-semibold text-lg mb-2 text-[#f9dd9c] text-center">Guidelines</p>
+                            <ul className="list-disc list-inside text-sm space-y-1">
+                                {event.guidelines.map((g, i) => (
+                                    <li key={i}>{g}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
                 </div>
             </div>
         </div>

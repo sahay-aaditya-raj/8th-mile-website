@@ -1,2 +1,2 @@
 
-export const eventCategories = ['All', 'Cultural', 'Technical', 'Gaming'];
+export const eventCategories = ['All', 'Cultural', 'Technical', 'Gaming', 'Innovative'];

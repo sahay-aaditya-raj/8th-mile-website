@@ -45,7 +45,7 @@ const Footer2 = () => {
               rel="noopener noreferrer"
               className="fraunces hover:text-[#e90c00] transition-colors duration-300"
             >
-              Coding Club of RVCE
+              Coding Club RVCE
             </Link>
           </p>
         </div>

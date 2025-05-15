@@ -105,7 +105,7 @@ const EventsPage = () => {
     };
 
     return (
-        <div className="bg-black min-h-screen text-white pt-32 px-6">
+        <div className="bg-black min-h-screen text-white py-32 px-6">
             {/* Page Heading */}
             <motion.div
                 className="samarkan text-7xl text-[#f9dd9c] text-center mb-6"
@@ -116,16 +116,9 @@ const EventsPage = () => {
                 Events
             </motion.div>
 
-            {/* Loading state */}
-            {loading && (
-                <div className="text-center py-10">
-                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#f9dd9c] border-r-transparent"></div>
-                    <p className="mt-2 text-[#f9dd9c]">Loading events...</p>
-                </div>
-            )}
 
             {/* Search Bar */}
-            <div className="flex mx-auto justify-center items-center mb-6 sticky top-32 z-50 bg-transparent w-full max-w-md">
+            <div className="flex mx-auto justify-center items-center mb-6 bg-transparent w-full max-w-md">
                 <input
                     type="text"
                     placeholder="Search events..."
@@ -139,17 +132,24 @@ const EventsPage = () => {
             <div className="flex flex-wrap gap-2 md:gap-4 justify-center mb-10">
                 {eventCategories.map(cat => (
                     <button
-                        key={cat}
-                        onClick={() => setSelectedCategory(cat)}
-                        className={`cursor-pointer px-3 py-1.5 md:px-4 md:py-2 border rounded-2xl md:rounded-full transition hover:scale-105 ${selectedCategory === cat
-                                ? 'bg-[#f9dd9c] text-black font-bold'
-                                : 'border-[#f9dd9c] text-[#f9dd9c]'
-                            }`}
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`cursor-pointer px-3 py-1.5 md:px-4 md:py-2 border rounded-2xl md:rounded-full transition hover:scale-105 ${selectedCategory === cat
+                        ? 'bg-[#f9dd9c] text-black font-bold'
+                        : 'border-[#f9dd9c] text-[#f9dd9c]'
+                    }`}
                     >
                         {cat}
                     </button>
                 ))}
             </div>
+                {/* Loading state */}
+                {loading && (
+                    <div className="text-center py-10">
+                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#f9dd9c] border-r-transparent"></div>
+                        <p className="mt-2 text-[#f9dd9c]">Loading events...</p>
+                    </div>
+                )}
 
             {/* Event Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-6 md:gap-8">
@@ -169,33 +169,13 @@ const EventsPage = () => {
                                     src={event.photoPath || '/images/event-placeholder.jpg'}
                                     alt={event.name}
                                     fill
-                                    className="object-cover"
+                                    className="object-cover rounded-md"
                                 />
                             </div>
 
                             <div className="p-4 flex-grow flex flex-col">
                                 <div className="text-xl font-bold text-[#f9dd9c] mb-2 line-clamp-1 ">{event.name}</div>
                                 <p className="text-sm text-gray-300 mb-3 line-clamp-2 flex-grow">{event.description}</p>
-
-                                <div className="flex items-center justify-between mb-2">
-                                    <span className="text-xs text-gray-100">
-                                        Event Type: <span className="text-[#f9dd9c]">{event.teamsize === '1'? 'Individual' : 'Team'}</span>
-                                    </span>
-                                    <span className="text-xs text-gray-100">
-                                        {event.teamsize === '1' ? (
-                                            <span className="text-[#f9dd9c]">Solo</span>
-                                            ) : <span className="text-[#f9dd9c]">Team: {event.teamsize}</span>}
-                                    </span>
-                                </div>
-                                <div className="flex justify-between items-center mt-auto">
-                                    <span className="text-xs bg-[#f9dd9c] text-black px-2 py-1 rounded">
-                                        {`₹${event.registrationFee} ${event.teamsize === '1' ? 'per person' : (event.feetype === 'individuals' ? 'per person' : 'per team')}`}
-                                    </span>
-                                    
-                                    <span className="text-xs text-gray-100">
-                                        {event.date || 'TBA'}
-                                    </span>
-                                </div>
                             </div>
                         </motion.div>
                     );

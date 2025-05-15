@@ -40,7 +40,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div ref={desktopRef} className="md:hidden hidden lg:flex bg-black text-white relative overflow-x-hidden">
+      <div ref={desktopRef} className="md:hidden hidden lg:flex bg-black text-white relative overflow-x-hidden pb-12">
         {/* elements.svg as background */}
         <div>
           <motion.div
@@ -153,7 +153,7 @@ export default function HomePage() {
           </section>
         </div>
       </div>
-      <div ref={mobileRef} className="min-h-screen bg-black text-white lg:hidden relative overflow-x-hidden">
+      <div ref={mobileRef} className="min-h-screen bg-black text-white lg:hidden relative overflow-x-hidden pb-12">
         {/* Fixed Background Waves */}
         <Image
           src="/waves.svg"
@@ -224,9 +224,74 @@ export default function HomePage() {
             </motion.div>
           </div>
         </motion.div>
-        <div className="h-screen">
-          hello
-        </div>
+        <section className="min-h-screen mt-40 flex flex-col items-center justify-center z-10 relative px-6">
+          <div className="flex flex-col gap-4">
+            {/* About RVCE */}
+            <motion.div
+              initial={{ x: -100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="font-sans font-bold text-[#f9dd9c] text-3xl mb-4"
+            >
+              About RVCE
+            </motion.div>
+
+            <motion.div
+              initial={{ x: -100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="fraunces text-sm"
+            >
+              Rashtreeya Vidyalaya College of Engineering was founded by Late Sri M.C. Shivananda Sharma in 1963. His mission was to Impart Quality Education to all sections of the society. This institution has been set up with the purpose of producing future leaders, innovators, and torchbearers of technology.
+              <br /><br />
+              As the college completes more than 60 glorious years, it has grown into a place where excellence in instruction and all-around development from the cornerstones of education is imparted to the students.
+              <br /><br />
+              One of the forefronts of quality education in the country, this institution has upheld its standard by training students as well as providing opportunities to those who seek to advance in the fields of science, technology, culture, and sports. It is justified to say that RVCE is a movement that has been in unhindered progress for more than half a century.
+            </motion.div>
+
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="flex justify-center items-center my-4"
+            >
+              <Image src="/rvce.png" alt="RVCE College" width={300} height={200} className="rounded-xl" />
+            </motion.div>
+
+            {/* About 8th Mile */}
+            <motion.div
+              initial={{ x: 100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="font-sans font-bold text-[#f9dd9c] text-3xl mb-4 text-right"
+            >
+              About 8<sup>th</sup> Mile
+            </motion.div>
+
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="flex justify-center items-center my-4"
+            >
+              <Image src="/amaal.png" alt="8th Mile Festival" width={300} height={200} className="rounded-xl" />
+            </motion.div>
+
+            <motion.div
+              initial={{ x: 100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="fraunces text-sm"
+            >
+              The illustrious R V College of Engineering in Bangalore, India, hosts the 8th Mile techno-cultural festival, showcasing the talents of students from across the country, and fostering camaraderie and excellence.
+              <br /><br />
+              This event serves as a platform for students from various educational institutions nationwide to showcase their exceptional talents in technical and non-technical domains. However, the festival's overarching objective is to promote a sense of camaraderie and sportsmanship among all its participants, inculcating in them a spirit of healthy competition and mutual respect.
+              <br /><br />
+              R V College of Engineering has a distinguished legacy of excellence in all spheres of academics, athletics, and extracurricular activities. The college has always set the bar high and led the way, leaving an indelible mark on the country’s academic landscape.
+            </motion.div>
+          </div>
+        </section>
+
 
       </div>
 
