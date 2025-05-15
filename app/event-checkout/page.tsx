@@ -391,9 +391,9 @@ export default function EventRegistrationPage() {
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div className="bg-[#0a0a0a] p-6 rounded-lg shadow-lg text-center max-w-md border border-gray-700">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-300 mx-auto mb-4"></div>
-            <h3 className="text-xl text-[#f9dd9c] font-bold mb-2">
+            <p className="text-xl text-[#f9dd9c] font-bold mb-2">
               {isRedirecting ? 'Completing Registration...' : 'Processing Payment...'}
-            </h3>
+            </p>
             <p className="text-gray-300">
               {isRedirecting
                 ? 'Please wait while we verify your payment and finalize your registration.'
