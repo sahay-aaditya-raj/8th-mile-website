@@ -49,45 +49,218 @@ export default function PassVerification({ data }: PassVerificationProps) {
     generateQRCode();
   }, []);
 
+  const downloadReceipt = async (ref: React.RefObject<HTMLDivElement>, fileName: string) => {
+    if (!ref.current) return;
+
+    const simplifiedContent = `
+      <div style="width: 100vw; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding-top: 40px; box-sizing: border-box; background: transparent;">
+      <div
+        style="
+        width: 100%;
+        max-width: 40%;
+        padding: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        backdrop-filter: blur(4px);
+        border: 1px solid black;
+        color: #1f2937;
+        font-family: Arial, sans-serif;
+        "
+      >
+        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <p style="font-size: 32px; font-weight: bold; color: #000000; margin: 20px;">
+          Payment Receipt
+        </p>
+        <img src="/png-ashtrang-cropped.png" width="250" height="50" alt="logo" />
+        </div>
+
+        <table
+        style="
+          width: 100%;
+          text-align: left;
+          border-collapse: collapse;
+        "
+        >
+        <tbody>
+          <tr style="border-bottom: 1px solid #D1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Name:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data.name}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #D1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Email:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data.email}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #D1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Phone:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data.phone}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #D1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Amount:
+          </th>
+          <td style="padding: 0.5rem 1rem;">₹${data.amount}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #D1D5DB;">
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Order ID:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data.orderId}</td>
+          </tr>
+          <tr>
+          <th
+            style="
+            padding: 0.5rem 1rem;
+            color: black;
+            font-weight: 600;
+            border-right: 1px solid #D1D5DB;
+            "
+          >
+            Payment ID:
+          </th>
+          <td style="padding: 0.5rem 1rem;">${data._id}</td>
+          </tr>
+        </tbody>
+        </table>
+        <div
+        style="
+          margin-top: 1.5rem;
+          border-top: 1px solid #4B5563;
+          padding-top: 1rem;
+          font-size: 0.875rem;
+          color: #9CA3AF;
+        "
+        >
+        <p>This receipt confirms your payment and participation.</p>
+        <p>Thank you for registering!</p>
+        </div>
+      </div>
+      </div>
+    `;
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = simplifiedContent;
+    document.body.appendChild(tempDiv);
+
+    const canvas = await html2canvas(tempDiv, {
+      scale: 2,
+      useCORS: true,
+    });
+
+    document.body.removeChild(tempDiv);
+
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+    pdf.save(fileName);
+  };
+
   const downloadAsPDF = async (ref: React.RefObject<HTMLDivElement>, fileName: string) => {
     if (!ref.current) return;
 
     const simplifiedContent = `
-      <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #ffffff; color: #000;">
-        <h2 style="text-align: center;">Pass Verification</h2>
-        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
-          <tbody>
-            <tr>
-              <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Payment ID</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${data._id}</td>
-            </tr>
-            <tr>
-              <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Order ID</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${data.orderId}</td>
-            </tr>
-            <tr>
-              <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Name</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${data.name}</td>
-            </tr>
-            <tr>
-              <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Email</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${data.email}</td>
-            </tr>
-            <tr>
-              <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Phone</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${data.phone}</td>
-            </tr>
-            <tr>
-              <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Class ID</th>
-              <td style="padding: 8px; border: 1px solid #ddd;">${data.classId}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="text-align: center; margin-top: 20px;">
-          <h3>Verification QR Code</h3>
-          <img src="${qrCodeUrl}" alt="QR Code" style="width: 150px; height: 150px; margin-top: 10px;" />
+      <div style="padding: 24px;">
+  <div style="padding: 24px; border-radius: 1rem; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3); background: linear-gradient(to bottom right, #1e1b4b, #312e81, #1e1b4b); backdrop-filter: blur(8px); border: 1px solid #93c5fd; font-family: Arial, sans-serif; color: #e0e7ff;">
+    
+    <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <p style="font-size: 42px; font-weight: bold; color: #f9dd9c; margin: 20px;">
+        Pass Verification
+      </p>
+      <img src="/png-ashtrang-cropped.png" width="350" height="50" alt="logo" />
+    </div>
+
+    <div style="display: flex; flex-direction: row; gap: 24px; flex-wrap: wrap;">
+      
+      <!-- Table Section -->
+      <div style="flex: 1; width: 60%;">
+  <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 24px;">
+    <tbody>
+      <tr style="border-bottom: 1px solid #93c5fd;">
+        <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Payment ID:</th>
+        <td style="padding: 8px 16px 16px 16px;">${data._id}</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #93c5fd;">
+        <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Order ID:</th>
+        <td style="padding: 8px 16px 16px 16px;">${data.orderId}</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #93c5fd;">
+        <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Name:</th>
+        <td style="padding: 8px 16px 16px 16px;">${data.name}</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #93c5fd;">
+        <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Email:</th>
+        <td style="padding: 8px 16px 16px 16px;">${data.email}</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #93c5fd;">
+        <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Phone:</th>
+        <td style="padding: 8px 16px 16px 16px;">${data.phone}</td>
+      </tr>
+      <tr>
+        <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Class ID:</th>
+        <td style="padding: 8px 16px 16px 16px;">${data.classId}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+      <!-- QR Code Section -->
+      <div style="width:40%; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <p style="font-size: 24px; font-weight: 600; color: #d1d5db; margin-bottom: 8px;">Verification QR</p>
+        <div style="width: 250px; height: 250px; border: 1px solid #4b5563; border-radius: 0.5rem; overflow: hidden; background-color: #1f2937; display: flex; align-items: center; justify-content: center;">
+          <img src="${qrCodeUrl}" alt="QR Code" style="width: 100%; height: 100%; object-fit: contain;" />
         </div>
       </div>
+
+    </div>
+  </div>
+</div>
+
     `;
 
     const tempDiv = document.createElement('div');
@@ -114,39 +287,39 @@ export default function PassVerification({ data }: PassVerificationProps) {
   return (
     <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 justify-center items-start">
       <div ref={passRef} className="flex flex-col w-full md:w-3/5">
-        <div className="p-6 rounded-2xl shadow-lg bg-gradient-to-br from-indigo-950 via-indigo-800 to-indigo-950 backdrop-blur border border-gray-700">
+        <div className="p-6 rounded-2xl shadow-lg bg-gradient-to-br from-indigo-950 via-indigo-800 to-indigo-950 backdrop-blur border border-blue-300">
           <div className="flex flex-row items-center justify-between mb-6">
-            <p className="text-3xl font-bold mb-6 text-[#f9dd9c]">
+            <p className="text-2xl md:text-3xl font-bold text-[#f9dd9c]">
               Pass Verification
             </p>
-            <Image src={'/ashtrang-cropped.svg'} width={200} height={50} alt='logo' />
+            <Image src={'/ashtrang-cropped.svg'} width={200} height={50} alt='logo' className='w-[150px] md:w-[200px]' />
           </div>
-          <div className="flex flex-col md:flex-row gap-6 items-start">
+          <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
             <div className="flex-1">
               <table className="w-full text-left border-collapse">
                 <tbody>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-gray-700">Payment ID:</th>
+                  <tr className="border-b border-blue-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Payment ID:</th>
                     <td className="py-2 px-4">{data._id}</td>
                   </tr>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-gray-700">Order ID:</th>
+                  <tr className="border-b border-blue-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Order ID:</th>
                     <td className="py-2 px-4">{data.orderId}</td>
                   </tr>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-gray-700">Name:</th>
+                  <tr className="border-b border-blue-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Name:</th>
                     <td className="py-2 px-4">{data.name}</td>
                   </tr>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-gray-700">Email:</th>
+                  <tr className="border-b border-blue-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Email:</th>
                     <td className="py-2 px-4">{data.email}</td>
                   </tr>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-gray-700">Phone:</th>
+                  <tr className="border-b border-blue-300">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Phone:</th>
                     <td className="py-2 px-4">{data.phone}</td>
                   </tr>
-                  <tr className="border-b border-gray-700">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-gray-700">Class ID:</th>
+                  <tr className="">
+                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Class ID:</th>
                     <td className="py-2 px-4">{data.classId}</td>
                   </tr>
                 </tbody>
@@ -179,7 +352,7 @@ export default function PassVerification({ data }: PassVerificationProps) {
             Download Pass
           </button>
           <button
-            onClick={() => downloadAsPDF(receiptRef, 'payment_receipt.pdf')}
+            onClick={() => downloadReceipt(receiptRef, 'payment_receipt.pdf')}
             className="mt-8 w-1/2 rounded-md px-6 py-3 font-semibold shadow-md bg-[#f9dd9c] text-black hover:bg-[#ffe9b8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
           >
             Download Receipt
@@ -187,8 +360,8 @@ export default function PassVerification({ data }: PassVerificationProps) {
         </div>
       </div>
       <div ref={receiptRef} className="w-full md:w-2/5 p-6 rounded-2xl shadow-lg bg-white backdrop-blur border border-black text-gray-900">
-        <p className="text-3xl font-bold mb-6 text-black">Payment Receipt</p>
-        <table className="w-full text-left border-collapse">
+        <p className="text-2xl md:text-3xl font-bold mb-6 text-black">Payment Receipt</p>
+        <table className="w-full text-left border-collapse text-sm md:text-base">
           <tbody>
             <tr className="border-b border-gray-300">
               <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Name:</th>
