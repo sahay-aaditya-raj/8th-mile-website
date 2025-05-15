@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/db';
-import { EventModel } from '@/lib/models/Events';
+import Event from '@/lib/models/Event';
 
 export async function GET() {
   try {
     // Connect to the database
     await connectToDatabase();
     // Fetch all events
-    const events = await EventModel.find({}).lean();
+    const events = await Event.find({}).lean();
     return NextResponse.json(events, { status: 200 });
     
   } catch (error) {
@@ -28,8 +28,8 @@ export async function POST(request: Request) {
     }
     
     await connectToDatabase();
-    const event = await EventModel.findOne({ slug }).lean();
-    
+    const event = await Event.findOne({ slug }).lean();
+
     if (!event) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
