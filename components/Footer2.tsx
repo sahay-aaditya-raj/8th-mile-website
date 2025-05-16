@@ -15,6 +15,7 @@ const Footer2 = () => {
             height={80}
             className="object-contain"
           />
+          <span className="w-[1px] h-[42px] bg-white" />
           <Image
             src="/8thmilelogocolour.png"
             alt="8th Mile Logo"
