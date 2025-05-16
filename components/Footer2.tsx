@@ -9,18 +9,18 @@ const Footer2 = () => {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
         <div className="flex items-center space-x-2">
           <Image
-            src="/8thmilelogocolour.png"
-            alt="8th Mile Logo"
-            width={60}
-            height={60}
-            className="object-contain rounded-full"
-          />
-          <Image
             src="/RVCE Corner Logo WHITE.png"
             alt="RVCE Logo"
             width={120}
             height={80}
             className="object-contain"
+          />
+          <Image
+            src="/8thmilelogocolour.png"
+            alt="8th Mile Logo"
+            width={60}
+            height={60}
+            className="object-contain rounded-full"
           />
         </div>
         <div>
