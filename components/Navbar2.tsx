@@ -42,20 +42,20 @@ export default function Navbar() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-4">
                         <Image
-                            src="/8thmilelogocolour.png"
-                            alt="8th-Mile"
-                            width={50}
-                            height={50}
-                            className="object-contain"
-                        />
-                        <span className="w-[1px] h-[42px] bg-white" />
-                        <Image
                             src="/RVCE Corner Logo WHITE.png"
                             alt="RVCE Logo"
                             width={100}
                             height={100}
                             className="object-contain h-auto"
                             priority
+                        />
+                        <span className="w-[1px] h-[42px] bg-white" />
+                        <Image
+                            src="/8thmilelogocolour.png"
+                            alt="8th-Mile"
+                            width={50}
+                            height={50}
+                            className="object-contain"
                         />
                     </Link>
 
@@ -89,20 +89,20 @@ export default function Navbar() {
                         {/* Logo on left side */}
                         <Link href="/" className="flex items-center gap-4 ">
                         <Image
-                            src="/8thmilelogocolour.png"
-                            alt="8th-Mile"
-                            width={50}
-                            height={50}
-                            className="object-contain"
-                        />
-                        <span className="w-[1px] h-[42px] bg-white" />
-                        <Image
                             src="/RVCE Corner Logo WHITE.png"
                             alt="RVCE Logo"
                             width={100}
                             height={100}
                             className="object-contain h-auto"
                             priority
+                        />
+                        <span className="w-[1px] h-[42px] bg-white" />
+                        <Image
+                            src="/8thmilelogocolour.png"
+                            alt="8th-Mile"
+                            width={50}
+                            height={50}
+                            className="object-contain"
                         />
                     </Link>
 
