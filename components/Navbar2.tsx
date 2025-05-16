@@ -51,7 +51,7 @@ export default function Navbar() {
                         />
                         <span className="w-[1px] h-[42px] bg-white" />
                         <Image
-                            src="/8thmilelogocolour.png"
+                            src=" /8thmilelogocolour.png"
                             alt="8th-Mile"
                             width={50}
                             height={50}

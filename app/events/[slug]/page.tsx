@@ -110,12 +110,12 @@ const EventDetail = () => {
                             </>
                         )}
 
-                        {event.registrationDeadline && (
+                        {/* {event.registrationDeadline && (
                             <p className="text-gray-400 text-sm">
                                 Deadline: {new Date(event.registrationDeadline).toLocaleDateString()} (
                                 {new Date(event.registrationDeadline).toLocaleTimeString()})
                             </p>
-                        )}
+                        )} */}
                     </div>
                 </div>
 
