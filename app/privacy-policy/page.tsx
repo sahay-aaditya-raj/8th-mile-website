@@ -11,9 +11,9 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-black text-white pt-32 pb-16">
       <div className="max-w-4xl mx-auto px-4">
-        <h1 className="samarkan text-4xl font-bold mb-8 text-center text-[#f9dd9c]">
+        <p className="samarkan text-4xl font-bold mb-8 text-center text-[#f9dd9c]">
           Privacy Policy
-        </h1>
+        </p>
         
         <Card className="bg-[#0a0a0a] border border-gray-700 shadow-lg">
           <CardContent className="p-6">
@@ -25,7 +25,7 @@ export default function PrivacyPolicyPage() {
             
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-bold text-[#f9dd9c] mb-2">1. Information We Collect</h2>
+                <p className="text-xl font-bold text-[#f9dd9c] mb-2">1. Information We Collect</p>
                 <p>We collect the following types of information:</p>
                 <ul className="list-disc list-inside pl-4 mt-2 space-y-1 text-gray-300">
                   <li>Personal Identification Information: Name, email address, phone number, and college/institution name when you register for events</li>
@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
               </div>
               
               <div>
-                <h2 className="text-xl font-bold text-[#f9dd9c] mb-2">2. How We Use Your Information</h2>
+                <p className="text-xl font-bold text-[#f9dd9c] mb-2">2. How We Use Your Information</p>
                 <p>We use the collected information for various purposes:</p>
                 <ul className="list-disc list-inside pl-4 mt-2 space-y-1 text-gray-300">
                   <li>To process event registrations and issue digital passes</li>
@@ -48,7 +48,7 @@ export default function PrivacyPolicyPage() {
               </div>
               
               <div>
-                <h2 className="text-xl font-bold text-[#f9dd9c] mb-2">3. Information Sharing and Disclosure</h2>
+                <p className="text-xl font-bold text-[#f9dd9c] mb-2">3. Information Sharing and Disclosure</p>
                 <p>We may share your information with:</p>
                 <ul className="list-disc list-inside pl-4 mt-2 space-y-1 text-gray-300">
                   <li>Event organizers and volunteers for event management purposes</li>
@@ -59,12 +59,12 @@ export default function PrivacyPolicyPage() {
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-[#f9dd9c] mb-2">4. Data Security</h2>
+                <p className="text-xl font-bold text-[#f9dd9c] mb-2">4. Data Security</p>
                 <p>We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet or electronic storage is 100% secure, and we cannot guarantee absolute security.</p>
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-[#f9dd9c] mb-2">5. Third-Party Services</h2>
+                <p className="text-xl font-bold text-[#f9dd9c] mb-2">5. Third-Party Services</p>
                 <p>Our website uses third-party services such as:</p>
                 <ul className="list-disc list-inside pl-4 mt-2 space-y-1 text-gray-300">
                   <li>Razorpay for payment processing</li>
@@ -74,7 +74,7 @@ export default function PrivacyPolicyPage() {
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-[#f9dd9c] mb-2">6. Your Rights</h2>
+                <p className="text-xl font-bold text-[#f9dd9c] mb-2">6. Your Rights</p>
                 <p>You have the right to:</p>
                 <ul className="list-disc list-inside pl-4 mt-2 space-y-1 text-gray-300">
                   <li>Access the personal information we hold about you</li>
@@ -85,17 +85,17 @@ export default function PrivacyPolicyPage() {
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-[#f9dd9c] mb-2">7. Cookies and Tracking</h2>
+                <p className="text-xl font-bold text-[#f9dd9c] mb-2">7. Cookies and Tracking</p>
                 <p>We use cookies and similar tracking technologies to enhance your experience on our website. You can set your browser to refuse cookies, but some features of our website may not function properly.</p>
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-[#f9dd9c] mb-2">8. Changes to This Policy</h2>
+                <p className="text-xl font-bold text-[#f9dd9c] mb-2">8. Changes to This Policy</p>
                 <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the effective date.</p>
               </div>
               
               <div>
-                <h2 className="text-xl font-bold text-[#f9dd9c] mb-2">9. Contact Us</h2>
+                <p className="text-xl font-bold text-[#f9dd9c] mb-2">9. Contact Us</p>
                 <p>If you have any questions about this Privacy Policy, please contact us at the email address provided below.</p>
               </div>
             </div>
