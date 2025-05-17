@@ -42,7 +42,7 @@ const Footer2 = () => {
             </Link>
           </p>
           
-          {/* Policy Links - Add these links */}
+          {/* Policy Links - Update these links */}
           <div className="flex flex-wrap justify-center md:justify-start gap-4">
             <Link href="/terms" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
               Terms & Conditions
@@ -52,6 +52,9 @@ const Footer2 = () => {
             </Link>
             <Link href="/delivery-policy" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
               Delivery Policy
+            </Link>
+            <Link href="/privacy-policy" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
+              Privacy Policy
             </Link>
           </div>
           
