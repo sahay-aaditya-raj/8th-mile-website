@@ -5,9 +5,11 @@ import Image from "next/image";
 
 const Footer2 = () => {
   return (
-    <footer className="bg-black text-white py-2 px-6 md:px-24 border-t border-slate-900">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
-        <div className="flex items-center space-x-2">
+    <footer className="bg-black text-white py-6 px-6 md:px-24 border-t border-slate-900">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-6 md:gap-12">
+        
+        {/* Left: Logos */}
+        <div className="flex items-center gap-4 justify-center md:justify-start">
           <Image
             src="/RVCE Corner Logo WHITE.png"
             alt="RVCE Logo"
@@ -15,7 +17,7 @@ const Footer2 = () => {
             height={80}
             className="object-contain"
           />
-          <span className="w-[1px] h-[42px] bg-white" />
+          <span className="w-[1px] h-10 bg-white" />
           <Image
             src="/8thmilelogocolour.png"
             alt="8th Mile Logo"
@@ -24,51 +26,56 @@ const Footer2 = () => {
             className="object-contain rounded-full"
           />
         </div>
-        <div>
-          <Link href={'/contact'} className="text-gray-400"><p className="fraunces text-xs md:text-sm">Contact Us</p></Link>
-        </div>
-        <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 text-center md:text-left">
+
+        {/* Right: Contact + Info + Policies */}
+        <div className="flex flex-col items-center md:items-end w-full text-center md:text-right gap-2">
           
-          {/* Copyright */}
-          <p className="fraunces text-xs md:text-sm text-gray-400">
-            &copy; 8<sup>th</sup> Mile 2025 •{" "}
-            <Link
-              href="https://www.rvce.edu.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="fraunces hover:text-[#418b24] transition-colors duration-300"
-            >
-              RV College of Engineering
+          {/* Top Row: Contact + Copyright + Credits */}
+          <div className="flex flex-wrap justify-center md:justify-end gap-4 text-sm text-gray-400">
+            <Link href="/contact" className="fraunces hover:text-white transition">
+              Contact Us
             </Link>
-          </p>
-          
-          {/* Policy Links - Update these links */}
-          <div className="flex flex-wrap justify-center md:justify-start gap-4">
-            <Link href="/terms" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
-              Terms & Conditions
-            </Link>
-            <Link href="/refund-policy" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
-              Refund Policy
-            </Link>
-            <Link href="/delivery-policy" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
-              Delivery Policy
-            </Link>
-            <Link href="/privacy-policy" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
-              Privacy Policy
-            </Link>
+            <span className="fraunces">
+              &copy; 8<sup>th</sup> Mile 2025 •{" "}
+              <Link
+                href="https://www.rvce.edu.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#418b24] transition"
+              >
+                RV College of Engineering
+              </Link>
+            </span>
+            <span className="fraunces">
+              Developed by{" "}
+              <Link
+                href="https://www.linkedin.com/company/coding-club-rvce/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#e90c00] transition"
+              >
+                Coding Club RVCE
+              </Link>
+            </span>
           </div>
-          
-          <p className="fraunces text-xs md:text-sm text-gray-400">
-            Developed by{" "}
-            <Link
-              href="https://www.linkedin.com/company/coding-club-rvce/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="fraunces hover:text-[#e90c00] transition-colors duration-300"
-            >
-              Coding Club RVCE
-            </Link>
-          </p>
+
+          {/* Bottom Row: Policy Links */}
+          <div className="flex flex-wrap justify-center md:justify-end gap-4 text-xs md:text-sm text-gray-400">
+            {[
+              { href: "/terms", label: "Terms & Conditions" },
+              { href: "/refund-policy", label: "Refund Policy" },
+              { href: "/delivery-policy", label: "Delivery Policy" },
+              { href: "/privacy-policy", label: "Privacy Policy" },
+            ].map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="fraunces hover:text-white transition"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
