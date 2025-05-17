@@ -41,6 +41,20 @@ const Footer2 = () => {
               RV College of Engineering
             </Link>
           </p>
+          
+          {/* Policy Links - Add these links */}
+          <div className="flex flex-wrap justify-center md:justify-start gap-4">
+            <Link href="/terms" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
+              Terms & Conditions
+            </Link>
+            <Link href="/refund-policy" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
+              Refund Policy
+            </Link>
+            <Link href="/delivery-policy" className="fraunces text-xs md:text-sm text-gray-400 hover:text-white">
+              Delivery Policy
+            </Link>
+          </div>
+          
           <p className="fraunces text-xs md:text-sm text-gray-400">
             Developed by{" "}
             <Link
