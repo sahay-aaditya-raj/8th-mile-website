@@ -6,7 +6,7 @@ export const eventPasses: Pass[] = [
     id: 'day-pass',
     name: 'Day Pass',
     description: 'Access to all events on a single day',
-    price: 50, // in paise (₹50)
+    price: 1, // in paise (₹50)
     features: ["Entry to all events", "Lunch and refreshments", "Digital badge"],
     type: "basic",
     primaryImage: "/images/passes/day-pass-main.jpg",

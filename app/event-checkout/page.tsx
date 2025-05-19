@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { initializeRazorpay, openRazorpayCheckout } from '@/lib/razorpay';
 
 export default function EventRegistrationPage() {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function EventRegistrationPage() {
   const [teamsize, setTeamsize] = useState(1);
   const [teamMembers, setTeamMembers] = useState<{name: string}[]>([{name: ''}]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [isRedirecting,] = useState(false);
   
   useEffect(() => {
     const slug = searchParams.get('slug');
@@ -57,8 +57,6 @@ export default function EventRegistrationPage() {
         // Parse min and max team sizes from the string (e.g., "2-4")
         const sizeRange = eventData.teamsize.split('-');
         const minSize = parseInt(sizeRange[0]) || 1;
-        const maxSize = parseInt(sizeRange[1] || sizeRange[0]) || 1;
-        
         // Initialize with minimum required team size
         setTeamsize(minSize);
         
@@ -139,20 +137,15 @@ export default function EventRegistrationPage() {
     setIsProcessing(true);
     
     try {
-      const razorpayReady = await initializeRazorpay();
-
-      if (!razorpayReady) {
-        throw new Error('Failed to load Razorpay SDK');
-      }
 
       // Create a properly formatted team members array
       const formattedTeamMembers = teamMembers.map(member => member.name.trim());
       
       // Calculate the total fee
       const totalFee = calculateTotalFee();
-
-      // Create Razorpay order
-      const response = await fetch('/api/rzpay-order', {
+      const merchantOrderId = `8THMILE_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      // Create PhonePe order
+      const response = await fetch('/api/phonepe-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -166,71 +159,20 @@ export default function EventRegistrationPage() {
             teamMembers: formattedTeamMembers,
             feeType: event.feetype,
             registrationFee: event.registrationFee,
-            totalAmount: totalFee
+            totalAmount: totalFee,
+            merchantOrderId
           }
         }),
       });
 
       const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message || 'Failed to create order');
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to create payment order');
       }
-      const { order } = data;
-      console.log('Order created:', order);
-      
-      openRazorpayCheckout({
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
-        amount: order.amount,
-        currency: order.currency,
-        name: "8th Mile RVCE",
-        description: `Purchase of ${order.notes.name}`,
-        order_id: order.id,
-        prefill: { name: order.notes.name, email: order.notes.email, contact: order.notes.phone },
-        notes:{
-          type: 'event',
-          eventId: order.notes.eventId,
-          name: order.notes.name,
-          email: order.notes.email,
-          phone: order.notes.phone,
-          teamSize: order.notes.teamSize,
-          teamMembers: order.notes.teamMembers,
-          feeType: order.notes.feeType,
-          registrationFee: order.notes.registrationFee,        
-        },
-        handler(response: any){
-          // Show loading indicator during redirect
-          setIsRedirecting(true);
-          
-          const payload = {
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_signature: response.razorpay_signature,
-          };
-          fetch('/api/rzpay-verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          })
-            .then(r => r.json())
-            .then(data => {
-              if (data.success) {
-                alert('Payment successful! Redirecting...\nCheck Your Email/Spam for Confirmation');
-                router.push(`/verify?payment_id=${response.razorpay_payment_id}`);
-              } else {
-                router.push(`/failed?error=${encodeURIComponent(data.message || 'Payment verification failed')}`);
-              }
-            })
-            .catch((err) => router.push(`/failed?error=${encodeURIComponent(err.message || 'Unknown error occurred')}`));
-        },
-        modal: {
-          ondismiss: () => {
-            setIsProcessing(false);
-            setIsRedirecting(false);
-          },
-          escape: true,
-          backdropclose: false
-        }
-      });
+
+      // Redirect to PhonePe checkout page
+      window.location.href = data.checkoutPageUrl;
     } catch (err: any) {
       setError(err.message || 'Failed to process registration');
       console.error(err);

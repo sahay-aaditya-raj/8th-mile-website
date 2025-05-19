@@ -29,18 +29,12 @@ export default function FailedPage() {
 
         <div className="bg-muted/20 p-4 rounded my-4">
           <p className="text-foreground">
-            If any amount was deducted from your account, it will be returned within 5-7 business days.
+            If any amount was deducted from your account, it will be returned within 30 business days.
             For further queries, please contact our support team.
           </p>
         </div>
 
         <div className="text-center mt-6 space-y-3">
-          <Link
-            href="/passes"
-            className="inline-block w-full py-2 px-4 bg-primary text-primary-foreground rounded hover:bg-primary/90"
-          >
-            Try Again
-          </Link>
           
           <Link
             href="/contact"
