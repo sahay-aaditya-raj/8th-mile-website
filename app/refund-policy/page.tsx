@@ -45,7 +45,7 @@ export default function RefundPolicyPage() {
               <div>
                 <p className="text-xl font-bold text-[#f9dd9c] mb-2">3. Exceptional Cases</p>
                 <p>In the rare case that the entire event is permanently canceled by the organizers (not postponed or rescheduled), the refund process (if applicable) will be communicated through official channels.</p>
-                <p>Any refund in such exceptional cases will be processed within 30 business days from the announcement of cancellation.</p>
+                <p>Any refund in such exceptional cases will be credited within 30 business days to the original payment method</p>
               </div>
 
               <div>
