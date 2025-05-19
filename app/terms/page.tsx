@@ -2,98 +2,75 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function TermsPage() {
-  const currentDate = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-
   return (
     <div className="min-h-screen bg-black text-white pt-32 pb-16">
       <div className="max-w-4xl mx-auto px-4">
         <p className="samarkan text-4xl font-bold mb-8 text-center text-[#f9dd9c]">
-          Terms and Conditions
+          Terms & Conditions
         </p>
         
         <Card className="bg-[#0a0a0a] border border-gray-700 shadow-lg mb-8">
           <CardContent className="p-6">
-            <p className="text-gray-400 mb-6">Effective Date: {currentDate}</p>
+            <p className="text-gray-400 mb-6">Last updated on May 8th 2025</p>
             
             <p className="mb-6">
-              Welcome to 8th Mile, the official annual fest of RV College of Engineering (RVCE). 
-              By accessing or using our website to purchase event passes, you agree to be bound 
-              by the following Terms and Conditions:
+              For the purpose of these Terms and Conditions, The term &quot;we&quot;, &quot;us&quot;, &quot;our&quot; used anywhere on this page shall mean MILAAP KREATIONS, 
+              whose registered/operational office is B5 golden Enclave Apartment, #5th cross 2nd main road Soundarya layout Bengaluru KARNATAKA 560073. 
+              &quot;you&quot;, &quot;your&quot;, &quot;user&quot;, &quot;visitor&quot; shall mean any natural or legal person who is visiting our website and/or agreed to purchase from us.
+            </p>
+            
+            <p className="mb-6">
+              Your use of the website and/or purchase from us are governed by following Terms and Conditions:
             </p>
             
             <div className="space-y-6">
               <div>
-                <p className="text-xl font-bold text-[#f9dd9c] mb-2">1. General</p>
-                <p>This website is operated by the 8th Mile Organizing Committee, RV College of Engineering.</p>
-                <p>The website is intended solely for the purpose of selling entry passes to the 8th Mile fest and providing information about its events.</p>
+                <p>The content of the pages of this website is subject to change without notice.</p>
               </div>
               
               <div>
-                <p className="text-xl font-bold text-[#f9dd9c] mb-2">2. Eligibility</p>
-                <p>By using this site, you confirm that you are legally capable of entering into a binding contract.</p>
-                <p>Passes are intended for students and visitors who wish to participate in 8th Mile events.</p>
+                <p>Neither we nor any third parties provide any warranty or guarantee as to the accuracy, timeliness, performance, completeness or suitability of the information and materials found or offered on this website for any particular purpose. You acknowledge that such information and materials may contain inaccuracies or errors and we expressly exclude liability for any such inaccuracies or errors to the fullest extent permitted by law.</p>
               </div>
               
               <div>
                 <p className="text-xl font-bold text-[#f9dd9c] mb-2">3. Pass Purchase</p>
                 <p>All passes are digital and delivered via email or QR code after successful payment.</p>
-                <p>Payment can be made using UPI, Credit/Debit Cards, Netbanking, or Wallets.</p>
+                <p>Payment can be made via Razorpay using UPI, Credit/Debit Cards, Netbanking, or Wallets.</p>
                 <p>By making a payment, you acknowledge that all sales are final and non-refundable as outlined in our Refund Policy.</p>
               </div>
               
               <div>
-                <p className="text-xl font-bold text-[#f9dd9c] mb-2">4. Event Details</p>
-                <p>The schedule, pricing, or availability of events and passes may be subject to change without notice.</p>
-                <p>Entry is permitted only with a valid pass and college ID or government-issued ID.</p>
-                <p>The organizers reserve the right to refuse entry or ejection from the venue at their sole discretion.</p>
+                <p>Our website contains material which is owned by or licensed to us. This material includes, but are not limited to, the design, layout, look, appearance and graphics. Reproduction is prohibited other than in accordance with the copyright notice, which forms part of these terms and conditions.</p>
               </div>
               
               <div>
-                <p className="text-xl font-bold text-[#f9dd9c] mb-2">5. User Conduct</p>
-                <p>Users must not engage in illegal or unauthorized use of the website.</p>
-                <p>Misuse of the platform, such as fraudulent payments or attempts to access restricted areas, will result in termination of access.</p>
-                <p>Any attempt to disrupt the functioning of the website is strictly prohibited.</p>
+                <p>All trademarks reproduced in our website which are not the property of, or licensed to, the operator are acknowledged on the website.</p>
               </div>
               
               <div>
-                <p className="text-xl font-bold text-[#f9dd9c] mb-2">6. Intellectual Property</p>
-                <p>All content on this website including logos, images, text, and design is the property of 8th Mile, RVCE.</p>
-                <p>Unauthorized use, reproduction, or distribution of any content from this website is strictly prohibited.</p>
+                <p>Unauthorized use of information provided by us shall give rise to a claim for damages and/or be a criminal offense.</p>
               </div>
 
               <div>
-                <p className="text-xl font-bold text-[#f9dd9c] mb-2">7. Privacy</p>
-                <p>We collect and process personal information in accordance with our Privacy Policy.</p>
-                <p>By using this website, you consent to the collection and use of your information as described in our Privacy Policy.</p>
+                <p>From time to time our website may also include links to other websites. These links are provided for your convenience to provide further information.</p>
               </div>
               
               <div>
-                <p className="text-xl font-bold text-[#f9dd9c] mb-2">8. Limitation of Liability</p>
-                <p>The organizers are not liable for any loss, damage, or injury during the fest.</p>
-                <p>The website is provided "as is" without warranties of any kind.</p>
-                <p>We do not guarantee uninterrupted or error-free operation of the website.</p>
+                <p>You may not create a link to our website from another website or document without MILAAP KREATIONS's prior written consent.</p>
               </div>
 
               <div>
-                <p className="text-xl font-bold text-[#f9dd9c] mb-2">9. Governing Law</p>
-                <p>These Terms and Conditions are governed by the laws of India.</p>
-                <p>Any disputes arising from the use of this website shall be subject to the exclusive jurisdiction of the courts in Bangalore, Karnataka.</p>
+                <p>Any dispute arising out of use of our website and/or purchase with us and/or any engagement with us is subject to the laws of India.</p>
               </div>
 
               <div>
-                <p className="text-xl font-bold text-[#f9dd9c] mb-2">10. Amendments</p>
-                <p>We reserve the right to modify these Terms and Conditions at any time without prior notice.</p>
-                <p>Continued use of the website after any modifications constitutes acceptance of the updated terms.</p>
+                <p>We, shall be under no liability whatsoever in respect of any loss or damage arising directly or indirectly out of the decline of authorization for any Transaction, on Account of the Cardholder having exceeded the preset limit mutually agreed by us with our acquiring bank from time to time.</p>
               </div>
             </div>
             
             <div className="mt-8 pt-6 border-t border-gray-800">
-              <p className="text-[#f9dd9c]">For any queries, contact us at:</p>
-              <p className="text-gray-400">events_8thmile@rvce.edu.in</p>
+              <p className="text-[#f9dd9c]">Disclaimer:</p>
+              <p className="text-gray-400">The above content is created at MILAAP KREATIONS's sole discretion. Razorpay shall not be liable for any content provided here and shall not be responsible for any claims and liability that may arise due to merchant's non-adherence to it.</p>
             </div>
           </CardContent>
         </Card>
