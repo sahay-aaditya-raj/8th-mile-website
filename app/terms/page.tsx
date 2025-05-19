@@ -35,7 +35,7 @@ export default function TermsPage() {
               <div>
                 <p className="text-xl font-bold text-[#f9dd9c] mb-2">3. Pass Purchase</p>
                 <p>All passes are digital and delivered via email or QR code after successful payment.</p>
-                <p>Payment can be made via Razorpay using UPI, Credit/Debit Cards, Netbanking, or Wallets.</p>
+                <p>Payment can be made using UPI, Credit/Debit Cards, Netbanking, or Wallets.</p>
                 <p>By making a payment, you acknowledge that all sales are final and non-refundable as outlined in our Refund Policy.</p>
               </div>
               
@@ -70,7 +70,7 @@ export default function TermsPage() {
             
             <div className="mt-8 pt-6 border-t border-gray-800">
               <p className="text-[#f9dd9c]">Disclaimer:</p>
-              <p className="text-gray-400">The above content is created at MILAAP KREATIONS's sole discretion. Razorpay shall not be liable for any content provided here and shall not be responsible for any claims and liability that may arise due to merchant's non-adherence to it.</p>
+              <p className="text-gray-400">The above content is created at MILAAP KREATIONS's sole discretion. Payment Gateway shall not be liable for any content provided here and shall not be responsible for any claims and liability that may arise due to merchant's non-adherence to it.</p>
             </div>
           </CardContent>
         </Card>
