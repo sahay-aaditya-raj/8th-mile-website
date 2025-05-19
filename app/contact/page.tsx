@@ -10,7 +10,7 @@ export default function ContactPage() {
       title: "General Inquiries",
       email: "events_8thmile@rvce.edu.in",
       phone: "9686782196",
-      contactPerson: "Dharshan Jadhav",
+      contactPerson: "Milaap Kreations",
     },
     {
       id: 2,
@@ -66,7 +66,6 @@ export default function ContactPage() {
     <div className="bg-black text-[#f9dd9c] min-h-screen py-32 px-6 md:px-20">
       <div className="max-w-7xl mx-auto">
         <p className="text-5xl font-bold text-center mb-16 tracking-tight delagothic">Get In Touch</p>
-
         <div className="grid md:grid-cols-2 gap-16">
           {/* Contact Information */}
           <div>

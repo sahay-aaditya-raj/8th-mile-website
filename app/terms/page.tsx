@@ -41,7 +41,7 @@ export default function TermsPage() {
               <div>
                 <p className="text-xl font-bold text-[#f9dd9c] mb-2">3. Pass Purchase</p>
                 <p>All passes are digital and delivered via email or QR code after successful payment.</p>
-                <p>Payment can be made via Razorpay using UPI, Credit/Debit Cards, Netbanking, or Wallets.</p>
+                <p>Payment can be made using UPI, Credit/Debit Cards, Netbanking, or Wallets.</p>
                 <p>By making a payment, you acknowledge that all sales are final and non-refundable as outlined in our Refund Policy.</p>
               </div>
               
