@@ -93,7 +93,7 @@ const EventDetail = () => {
                     <div className="mt-6 w-full max-w-md text-center space-y-3">
                         {registrationStatus.isOpen ? (
                             <Link
-                                href={`/event-checkout?slug=${event.slug}`}
+                                href={`https://8th-mile-website.vercel.app/event-checkout?slug=${event.slug}`}
                                 className="block bg-[#418b24] hover:bg-[#2d6719] text-white py-2 px-4 rounded-lg text-lg font-semibold transition-colors"
                             >
                                 Register Now
