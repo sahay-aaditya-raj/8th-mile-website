@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { AlertTriangle } from 'lucide-react';
+import { AlertCircle, AlertTriangle } from 'lucide-react';
 import Loader from '@/components/Loader';
 
 export default function EventRegistrationPage() {
@@ -330,8 +330,8 @@ export default function EventRegistrationPage() {
           </button>
           <div className='flex-col border-[1px] border-red-600 justify-center items-center p-2'>
             <div className='flex-row justify-center items-center text-red-600 font-semibold gap-2'>
-              <AlertTriangle className='text-red-600' />
-              <span className='text-red-800'>Caution</span>
+              <AlertCircle className='text-red-600' />
+              <span className='text-red-800'>Note</span>
             </div>
             <div className='text-red-800 text-xs'>
               It is advised to take a screenshot of the payment page and save it for future reference. If you find difficulties in finding the email, then check the spam folder as well.
