@@ -3,7 +3,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { AlertCircle, AlertTriangle } from 'lucide-react';
 import Loader from '@/components/Loader';
 
 export default function EventRegistrationPage() {
