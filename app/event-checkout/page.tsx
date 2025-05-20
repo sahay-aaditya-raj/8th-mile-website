@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Alert } from '@/components/ui/alert';
 
 export default function EventRegistrationPage() {
   const router = useRouter();
@@ -326,6 +327,17 @@ export default function EventRegistrationPage() {
           >
             {isProcessing ? "Processing..." : "Register & Pay Now"}
           </button>
+          <div className='flex-col border-[1px] border-red-600 justify-center items-center p-2'>
+            <div className='flex-row justify-center items-center text-red-600 font-semibold gap-2'>
+              <div>
+                <Alert />
+              </div>
+              <div>Caution</div>
+            </div>
+            <div className='text-red-600'>
+              It is advised to take a screenshot of the payment page and save it for future reference. If you find difficulties in finding the email, then check the spam folder as well.
+            </div>
+          </div>
         </form>
       )}
 
