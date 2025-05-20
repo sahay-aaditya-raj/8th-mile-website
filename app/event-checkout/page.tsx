@@ -310,13 +310,13 @@ export default function EventRegistrationPage() {
               </p>
             )}
 
-            {event.registrationDeadline && (
+            {/* {event.registrationDeadline && (
               <p className="mt-4 text-sm text-white">
                 <span className="font-medium">Registration Deadline:</span>{' '}
                 {new Date(event.registrationDeadline).toLocaleDateString()} at{' '}
                 {new Date(event.registrationDeadline).toLocaleTimeString()}
               </p>
-            )}
+            )} */}
           </div>
 
           {/* Submit Button */}
@@ -329,10 +329,7 @@ export default function EventRegistrationPage() {
           </button>
           <div className='flex-col border-[1px] border-red-600 justify-center items-center p-2'>
             <div className='flex-row justify-center items-center text-red-600 font-semibold gap-2'>
-              <div>
-                <AlertTriangle />
-              </div>
-              <div>Caution</div>
+                <AlertTriangle /> Caution
             </div>
             <div className='text-red-800 text-sm'>
               It is advised to take a screenshot of the payment page and save it for future reference. If you find difficulties in finding the email, then check the spam folder as well.
