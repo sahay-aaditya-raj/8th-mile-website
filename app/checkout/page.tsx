@@ -194,12 +194,10 @@ export default function CheckoutPage() {
                 </div>
                 <div className='pt-4 flex-col border-[1px] border-red-600 justify-center items-center p-2'>
                   <div className='flex-row justify-center items-center text-red-600 font-semibold gap-2'>
-                    <div>
-                      <AlertTriangle />
-                    </div>
-                    <div>Caution</div>
+                    
+                      <AlertTriangle /> Caution
                   </div>
-                  <div className='text-red-800 text-sm'>
+                  <div className='text-red-800 text-xs'>
                     It is advised to take a screenshot of the payment page and save it for future reference. If you find difficulties in finding the email, then check the spam folder as well.
                   </div>
                 </div>
