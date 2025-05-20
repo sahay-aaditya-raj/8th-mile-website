@@ -402,143 +402,148 @@ export default function EventVerification({ data }: EventVerificationProps) {
   };
 
   return (
-    <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 justify-center items-start">
-      <div ref={passRef} className="flex flex-col w-full md:w-3/5">
-        <div className="p-6 rounded-2xl shadow-lg bg-gradient-to-br from-purple-950 via-purple-900 to-purple-950 backdrop-blur border border-purple-300">
-          <div className="flex flex-row items-center justify-between mb-6">
-            <p className="text-2xl md:text-3xl font-bold text-[#f9dd9c]">
-              Event Verification
-            </p>
-            <Image src={'/ashtrang-cropped.svg'} width={200} height={50} alt='logo' className='w-[150px] md:w-[200px]' />
-          </div>
-          <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
-            <div className="flex-1">
-              <table className="w-full text-left border-collapse">
-                <tbody>
-                  <tr className="border-b border-purple-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Payment ID:</th>
-                    <td className="py-2 px-4">{data._id}</td>
-                  </tr>
-                  <tr className="border-b border-purple-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Order ID:</th>
-                    <td className="py-2 px-4">{data.orderId}</td>
-                  </tr>
-                  <tr className="border-b border-purple-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Name:</th>
-                    <td className="py-2 px-4">{data.name}</td>
-                  </tr>
-                  {showParticipants && (
-                    <tr className="border-b border-purple-300">
-                      <th className="py-2 align-text-top px-4 text-gray-400 font-semibold border-r border-purple-300">Participants:</th>
-                      <td className="py-2 px-4">
-                        <div>
-                          {/* Display team lead prominently */}
-                          {data.participantsData && data.participantsData.length > 0 && (
-                            <div className="mb-1">
-                              <span className="text-yellow-300 font-medium">
-                                {data.participantsData[0].name} (Team Lead)
-                              </span>
-                            </div>
-                          )}
-                          
-                          {/* Display other participants as comma-separated list */}
-                          {data.participantsData && data.participantsData.length > 1 && (
-                            <div className="text-xs text-gray-300 leading-relaxed break-words">
-                              <span className="text-gray-400">Members: </span>
-                              {data.participantsData
-                                .slice(1)
-                                .map(p => p.name)
-                                .join(", ")}
-                            </div>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                  <tr className="border-b border-purple-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Email:</th>
-                    <td className="py-2 px-4">{data.email}</td>
-                  </tr>
-                  <tr className="border-b border-purple-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Phone:</th>
-                    <td className="py-2 px-4">{data.phone}</td>
-                  </tr>
-                  <tr className="">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-purple-300">Class ID:</th>
-                    <td className="py-2 px-4">{data.classId}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="flex-shrink-0 flex flex-col items-center">
-              <p className="text-lg font-semibold text-gray-300 mb-2">Verification QR</p>
-              <div className="w-40 h-40 relative">
-                {qrCodeUrl ? (
-                  <Image
-                    src={qrCodeUrl}
-                    alt="QR Code"
-                    fill
-                    className="object-contain rounded-lg border border-gray-600"
-                  />
-                ) : (
-                  <div className="w-40 h-40 flex items-center justify-center bg-gray-800 rounded-lg">
-                    <p>Loading QR...</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-row gap-6">
-          <button
-            onClick={() => downloadAsPDF(passRef, `event-pass-${data._id}.pdf`)}
-            className="mt-8 w-1/2 px-6 py-3 rounded-lg font-semibold shadow-md bg-[#f9dd9c] text-black hover:bg-[#ffe9b8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
-          >
-            Download Event Pass
-          </button>
-          <button
-            onClick={() => downloadReceipt(receiptRef, `event-receipt-${data._id}.pdf`)}
-            className="mt-8 w-1/2 rounded-md px-6 py-3 font-semibold shadow-md bg-[#f9dd9c] text-black hover:bg-[#ffe9b8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
-          >
-            Download Receipt
-          </button>
-        </div>
+    <div className="max-w-6xl w-full px-2 sm:px-4 md:px-6 mx-auto flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-start overflow-x-hidden">
+  <div ref={passRef} className="flex flex-col w-full md:w-3/5 min-w-0">
+    <div className="p-3 sm:p-4 md:p-6 rounded-2xl shadow-lg bg-gradient-to-br from-purple-950 via-purple-900 to-purple-950 backdrop-blur border border-purple-300">
+      <div className="flex flex-col items-center justify-between mb-4 text-center">
+        <p className="text-xl sm:text-2xl md:text-3xl font-bold text-[#f9dd9c]">
+          Event Verification
+        </p>
+        <Image
+          src="/ashtrang-cropped.svg"
+          width={150}
+          height={40}
+          alt="logo"
+          className="w-[100px] sm:w-[120px] md:w-[150px]"
+        />
       </div>
-      <div ref={receiptRef} className="w-full md:w-2/5 p-6 rounded-2xl shadow-lg bg-white backdrop-blur border border-black text-gray-900">
-        <p className="text-2xl md:text-3xl font-bold mb-6 text-black">Payment Receipt</p>
-        <table className="w-full text-left border-collapse text-sm md:text-base">
-          <tbody>
-            <tr className="border-b border-gray-300">
-              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Name:</th>
-              <td className="py-2 px-4">{data.name}</td>
-            </tr>
-            <tr className="border-b border-gray-300">
-              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Email:</th>
-              <td className="py-2 px-4">{data.email}</td>
-            </tr>
-            <tr className="border-b border-gray-300">
-              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Phone:</th>
-              <td className="py-2 px-4">{data.phone}</td>
-            </tr>
-            <tr className="border-b border-gray-300">
-              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Amount:</th>
-              <td className="py-2 px-4">₹{data.amount}</td>
-            </tr>
-            <tr className="border-b border-gray-300">
-              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Order ID:</th>
-              <td className="py-2 px-4">{data.orderId}</td>
-            </tr>
-            <tr>
-              <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Payment ID:</th>
-              <td className="py-2 px-4">{data._id}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="mt-6 border-t border-gray-600 pt-4 text-sm text-gray-400">
-          <p>This receipt confirms your payment and participation.</p>
-          <p>Thank you for registering!</p>
+
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center md:items-start">
+        <div className="flex-1 min-w-0">
+          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+            <tbody>
+              <tr className="border-b border-purple-300">
+                <th className="py-1 px-2 sm:py-2 sm:px-3 text-gray-400 font-semibold border-r border-purple-300 w-1/3">Payment ID:</th>
+                <td className="py-1 px-2 sm:py-2 sm:px-3 break-all">{data._id}</td>
+              </tr>
+              <tr className="border-b border-purple-300">
+                <th className="py-1 px-2 sm:py-2 sm:px-3 text-gray-400 font-semibold border-r border-purple-300 w-1/3">Order ID:</th>
+                <td className="py-1 px-2 sm:py-2 sm:px-3 break-all">{data.orderId}</td>
+              </tr>
+              <tr className="border-b border-purple-300">
+                <th className="py-1 px-2 sm:py-2 sm:px-3 text-gray-400 font-semibold border-r border-purple-300 w-1/3">Name:</th>
+                <td className="py-1 px-2 sm:py-2 sm:px-3 break-words">{data.name}</td>
+              </tr>
+              {showParticipants && (
+                <tr className="border-b border-purple-300">
+                  <th className="py-1 align-text-top px-2 sm:py-2 sm:px-3 text-gray-400 font-semibold border-r border-purple-300 w-1/3">Participants:</th>
+                  <td className="py-1 px-2 sm:py-2 sm:px-3 break-words">
+                    <div>
+                      {data.participantsData && data.participantsData.length > 0 && (
+                        <div className="mb-0.5">
+                          <span className="text-yellow-300 font-medium text-xs sm:text-sm">
+                            {data.participantsData[0].name} (Team Lead)
+                          </span>
+                        </div>
+                      )}
+                      {data.participantsData && data.participantsData.length > 1 && (
+                        <div className="text-xs text-gray-300 leading-relaxed break-words">
+                          <span className="text-gray-400">Members: </span>
+                          {data.participantsData.slice(1).map(p => p.name).join(", ")}
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              )}
+              <tr className="border-b border-purple-300">
+                <th className="py-1 px-2 sm:py-2 sm:px-3 text-gray-400 font-semibold border-r border-purple-300 w-1/3">Email:</th>
+                <td className="py-1 px-2 sm:py-2 sm:px-3 break-all">{data.email}</td>
+              </tr>
+              <tr className="border-b border-purple-300">
+                <th className="py-1 px-2 sm:py-2 sm:px-3 text-gray-400 font-semibold border-r border-purple-300 w-1/3">Phone:</th>
+                <td className="py-1 px-2 sm:py-2 sm:px-3 break-words">{data.phone}</td>
+              </tr>
+              <tr>
+                <th className="py-1 px-2 sm:py-2 sm:px-3 text-gray-400 font-semibold border-r border-purple-300 w-1/3">Class ID:</th>
+                <td className="py-1 px-2 sm:py-2 sm:px-3 break-words">{data.classId}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex-shrink-0 flex flex-col items-center mt-4 md:mt-0">
+          <p className="text-sm sm:text-base font-semibold text-gray-300 mb-1">Verification QR</p>
+          <div className="w-24 h-24 sm:w-32 sm:h-32 relative">
+            {qrCodeUrl ? (
+              <Image
+                src={qrCodeUrl}
+                alt="QR Code"
+                fill
+                className="object-contain rounded-lg border border-gray-600"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-800 rounded-lg">
+                <p className="text-xs text-gray-300">Loading QR...</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
+
+    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4 w-full">
+      <button
+        onClick={() => downloadAsPDF(passRef, `event-pass-${data._id}.pdf`)}
+        className="w-full sm:w-1/2 px-4 py-2 rounded-lg font-semibold shadow-md bg-[#f9dd9c] text-black hover:bg-[#ffe9b8] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white text-sm"
+      >
+        Download Event Pass
+      </button>
+      <button
+        onClick={() => downloadReceipt(receiptRef, `event-receipt-${data._id}.pdf`)}
+        className="w-full sm:w-1/2 px-4 py-2 rounded-md font-semibold shadow-md bg-[#f9dd9c] text-black hover:bg-[#ffe9b8] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white text-sm"
+      >
+        Download Receipt
+      </button>
+    </div>
+  </div>
+
+  <div ref={receiptRef} className="w-full md:w-2/5 p-3 sm:p-4 md:p-6 min-w-0 rounded-2xl shadow-lg bg-white backdrop-blur border border-black text-gray-900 mt-4 md:mt-0">
+    <p className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black">Payment Receipt</p>
+    <table className="w-full text-left border-collapse text-xs sm:text-sm">
+      <tbody>
+        <tr className="border-b border-gray-300">
+          <th className="py-1 px-2 sm:py-2 sm:px-3 text-black font-semibold border-r border-gray-300 w-1/3">Name:</th>
+          <td className="py-1 px-2 sm:py-2 sm:px-3 break-words">{data.name}</td>
+        </tr>
+        <tr className="border-b border-gray-300">
+          <th className="py-1 px-2 sm:py-2 sm:px-3 text-black font-semibold border-r border-gray-300 w-1/3">Email:</th>
+          <td className="py-1 px-2 sm:py-2 sm:px-3 break-all">{data.email}</td>
+        </tr>
+        <tr className="border-b border-gray-300">
+          <th className="py-1 px-2 sm:py-2 sm:px-3 text-black font-semibold border-r border-gray-300 w-1/3">Phone:</th>
+          <td className="py-1 px-2 sm:py-2 sm:px-3 break-words">{data.phone}</td>
+        </tr>
+        <tr className="border-b border-gray-300">
+          <th className="py-1 px-2 sm:py-2 sm:px-3 text-black font-semibold border-r border-gray-300 w-1/3">Amount:</th>
+          <td className="py-1 px-2 sm:py-2 sm:px-3">₹{data.amount}</td>
+        </tr>
+        <tr className="border-b border-gray-300">
+          <th className="py-1 px-2 sm:py-2 sm:px-3 text-black font-semibold border-r border-gray-300 w-1/3">Order ID:</th>
+          <td className="py-1 px-2 sm:py-2 sm:px-3 break-all">{data.orderId}</td>
+        </tr>
+        <tr>
+          <th className="py-1 px-2 sm:py-2 sm:px-3 text-black font-semibold border-r border-gray-300 w-1/3">Payment ID:</th>
+          <td className="py-1 px-2 sm:py-2 sm:px-3 break-all">{data._id}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div className="mt-4 border-t border-gray-600 pt-3 text-xs text-gray-500">
+      <p>This receipt confirms your payment and participation.</p>
+      <p>Thank you for registering!</p>
+    </div>
+  </div>
+</div>
+
   );
 }
