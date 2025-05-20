@@ -4,7 +4,7 @@ import styled, { keyframes } from 'styled-components';
 const Loader = () => {
   return (
     <StyledWrapper>
-      <div className="min-h-screen loader-container">
+      <div className="min-h-screen loader-container  flex justify-center items-center">
         <div className="delagothic loader-text text-[#f9dd9c] blinking-text">
           Loading
         </div>

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { getPass } from '@/data/passes';
-import { AlertTriangle } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 export default function CheckoutPage() {
   const searchParams = useSearchParams();
@@ -195,7 +195,7 @@ export default function CheckoutPage() {
                 <div className='pt-4 flex-col border-[1px] border-red-600 justify-center items-center p-2'>
                   <div className='flex-row justify-center items-center text-red-600 font-semibold gap-2'>
                     
-                      <AlertTriangle /> Caution
+                      <AlertCircle /> Note
                   </div>
                   <div className='text-red-800 text-xs'>
                     It is advised to take a screenshot of the payment page and save it for future reference. If you find difficulties in finding the email, then check the spam folder as well.
