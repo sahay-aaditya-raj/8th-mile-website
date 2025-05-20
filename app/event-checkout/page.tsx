@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AlertTriangle } from 'lucide-react';
+import Loader from '@/components/Loader';
 
 export default function EventRegistrationPage() {
   const router = useRouter();
@@ -181,7 +182,7 @@ export default function EventRegistrationPage() {
     }
   };
   
-  if (loading) return <div className="p-8 text-center">Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div className="p-8 text-center text-red-500 pt-10">{error}</div>;
   if (!event) return <div className="p-8 text-center">Event not found</div>;
   
