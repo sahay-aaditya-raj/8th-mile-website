@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { getPass } from '@/data/passes';
-import { AlertCircle } from 'lucide-react';
 
 export default function CheckoutPage() {
   const searchParams = useSearchParams();
@@ -192,12 +191,11 @@ export default function CheckoutPage() {
                     {isProcessing ? "Processing..." : `Pay  ₹${pass.price}`}
                   </Button>
                 </div>
-                <div className='pt-4 flex-col border-[1px] border-red-600 justify-center items-center p-2'>
-                  <div className='flex-row justify-center items-center text-red-600 font-semibold gap-2'>
-                    
-                      <AlertCircle /> Note
+                <div className='flex-col border-[1px] border-gray-600 justify-center items-center p-2'>
+                  <div className='flex-row justify-center items-center text-gray-600 font-semibold gap-2'>
+                    <span className='text-gray-400'>Note</span>
                   </div>
-                  <div className='text-red-800 text-xs'>
+                  <div className='text-gray-500 text-xs'>
                     It is advised to take a screenshot of the payment page and save it for future reference. If you find difficulties in finding the email, then check the spam folder as well.
                   </div>
                 </div>
