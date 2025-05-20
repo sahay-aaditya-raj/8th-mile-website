@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const Footer2 = () => {
   return (
-    <footer className="fixed bottom-0 w-full bg-black text-white py-6 px-6 md:px-24 border-t border-slate-900">
+    <footer className="bottom-0 w-full bg-black text-white py-6 px-6 md:px-24 border-t border-slate-900">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-6 md:gap-12">
         
         {/* Left: Logos */}
