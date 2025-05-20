@@ -32,7 +32,7 @@ export default function DeliveryPolicyPage() {
               
               <div>
                 <p className="text-xl font-bold text-[#f9dd9c] mb-2">2. Delivery of Passes</p>
-                <p>After successful payment, the event pass will be delivered to the user's email address or made available as a QR code on the confirmation page.</p>
+                <p>After successful payment, the event pass will be delivered to the users email address or made available as a QR code on the confirmation page.</p>
                 <p className="mt-2">Email delivery typically occurs within 15 minutes of successful payment. In some cases, it may take up to 24 hours.</p>
                 <p className="mt-2">Ensure that the email provided is correct at the time of purchase. We are not responsible for passes delivered to incorrectly entered email addresses.</p>
               </div>

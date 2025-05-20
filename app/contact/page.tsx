@@ -28,9 +28,9 @@ export default function ContactPage() {
     },
   ];
 
-  const [alert, setAlert] = useState(null);
+  const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -134,7 +134,7 @@ export default function ContactPage() {
                 <textarea
                   id="message"
                   name="message"
-                  rows="5"
+                  rows={5}
                   required
                   placeholder="Your message here..."
                   className="w-full bg-[#1a1a1a] border border-[#f9dd9c] text-[#f9dd9c] px-4 py-3 rounded-md placeholder-[#f9dd9c]/60 focus:outline-none"

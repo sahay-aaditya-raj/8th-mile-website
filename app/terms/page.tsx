@@ -56,7 +56,7 @@ export default function TermsPage() {
               </div>
               
               <div>
-                <p>You may not create a link to our website from another website or document without MILAAP KREATIONS's prior written consent.</p>
+                <p>You may not create a link to our website from another website or document without MILAAP KREATIONS&apos;s prior written consent.</p>
               </div>
 
               <div>
@@ -70,7 +70,9 @@ export default function TermsPage() {
             
             <div className="mt-8 pt-6 border-t border-gray-800">
               <p className="text-[#f9dd9c]">Disclaimer:</p>
-              <p className="text-gray-400">The above content is created at MILAAP KREATIONS's sole discretion. Payment Gateway shall not be liable for any content provided here and shall not be responsible for any claims and liability that may arise due to merchant's non-adherence to it.</p>
+                <p className="text-gray-400">
+                The above content is created at MILAAP KREATIONS&apos;s sole discretion. Payment Gateway shall not be liable for any content provided here and shall not be responsible for any claims and liability that may arise due to merchant&apos;s non-adherence to it.
+                </p>
             </div>
           </CardContent>
         </Card>
