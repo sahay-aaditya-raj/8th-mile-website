@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { getPass } from '@/data/passes';
+import { AlertTriangle } from 'lucide-react';
 
 export default function CheckoutPage() {
   const searchParams = useSearchParams();
@@ -50,7 +51,7 @@ export default function CheckoutPage() {
 
     try {
       const merchantOrderId = `8THMILE_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-      
+
       // Create a data object with all the collected information
       const paymentData = {
         type: 'pass',
@@ -74,14 +75,14 @@ export default function CheckoutPage() {
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Failed to create payment order');
       }
 
       // Redirect to PhonePe checkout page
       window.location.href = data.checkoutPageUrl;
-      
+
     } catch (err: any) {
       setError(err.message || 'Failed to process payment');
       console.error(err);
@@ -190,6 +191,17 @@ export default function CheckoutPage() {
                   >
                     {isProcessing ? "Processing..." : `Pay  ₹${pass.price}`}
                   </Button>
+                </div>
+                <div className='pt-4 flex-col border-[1px] border-red-600 justify-center items-center p-2'>
+                  <div className='flex-row justify-center items-center text-red-600 font-semibold gap-2'>
+                    <div>
+                      <AlertTriangle />
+                    </div>
+                    <div>Caution</div>
+                  </div>
+                  <div className='text-red-800 text-sm'>
+                    It is advised to take a screenshot of the payment page and save it for future reference. If you find difficulties in finding the email, then check the spam folder as well.
+                  </div>
                 </div>
               </form>
             </CardContent>
