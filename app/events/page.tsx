@@ -8,31 +8,31 @@ import { motion } from 'framer-motion';
 
 // Define interface based on Event model
 interface Contact {
-  name: string;
-  phone: string;
+    name: string;
+    phone: string;
 }
 
 interface Event {
-  _id: string;
-  photoPath?: string;
-  slug: string;
-  name: string;
-  description?: string;
-  date?: string;
-  time?: string;
-  venue?: string;
-  category?: 'Cultural' | 'Technical' | 'Gaming';
-  prizes?: string[];
-  teamsize?: string;
-  registrationFee: number;
-  feetype: 'individuals' | 'team';
-  guidelines?: string[];
-  contact?: Contact[];
-  registrationDeadline?: string;
-  registrationOpen: boolean;
-  currentRegistrations?: number;
-  maxParticipants?: number;
-  id?: string; // For backward compatibility
+    _id: string;
+    photoPath?: string;
+    slug: string;
+    name: string;
+    description?: string;
+    date?: string;
+    time?: string;
+    venue?: string;
+    category?: 'Cultural' | 'Technical' | 'Gaming';
+    prizes?: string[];
+    teamsize?: string;
+    registrationFee: number;
+    feetype: 'individuals' | 'team';
+    guidelines?: string[];
+    contact?: Contact[];
+    registrationDeadline?: string;
+    registrationOpen: boolean;
+    currentRegistrations?: number;
+    maxParticipants?: number;
+    id?: string; // For backward compatibility
 }
 
 const EventsPage = () => {
@@ -50,13 +50,13 @@ const EventsPage = () => {
             try {
                 setLoading(true);
                 const response = await fetch('/api/events');
-                
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
-                
+
                 const data = await response.json();
-                
+
                 // Ensure each event has an id property (for backward compatibility)
                 const eventsWithIds = data.map((event: Event) => ({
                     ...event,
@@ -64,7 +64,7 @@ const EventsPage = () => {
                     currentRegistrations: event.currentRegistrations || 0,
                     maxParticipants: event.maxParticipants || 100
                 }));
-                
+
                 setEvents(eventsWithIds);
             } catch (error) {
                 console.error('Error fetching events:', error);
@@ -132,24 +132,24 @@ const EventsPage = () => {
             <div className="flex flex-wrap gap-2 md:gap-4 justify-center mb-10">
                 {eventCategories.map(cat => (
                     <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`cursor-pointer px-3 py-1.5 md:px-4 md:py-2 border rounded-2xl md:rounded-full transition hover:scale-105 ${selectedCategory === cat
-                        ? 'bg-[#f9dd9c] text-black font-bold'
-                        : 'border-[#f9dd9c] text-[#f9dd9c]'
-                    }`}
+                        key={cat}
+                        onClick={() => setSelectedCategory(cat)}
+                        className={`cursor-pointer px-3 py-1.5 md:px-4 md:py-2 border rounded-2xl md:rounded-full transition hover:scale-105 ${selectedCategory === cat
+                            ? 'bg-[#f9dd9c] text-black font-bold'
+                            : 'border-[#f9dd9c] text-[#f9dd9c]'
+                            }`}
                     >
                         {cat}
                     </button>
                 ))}
             </div>
-                {/* Loading state */}
-                {loading && (
-                    <div className="text-center py-10">
-                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#f9dd9c] border-r-transparent"></div>
-                        <p className="mt-2 text-[#f9dd9c]">Loading events...</p>
-                    </div>
-                )}
+            {/* Loading state */}
+            {loading && (
+                <div className="text-center py-10">
+                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#f9dd9c] border-r-transparent"></div>
+                    <p className="mt-2 text-[#f9dd9c]">Loading events...</p>
+                </div>
+            )}
 
             {/* Event Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-6 md:gap-8">
@@ -162,8 +162,14 @@ const EventsPage = () => {
                             animate="visible"
                             transition={{ duration: 0.3, delay: index * 0.1 }}
                             onClick={() => router.push(`/events/${event.slug}`)}
-                            className={`cursor-pointer bg-black overflow-hidden hover:scale-105 transition-transform shadow-sm h-full flex flex-col ${event.category === 'Cultural' ? 'shadow-orange-500' :  event.category === 'Technical' ? 'shadow-yellow-200' : event.category === 'Gaming' ? 'shadow-red-400' : 'shadow-green-400'}`}
+                            className={`relative cursor-pointer bg-black overflow-hidden hover:scale-105 transition-transform shadow-sm h-full flex flex-col 
+    ${event.category === 'Cultural' ? 'shadow-orange-500' :
+                                    event.category === 'Technical' ? 'shadow-yellow-200' :
+                                        event.category === 'Gaming' ? 'shadow-red-400' :
+                                            'shadow-green-400'}`}
                         >
+
+                            {/* Event Image */}
                             <div className="relative w-full" style={{ paddingBottom: '125%' }}>
                                 <Image
                                     src={event.photoPath || '/images/event-placeholder.jpg'}
@@ -173,11 +179,23 @@ const EventsPage = () => {
                                 />
                             </div>
 
+                            {/* Content */}
                             <div className="p-4 flex-grow flex flex-col">
-                                <div className="text-xl font-bold text-[#f9dd9c] mb-2 line-clamp-1 ">{event.name}</div>
+                                <div className="text-xl font-bold text-[#f9dd9c] mb-2 line-clamp-1">{event.name}</div>
                                 <p className="text-sm text-gray-300 mb-3 line-clamp-2 flex-grow">{event.description}</p>
                             </div>
+
+                            {/* ❌ Overlay for closed registration */}
+                            {
+                                !event.registrationOpen && (
+                                    <div className="absolute inset-0 bg-black opacity-80 flex items-center justify-center text-white text-lg font-bold rounded-md">
+                                        Registrations Opening Soon
+                                    </div>
+                                )
+                            }
+
                         </motion.div>
+
                     );
                 })}
             </div>
