@@ -17,7 +17,7 @@ const page = () => {
             picture: "/team/web/samkit.png",
         },
         {
-            name: "Vijesh",
+            name: "Vijesh Shetty",
             role: "Backend, System Design, Authentication",
             picture: "/team/web/vijesh.png",
         }
