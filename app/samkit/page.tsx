@@ -88,11 +88,7 @@ export default function HomePage() {
                         alt="KK"
                         className="scale-75 absolute -left-20 -bottom-40 z-10"
                     />
-
-
                 </section>
-
-
                 {/* Section 4 */}
                 <section className="sticky bg-white top-0 h-screen pink-grid-bg flex items-center justify-center text-4xl font-bold">
                     <div className="text-[#fc03a8] text-[80px] seasons top-8 mx-auto absolute tracking-tight">
@@ -114,7 +110,7 @@ export default function HomePage() {
                     />
 
                     <div className='w-screen flex justify-center items-center'>
-                        <img src="/cards.svg" alt="" className="w-full object-cover" />
+                        <a href="https://www.instagram.com/8thmile.rvce/"><img src="/cards.svg" alt="" className="w-full object-cover hover:scale-110 transition-all duration-100" /></a>
                     </div>
                 </section>
 
