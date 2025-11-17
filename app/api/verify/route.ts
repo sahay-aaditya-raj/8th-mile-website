@@ -7,7 +7,7 @@ import { sendEmail } from "@/lib/server-utils";
 import { fetchCashfreeOrder } from "@/lib/cashfree";
 
 async function mailto(type: string, registration: any, paymentId: string) {
-    const url = `${process.env.NEXT_PUBLIC_APP_URL}/verify?payment_id=${paymentId}`;
+    const url = `${process.env.NEXT_PUBLIC_APP_URL}/verify?payment_id=${registration.orderId}`;
     let emailHtml, subject, plainText;
 
     if (type === "pass") {
