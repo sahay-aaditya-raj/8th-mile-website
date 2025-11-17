@@ -54,41 +54,89 @@ function getHeaders() {
   } satisfies Record<string, string>;
 }
 
-export async function createCashfreeOrder(payload: CashfreeOrderRequest): Promise<CashfreeOrderResponse> {
+export async function createCashfreeOrder(payload: CashfreeOrderRequest, retries = 3): Promise<CashfreeOrderResponse> {
   const requestBody = {
     order_currency: "INR",
     ...payload,
     customer_details: payload.customer_details,
   };
 
-  const response = await fetch(`${BASE_URL}/orders`, {
-    method: "POST",
-    headers: getHeaders(),
-    body: JSON.stringify(requestBody),
-  });
+  let lastError: Error | null = null;
 
-  const data = (await response.json()) as CashfreeOrderResponse & { message?: string };
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
-  if (!response.ok) {
-    const message = data?.message ?? "Failed to create Cashfree order";
-    throw new Error(message);
+      const response = await fetch(`${BASE_URL}/orders`, {
+        method: "POST",
+        headers: getHeaders(),
+        body: JSON.stringify(requestBody),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      const data = (await response.json()) as CashfreeOrderResponse & { message?: string };
+
+      if (!response.ok) {
+        const message = data?.message ?? "Failed to create Cashfree order";
+        throw new Error(message);
+      }
+
+      return data;
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      console.error(`Cashfree create attempt ${attempt}/${retries} failed:`, lastError.message);
+
+      if (attempt < retries) {
+        // Wait before retrying (exponential backoff)
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        console.log(`Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
   }
 
-  return data;
+  throw lastError ?? new Error("Failed to create Cashfree order after multiple attempts");
 }
 
-export async function fetchCashfreeOrder(orderId: string): Promise<CashfreeOrderResponse> {
-  const response = await fetch(`${BASE_URL}/orders/${orderId}`, {
-    method: "GET",
-    headers: getHeaders(),
-  });
+export async function fetchCashfreeOrder(orderId: string, retries = 3): Promise<CashfreeOrderResponse> {
+  let lastError: Error | null = null;
 
-  const data = (await response.json()) as CashfreeOrderResponse & { message?: string };
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
-  if (!response.ok) {
-    const message = data?.message ?? "Failed to fetch Cashfree order";
-    throw new Error(message);
+      const response = await fetch(`${BASE_URL}/orders/${orderId}`, {
+        method: "GET",
+        headers: getHeaders(),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      const data = (await response.json()) as CashfreeOrderResponse & { message?: string };
+
+      if (!response.ok) {
+        const message = data?.message ?? "Failed to fetch Cashfree order";
+        throw new Error(message);
+      }
+
+      return data;
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      console.error(`Cashfree fetch attempt ${attempt}/${retries} failed:`, lastError.message);
+
+      if (attempt < retries) {
+        // Wait before retrying (exponential backoff)
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        console.log(`Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
   }
 
-  return data;
+  throw lastError ?? new Error("Failed to fetch Cashfree order after multiple attempts");
 }

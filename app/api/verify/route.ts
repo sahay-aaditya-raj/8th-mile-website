@@ -88,6 +88,47 @@ async function mailto(type: string, registration: any, paymentId: string) {
     await sendEmail(registration.email, String(subject), String(plainText), String(emailHtml));
 }
 
+// POST handler for Cashfree webhooks
+export async function POST(request: Request) {
+    try {
+        const body = await request.json();
+        console.log('Cashfree webhook received:', body);
+
+        // Cashfree webhook payload typically contains order_id or cf_order_id
+        const orderId = body.data?.order?.order_id || body.order_id;
+        
+        if (!orderId) {
+            console.error('No order ID in webhook payload');
+            return NextResponse.json({ success: false, message: 'Missing order ID' }, { status: 400 });
+        }
+
+        await connectToDatabase();
+        
+        // Find and update the order
+        const order = await Order.findOne({ merchantOrderId: orderId });
+        if (order) {
+            const status = body.data?.order?.order_status || body.order_status;
+            order.cashfreeStatus = status;
+            
+            if (status === 'PAID') {
+                order.paymentStatus = 'SUCCESS';
+            } else if (status === 'ACTIVE') {
+                order.paymentStatus = 'PENDING';
+            } else {
+                order.paymentStatus = 'FAILED';
+            }
+            
+            await order.save();
+            console.log(`Order ${orderId} updated via webhook: ${status}`);
+        }
+
+        return NextResponse.json({ success: true }, { status: 200 });
+    } catch (error) {
+        console.error('Webhook processing error:', error);
+        return NextResponse.json({ success: false }, { status: 500 });
+    }
+}
+
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const paymentId = searchParams.get('payment_id');

@@ -57,16 +57,14 @@ export default function PaymentStatusPage() {
     verifyPayment();
   }, [paymentId, router]);
 
+  if (verifying) {
+    return <Loader />;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#ffffff] via-[#f7f7f7] to-[#f0f0f0] px-4">
       <div className="max-w-md w-full text-center">
-        {verifying ? (
-          <>
-            <Loader />
-            <h2 className="text-2xl font-bold mt-8 text-gray-900">Verifying Payment</h2>
-            <p className="text-gray-600 mt-4">Please wait while we confirm your payment...</p>
-          </>
-        ) : error ? (
+        {error && (
           <>
             <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center">
               <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,7 +75,7 @@ export default function PaymentStatusPage() {
             <p className="text-gray-600 mt-4">{error}</p>
             <p className="text-sm text-gray-500 mt-2">Redirecting...</p>
           </>
-        ) : null}
+        )}
       </div>
     </div>
   );
