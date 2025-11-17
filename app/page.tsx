@@ -17,14 +17,20 @@ export default function HomePage() {
   return (
     <>
       <div className="w-full ">
-
-        {/* Section 1 */}
-        <section className="top-0 thick-waves-bg h-screen flex items-center justify-center text-4xl font-bold overflow-hidden relative">
-          <div className="absolute top-12 z-10 seasons text-[120px] md:text-[190px] max-[1024px]:text-[150px] text-black">
-            ASHTARANG
+        
+        <section className="top-0 thick-waves-bg h-screen flex text-4xl font-bold overflow-hidden relative">
+          {/* considering the width of the navbar is 84px */}
+          
+          <div className='flex justify-center w-full'>
+          <div className='flex mt-12 flex-col w-fit'>
+            <div className="seasons text-[120px] md:text-[190px] max-[1024px]:text-[150px] text-black">
+              ASHTRANG
+            </div>
+            <div className='w-full'>
+              <div className='sora font-extrabold text-black'>4<sup>TH</sup>, 5<sup>TH</sup> & 6<sup>TH</sup><br />DECEMBER, 2025</div>
+            </div>
           </div>
-
-          <div className='absolute top-55 sora font-extrabold text-black left-60'>4<sup>TH</sup>, 5<sup>TH</sup> & 6<sup>TH</sup><br />DECEMBER, 2025</div>
+          </div>
           <img src="/collage.svg" alt="" className='absolute -bottom-40 flex z-20' />
         </section>
 
