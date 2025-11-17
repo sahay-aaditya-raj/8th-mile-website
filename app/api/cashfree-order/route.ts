@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
                 );
             }
         
-            const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/verify?payment_id=${merchantOrderId}`;
+            const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/payment-status?payment_id=${merchantOrderId}`;
 
             const orderRequest: CashfreeOrderRequest = {
                 order_id: merchantOrderId,
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
             if(feeType === 'individual'? (teamSize*eventval.registrationFee!=totalAmount):(eventval.registrationFee!=totalAmount)){
                 return NextResponse.json({success: false, message: "Invalid total amount"},{status: 400});
             }
-            const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/verify?payment_id=${merchantOrderId}`;
+            const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/payment-status?payment_id=${merchantOrderId}`;
             
             const orderRequest: CashfreeOrderRequest = {
                 order_id: merchantOrderId,

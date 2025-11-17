@@ -127,7 +127,7 @@ export default function PassesPage() {
             <CardFooter className="mt-auto">
               <Link
                 className="w-full p-2 text-center rounded-2xl bg-[#f9dd9c] text-black hover:bg-[#fbe8b3]"
-                href={`${process.env.NEXT_PUBLIC_APP_URL}/checkout?passId=${pass.id}`}
+                href={`/checkout?passId=${pass.id}`}
               >
                 Get {pass.name}
               </Link>

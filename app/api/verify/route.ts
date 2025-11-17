@@ -7,7 +7,7 @@ import { sendEmail } from "@/lib/server-utils";
 import { fetchCashfreeOrder } from "@/lib/cashfree";
 
 async function mailto(type: string, registration: any, paymentId: string) {
-    const url = `${process.env.NEXT_PUBLIC_APP_URL}/verify?payment_id=${paymentId}`;
+    const url = `${process.env.NEXT_PUBLIC_APP_URL}/verify?payment_id=${registration.orderId}`;
     let emailHtml, subject, plainText;
 
     if (type === "pass") {
@@ -88,13 +88,54 @@ async function mailto(type: string, registration: any, paymentId: string) {
     await sendEmail(registration.email, String(subject), String(plainText), String(emailHtml));
 }
 
+// POST handler for Cashfree webhooks
+export async function POST(request: Request) {
+    try {
+        const body = await request.json();
+        console.log('Cashfree webhook received:', body);
+
+        // Cashfree webhook payload typically contains order_id or cf_order_id
+        const orderId = body.data?.order?.order_id || body.order_id;
+        
+        if (!orderId) {
+            console.error('No order ID in webhook payload');
+            return NextResponse.json({ success: false, message: 'Missing order ID' }, { status: 400 });
+        }
+
+        await connectToDatabase();
+        
+        // Find and update the order
+        const order = await Order.findOne({ merchantOrderId: orderId });
+        if (order) {
+            const status = body.data?.order?.order_status || body.order_status;
+            order.cashfreeStatus = status;
+            
+            if (status === 'PAID') {
+                order.paymentStatus = 'SUCCESS';
+            } else if (status === 'ACTIVE') {
+                order.paymentStatus = 'PENDING';
+            } else {
+                order.paymentStatus = 'FAILED';
+            }
+            
+            await order.save();
+            console.log(`Order ${orderId} updated via webhook: ${status}`);
+        }
+
+        return NextResponse.json({ success: true }, { status: 200 });
+    } catch (error) {
+        console.error('Webhook processing error:', error);
+        return NextResponse.json({ success: false }, { status: 500 });
+    }
+}
+
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const paymentId = searchParams.get('payment_id');
 
     if (!paymentId) {
         return NextResponse.json(
-            { success: false, message: 'Missing payment_id parameter' },
+            { success: false, status: 'FAILED', message: 'Missing payment_id parameter', payment_id: null },
             { status: 400 }
         );
     }
@@ -106,7 +147,7 @@ export async function GET(request: Request) {
         const order = await Order.findOne({ merchantOrderId: paymentId });
         if (!order) {
             return NextResponse.json(
-                { success: false, message: 'Order not found' },
+                { success: false, status: 'FAILED', message: 'Order not found', payment_id: paymentId },
                 { status: 404 }
             );
         }
@@ -135,23 +176,31 @@ export async function GET(request: Request) {
                     if (retryData.order_status === 'PAID') {
                         console.log('Payment verified as PAID after retry');
                     } else if (retryData.order_status === 'ACTIVE') {
-                        // Still processing, update status and redirect to failed page
+                        // Still processing, return pending status
                         order.paymentStatus = 'PENDING';
                         await order.save();
                         console.log('Payment still processing after retry');
-                        return NextResponse.redirect(new URL(`/failed?payment_id=${paymentId}`, request.url));
+                        return NextResponse.json(
+                            { success: false, status: 'PENDING', message: 'Payment is still processing', payment_id: paymentId },
+                            { status: 200 }
+                        );
                     } else {
                         // Any other status (FAILED, CANCELLED, etc.)
                         order.paymentStatus = 'FAILED';
                         await order.save();
                         console.log('Payment failed after retry:', retryData.order_status);
-                        return NextResponse.redirect(new URL(`/failed?payment_id=${paymentId}`, request.url));
+                        return NextResponse.json(
+                            { success: false, status: 'FAILED', message: `Payment ${retryData.order_status.toLowerCase()}`, payment_id: paymentId },
+                            { status: 200 }
+                        );
                     }
                 } catch (retryError) {
                     console.error('Cashfree retry verification error:', retryError);
                     return NextResponse.json({ 
                         success: false, 
-                        message: 'Unable to verify payment status. Please try again.' 
+                        status: 'FAILED',
+                        message: 'Unable to verify payment status. Please try again.',
+                        payment_id: paymentId
                     }, { status: 500 });
                 }
             } else if (cashfreeData.order_status !== 'PAID') {
@@ -159,13 +208,21 @@ export async function GET(request: Request) {
                 order.paymentStatus = 'FAILED';
                 await order.save();
                 console.log('Payment failed or order status unknown:', cashfreeData.order_status);
-                return NextResponse.redirect(new URL(`/failed?payment_id=${paymentId}`, request.url));
+                return NextResponse.json(
+                    { success: false, status: 'FAILED', message: `Payment ${cashfreeData.order_status.toLowerCase()}`, payment_id: paymentId },
+                    { status: 200 }
+                );
             } else {
                 console.log('Payment verified as PAID immediately');
             }
         } catch (cfError) {
             console.error('Cashfree verification error:', cfError);
-            return NextResponse.json({ success: false, message: 'Payment verification failed' }, { status: 500 });
+            return NextResponse.json({ 
+                success: false, 
+                status: 'FAILED', 
+                message: 'Payment verification failed', 
+                payment_id: paymentId 
+            }, { status: 500 });
         }        
         
         // Update order payment status
@@ -176,14 +233,17 @@ export async function GET(request: Request) {
         // Check for existing registration
         const existingRegistration = await Registration.findOne({ orderId: order._id });
         if (existingRegistration) {
-            return NextResponse.redirect(new URL(`/verify?payment_id=${order.merchantOrderId}`, request.url));
+            return NextResponse.json(
+                { success: true, status: 'SUCCESS', message: 'Payment verified successfully', payment_id: order.merchantOrderId },
+                { status: 200 }
+            );
         }
         
         // Create new registration
         const registration = new Registration({
             _id: order.merchantOrderId,
             orderId: order._id,
-            signature: order.merchantOrderId,
+            signature: order.cashfreeOrderId,
             name: order.name,
             email: order.email,
             phone: order.phone,
@@ -199,17 +259,20 @@ export async function GET(request: Request) {
         // Send email if not already sent
         if (!order.mailSent) {
             console.log('Mail sent');
-            await mailto(order.type, registration, paymentId);
+            await mailto(order.type, registration, order.cashfreeOrderId);
             order.mailSent = true;
         }
         
         await order.save();
-        return NextResponse.redirect(new URL(`/verify?payment_id=${order.merchantOrderId}`, request.url));
+        return NextResponse.json(
+            { success: true, status: 'SUCCESS', message: 'Payment verified successfully', payment_id: order.merchantOrderId },
+            { status: 200 }
+        );
 
     } catch (error) {
         console.error('Error processing payment verification:', error);
         return NextResponse.json(
-            { success: false, message: 'Failed to process payment verification' },
+            { success: false, status: 'FAILED', message: 'Failed to process payment verification', payment_id: paymentId },
             { status: 500 }
         );
     }
