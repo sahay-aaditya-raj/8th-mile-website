@@ -47,8 +47,8 @@ export default function PassesPage() {
   <div className="bg-white text-black min-h-screen pt-24 relative">
     <SvgPatternBackground />
     <section className="py-10 px-6 md:px-20 max-w-7xl mx-auto relative z-10">
-      <div className="text-4xl font-bold [font-family:seasons!important] mb-4 text-[#d4b36b] text-center">Event Passes</div>
-      <p className="text-lg text-gray-700 mb-10 text-center">
+      <div className="text-7xl seasons mb-4 text-black text-center">Get Your Passes</div>
+      <p className="text-lg text-gray-900 mb-10 text-center">
         Choose the perfect pass for your 8th Mile experience
       </p>
 
@@ -56,7 +56,7 @@ export default function PassesPage() {
         {eventPasses.map(pass => (
           <div
             key={pass.id}
-            className="bg-[#fffdf7] border border-gray-700 rounded-xl overflow-hidden flex flex-col transition-transform hover:scale-[1.01] text-center"
+            className="bg-white border-1 border-black rounded-xl overflow-hidden flex flex-col transition-transform hover:scale-[1.01] text-center"
           >
             {/* Image */}
             <div className="relative h-48 w-full overflow-hidden">
@@ -70,11 +70,11 @@ export default function PassesPage() {
 
             {/* Thumbnails */}
             {pass.galleryImages && pass.galleryImages.length > 0 && (
-              <div className="flex gap-2 p-3 justify-center bg-[#FFE8D1]">
+              <div className="flex gap-2 p-3 justify-center bg-gray-100">
                 <div
                   className={`h-12 w-12 rounded cursor-pointer border-2 ${
                     activeImageIndex[pass.id] === undefined
-                      ? 'border-[#f9dd9c]'
+                      ? 'border-black'
                       : 'border-transparent'
                   }`}
                   onClick={() => switchImage(pass.id, -1)}
@@ -92,9 +92,9 @@ export default function PassesPage() {
                 {pass.galleryImages.map((img, idx) => (
                   <div
                     key={idx}
-                    className={`h-12 w-12 rounded cursor-pointer border-2 ${
+                    className={`h-12 w-12 rounded cursor-pointer border-2 hover:scale-110 transition-all duration-300 ${
                       activeImageIndex[pass.id] === idx
-                        ? 'border-[#f9dd9c]'
+                        ? 'border-black'
                         : 'border-transparent'
                     }`}
                     onClick={() => switchImage(pass.id, idx)}
@@ -112,8 +112,8 @@ export default function PassesPage() {
               </div>
             )}
             <div className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xl font-semibold text-[#C48C5C]">
+              <div className="flex items-center justify-center mb-3">
+                <span className="text-xl sora font-extrabold text-[#C48C5C]">
                   ₹{pass.price}
                 </span>
               </div>
@@ -122,10 +122,10 @@ export default function PassesPage() {
             </div>
             <div className="p-6 pt-0 mt-auto">
               <Link
-                className="w-full p-2 text-center rounded-2xl bg-[#f9dd9c] text-black hover:bg-[#fbe8b3]"
+                className="w-full px-4 py-2 text-center rounded-2xl bg-[#ff7809] text-white"
                 href={`/checkout?passId=${pass.id}`}
               >
-                Get {pass.name}
+                Get Now
               </Link>
             </div>
           </div>
