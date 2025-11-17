@@ -29,7 +29,9 @@ export default function HomePage() {
                             <div className="seasons text-6xl text-black">
                                 ASHTRANG
                             </div>
-                            <div className='sora font-extrabold text-2xl text-black'>4<sup>TH</sup>, 5<sup>TH</sup> & 6<sup>TH</sup><br />DECEMBER, 2025</div>
+                            <div className='sora font-extrabold text-2xl text-black flex flex-col items-center'><div>
+                                4<sup>TH</sup>, 5<sup>TH</sup> & 6<sup>TH</sup></div><div>
+                                    DECEMBER, 2025</div></div>
                         </div>
                     </div>
                     <img src="/phone-orange.svg" alt="" className='absolute z-10 bottom-0' />
@@ -69,7 +71,7 @@ export default function HomePage() {
                 <section className="sticky top-0 h-screen w-full squiggly-bg flex items-center justify-between overflow-hidden">
                     <div className="absolute z-20 top-4 mx-4 text-right">
                         <p className="sora font-extrabold text-black text-[90px] tracking-tight">ABOUT</p>
-                        <p className="seasons text-black text-[80px] -mt-6">8<sup>TH</sup>MILE</p>
+                        <p className="seasons text-black text-[80px] -mt-10">8<sup>TH</sup>MILE</p>
                         <p className="text-base sora text-gray-800 mt-6 text-justify">
                             R V College of Engineering’s 8th Mile is a national techno-cultural festival where students showcase diverse talents while fostering camaraderie and sportsmanship. Reflecting RVCE’s legacy of excellence, the event highlights its vibrant culture and inspires young learners toward holistic growth and achievement.
                         </p>
@@ -78,7 +80,7 @@ export default function HomePage() {
                     <img
                         src="/shape_flow.svg"
                         alt="background-shape"
-                        className="absolute scale-200 -bottom-80 -left-40 h-full w-auto z-0"
+                        className="absolute scale-[2.5] -bottom-80 -left-40 h-full w-auto z-0"
                     />
                     {/* KK image (big, left aligned) */}
                     <img
