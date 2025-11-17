@@ -126,6 +126,13 @@ html, body {
   background-attachment: fixed;
 }
 
+.past-perform-bg {
+  background-image: url('/wavy_line_pastperform.svg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
 .pink-grid-bg {
   background-image: url('/mesh.svg');
   background-size: cover;
