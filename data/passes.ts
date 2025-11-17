@@ -4,42 +4,35 @@ import { Pass } from '@/types';
 export const eventPasses: Pass[] = [
   {
     id: 'day-pass',
-    name: 'Day Pass',
+    name: 'One Day Pass',
     description: 'Access to all events on a single day',
-    price: 1, // in paise (₹50)
-    features: ["Entry to all events", "Lunch and refreshments", "Digital badge"],
-    type: "basic",
-    primaryImage: "/images/passes/day-pass-main.jpg",
+    price: 500, // in paise (₹50)
+    primaryImage: "/gallery/cultural/4.png",
     galleryImages: [
-      "/images/passes/day-pass-1.jpg",
-      "/images/passes/day-pass-2.jpg"
+      "/gallery/technical/3.JPG",
+      "/gallery/cultural/58.jpg"
     ]
   },
   {
     id: 'full-pass',
-    name: 'Full Pass',
-    description: 'Unlimited access to all three days',
-    price: 120, // in paise (₹120)
-    features: ["Entry to all events", "Daily lunch and refreshments", "Physical badge", "Exclusive merchandise"],
-    type: "standard",
-    primaryImage: "/images/passes/full-pass-main.jpg",
+    name: 'Two Day Pass',
+    description: 'Unlimited access to two days',
+    price: 800, // in paise (₹120)
+    primaryImage: "/gallery/cultural/007A1602.JPG",
     galleryImages: [
-      "/images/passes/full-pass-1.jpg",
-      "/images/passes/full-pass-2.jpg",
-      "/images/passes/full-pass-3.jpg"
+      "/gallery/technical/10.JPG",
+      "/gallery/cultural/45.JPG"
     ]
   },
   {
     id: 'vip-pass',
-    name: 'VIP Pass',
+    name: 'Three Day Pass',
     description: 'Premium experience across all three days',
-    price: 250, // in paise (₹250)
-    features: ["Priority access to all events", "VIP lounges", "Special networking events", "Exclusive merchandise", "Dinner with speakers"],
-    type: "premium",
-    primaryImage: "/images/passes/vip-pass-main.jpg",
+    price: 1100, // in paise (₹250)
+    primaryImage: "/gallery/cultural/51.JPG",
     galleryImages: [
-      "/images/passes/vip-pass-1.jpg",
-      "/images/passes/vip-pass-2.jpg"
+      "/gallery/technical/14.JPG",
+      "/gallery/cultural/14.png"
     ]
   }
 ];

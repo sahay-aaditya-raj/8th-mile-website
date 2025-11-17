@@ -4,8 +4,6 @@ export interface Pass {
   name: string;
   description: string;
   price: number;
-  features: string[];
-  type: string;
   primaryImage: string;
   galleryImages?: string[];
   isTeamEvent?: boolean;
