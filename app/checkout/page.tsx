@@ -146,9 +146,9 @@ export default function CheckoutPage() {
     }
   };
 
-  if (loading) return <div className="p-8 text-center text-gray-200 bg-black">Loading...</div>;
-  if (error) return <div className="p-8 text-center text-red-500 bg-black">{error}</div>;
-  if (!pass) return <div className="p-8 text-center text-gray-200 bg-black">No pass selected</div>;
+  if (loading) return <div className="p-8 text-center text-gray-800 bg-white">Loading...</div>;
+  if (error) return <div className="p-8 text-center text-red-500 bg-white">{error}</div>;
+  if (!pass) return <div className="p-8 text-center text-gray-800 bg-white">No pass selected</div>;
 
   return (
     <div className="min-h-screen bg-black text-white pt-32">

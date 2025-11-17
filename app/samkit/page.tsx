@@ -23,13 +23,13 @@ export default function HomePage() {
 
                     <div className='flex justify-center w-full'>
                         <div className='flex mt-36 flex-col w-fit items-center'>
-                            <div className="sora text-xl text-black">
+                            <div className="sora text-2xl text-black">
                                 8<sup>TH</sup> MILE
                             </div>
-                            <div className="seasons text-6xl text-black">
+                            <div className="seasons text-7xl text-black text-shadow-lg">
                                 ASHTRANG
                             </div>
-                            <div className='sora font-extrabold text-2xl text-black flex flex-col items-center'><div>
+                            <div className='sora font-extrabold text-3xl text-black flex flex-col items-center'><div>
                                 4<sup>TH</sup>, 5<sup>TH</sup> & 6<sup>TH</sup></div><div>
                                     DECEMBER, 2025</div></div>
                         </div>
@@ -45,7 +45,7 @@ export default function HomePage() {
                     <img
                         src="/shape_star.svg"
                         alt="star"
-                        className="absolute bottom-0 animate-spin scale-200"
+                        className="absolute bottom-10 animate-spin scale-[2.2]"
                         style={{ animationDuration: '12s' }}
                     />
 
@@ -53,26 +53,23 @@ export default function HomePage() {
                     <img
                         src="/college.svg"
                         alt=""
-                        className="absolute w-full z-10 bottom-0 h-1/3 scale-200"
+                        className="absolute w-full z-10 bottom-15 h-1/3 scale-200"
                     />
 
                     <div className="absolute z-20 top-4 mx-4 text-left">
                         <p className="sora font-extrabold text-black text-[90px] tracking-tight">ABOUT</p>
                         <p className="seasons text-black text-[90px] -mt-6">RVCE</p>
-                        <p className="text-base sora text-gray-800 mt-3 text-justify ">
+                        <p className="text-base sora text-gray-800 mt-3 text-left ">
                             R V College of Engineering is one of India’s premier institutions, renowned for academic excellence, innovation, and holistic development. With strong achievements in academics, and extracurriculars, RVCE is shaping talented engineers who contribute meaningfully to society.
                         </p>
                     </div>
-
                 </section>
-
-
                 {/* Section 3 */}
                 <section className="sticky top-0 h-screen w-full squiggly-bg flex items-center justify-between overflow-hidden">
                     <div className="absolute z-20 top-4 mx-4 text-right">
                         <p className="sora font-extrabold text-black text-[90px] tracking-tight">ABOUT</p>
                         <p className="seasons text-black text-[80px] -mt-10">8<sup>TH</sup>MILE</p>
-                        <p className="text-base sora text-gray-800 mt-3 text-justify">
+                        <p className="text-base sora text-gray-800 mt-3 text-right">
                             R V College of Engineering’s 8th Mile is a national techno-cultural festival where students showcase diverse talents while fostering camaraderie and sportsmanship. 
                         </p>
                     </div>
@@ -110,7 +107,7 @@ export default function HomePage() {
                     />
 
                     <div className='w-screen flex justify-center items-center'>
-                        <a href="https://www.instagram.com/8thmile.rvce/"><img src="/cards.svg" alt="" className="w-full object-cover hover:scale-110 transition-all duration-100" /></a>
+                        <a href="https://www.instagram.com/8thmile.rvce/"><img src="/cards.svg" alt="" className="w-full object-cover hover:scale-110 scale-125 transition-all duration-100" /></a>
                     </div>
                 </section>
 
@@ -167,7 +164,8 @@ export default function HomePage() {
                         </div>
                     </div>
                     <div className="text-[170px] sora font-extrabold z-20 absolute bottom-0 leading-[0.85]">
-                        8<sup className="text[120px]">TH</sup><br />MILE
+                        8<sup className="text[120px]">TH</sup>MILE
+                        <br />MILE 8
                     </div>
                     <img src="/fade.svg" alt="" className='absolute bottom-0 z-30 opacity-75' />
                 </section>
