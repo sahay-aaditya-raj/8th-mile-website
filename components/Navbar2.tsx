@@ -82,7 +82,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Island Dock Navigation */}
-            <div className="md:hidden fixed left-1/2 transform -translate-x-1/2 z-50 w-[100%]">
+            <div className="md:hidden absolute left-1/2 transform -translate-x-1/2 z-50 w-[100%]">
                 <div className="relative">
                     {/* Island dock */}
                     <div className="bg-transparent p-3 flex justify-between items-center text-white">
