@@ -4,6 +4,7 @@ import { BlurFade } from '@/components/magicui/blur-fade';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import React, { useRef } from 'react';
+import { FaInstagram } from 'react-icons/fa6';
 
 const images = [
     { id: 1, image: "/aman.png", caption: "" },
@@ -70,7 +71,7 @@ export default function HomePage() {
                         <p className="sora font-extrabold text-black text-[90px] tracking-tight">ABOUT</p>
                         <p className="seasons text-black text-[80px] -mt-10">8<sup>TH</sup>MILE</p>
                         <p className="text-base sora text-gray-800 mt-3 text-right">
-                            R V College of Engineering’s 8th Mile is a national techno-cultural festival where students showcase diverse talents while fostering camaraderie and sportsmanship. 
+                            R V College of Engineering’s 8th Mile is a national techno-cultural festival where students showcase diverse talents while fostering camaraderie and sportsmanship.
                         </p>
                     </div>
                     {/* Background yellow shape */}
@@ -158,9 +159,22 @@ export default function HomePage() {
                     <div className="flex flex-row justify-between mx-auto px-4 pt-12 z-20 w-full">
                         <div>
                             <div className='sora text-xl font-extrabold z-20 justify-start'>Contact Us</div>
+                            <div className='text-base z-20 justify-start'>
+                                <a href="mailto:8thmile@rvce.edu.in" className="underline hover:text-blue-600">
+                                    8thmile@rvce.edu.in
+                                </a>
+                            </div>
                         </div>
                         <div>
                             <div className='sora text-xl font-extrabold z-20 text-right'>Discover</div>
+                            <a href="https://www.instagram.com/8th.mile">
+                                <div className='cursor-pointertext-base z-20 text-right flex flex-row gap-2 justify-center items-center'>
+                                <div>
+                                    <FaInstagram />
+                                </div>
+                                <div>8th.mile</div>
+                            </div>
+                            </a>
                         </div>
                     </div>
                     <div className="text-[170px] sora font-extrabold z-20 absolute bottom-0 leading-[0.85]">

@@ -6,10 +6,10 @@ import Image from 'next/image';
 import React, { useRef } from 'react';
 
 const images = [
-  { id: 1, image: "/gallery/cultural/1.png", caption: "Amaal Malik" },
-  { id: 65, image: "/gallery/technical/1.JPG", caption: "Hackathon" },
-  { id: 31, image: "/gallery/cultural/31.png", caption: "Bike Performance" },
-  { id: 2, image: "/gallery/cultural/2.png", caption: "Verve" }
+    { id: 1, image: "/aman.png", caption: "" },
+    { id: 2, image: "/niharika.jpg", caption: "" },
+    { id: 3, image: "/amaal.jpeg", caption: "" },
+    { id: 4, image: "/Prajakta.jpg", caption: "" }
 ]
 
 export default function HomePage() {
@@ -32,6 +32,7 @@ export default function HomePage() {
           </div>
           </div>
           <img src="/collage.svg" alt="" className='absolute -bottom-40 flex z-20' />
+          <img src="/orange_bg.svg" alt="" className='absolute bottom-0 flex z-10' />
         </section>
 
         {/* Section 2 */}
@@ -127,7 +128,7 @@ export default function HomePage() {
             className="absolute bottom-0 left-0 scale-50 transform origin-bottom-left block"
           />
 
-          <img src="/cards.svg" alt="" className="scale-75 mt-16" />
+          <a href="https://www.instagram.com/8th.mile"><img src="/cards.svg" alt="" className="scale-75 mt-16" /></a>
         </section>
 
 
