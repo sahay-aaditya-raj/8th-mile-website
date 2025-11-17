@@ -201,7 +201,7 @@ export default function EventVerification({ data }: EventVerificationProps) {
           >
             Payment ID:
           </th>
-          <td style="padding: 0.5rem 1rem;">${data._id}</td>
+          <td style="padding: 0.5rem 1rem;">${data.signature}</td>
           </tr>
         </tbody>
         </table>
@@ -315,7 +315,7 @@ export default function EventVerification({ data }: EventVerificationProps) {
     <tbody>
       <tr style="border-bottom: 1px solid #d8b4fe;">
       <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #d8b4fe;">Payment ID:</th>
-      <td style="padding: 8px 16px 16px 16px;">${data._id}</td>
+      <td style="padding: 8px 16px 16px 16px;">${data.signature}</td>
       </tr>
       <tr style="border-bottom: 1px solid #d8b4fe;">
       <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #d8b4fe;">Order ID:</th>
@@ -415,7 +415,7 @@ export default function EventVerification({ data }: EventVerificationProps) {
             <tbody>
               <tr className="border-b border-purple-300">
                 <th className="py-1 px-2 sm:py-2 sm:px-3 text-gray-400 font-semibold border-r border-purple-300 w-1/3">Payment ID:</th>
-                <td className="py-1 px-2 sm:py-2 sm:px-3 break-all text-white">{data._id}</td>
+                <td className="py-1 px-2 sm:py-2 sm:px-3 break-all text-white">{data.signature}</td>
               </tr>
               <tr className="border-b border-purple-300">
                 <th className="py-1 px-2 sm:py-2 sm:px-3 text-gray-400 font-semibold border-r border-purple-300 w-1/3">Order ID:</th>
@@ -525,7 +525,7 @@ export default function EventVerification({ data }: EventVerificationProps) {
         </tr>
         <tr>
           <th className="py-1 px-2 sm:py-2 sm:px-3 text-black font-semibold border-r border-gray-300 w-1/3">Payment ID:</th>
-          <td className="py-1 px-2 sm:py-2 sm:px-3 break-all">{data._id}</td>
+          <td className="py-1 px-2 sm:py-2 sm:px-3 break-all">{data.signature}</td>
         </tr>
       </tbody>
     </table>

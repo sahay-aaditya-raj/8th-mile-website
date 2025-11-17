@@ -212,7 +212,7 @@ export default function PassVerification({ data }: PassVerificationProps) {
           >
             Payment ID:
           </th>
-          <td style="padding: 0.5rem 1rem;">${data._id}</td>
+          <td style="padding: 0.5rem 1rem;">${data.signature}</td>
           </tr>
         </tbody>
         </table>
@@ -344,7 +344,7 @@ export default function PassVerification({ data }: PassVerificationProps) {
     <tbody>
       <tr style="border-bottom: 1px solid #93c5fd;">
         <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Payment ID:</th>
-        <td style="padding: 8px 16px 16px 16px;">${data._id}</td>
+        <td style="padding: 8px 16px 16px 16px;">${data.signature}</td>
       </tr>
       <tr style="border-bottom: 1px solid #93c5fd;">
         <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Order ID:</th>
@@ -421,7 +421,7 @@ export default function PassVerification({ data }: PassVerificationProps) {
                 <tbody>
                   <tr className="border-b border-blue-300">
                     <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Payment ID:</th>
-                    <td className="py-2 px-4">{data._id}</td>
+                    <td className="py-2 px-4">{data.signature}</td>
                   </tr>
                   <tr className="border-b border-blue-300">
                     <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Order ID:</th>
@@ -506,7 +506,7 @@ export default function PassVerification({ data }: PassVerificationProps) {
             </tr>
             <tr>
               <th className="py-2 px-4 text-black font-semibold border-r border-gray-300">Payment ID:</th>
-              <td className="py-2 px-4">{data._id}</td>
+              <td className="py-2 px-4">{data.signature}</td>
             </tr>
           </tbody>
         </table>

@@ -243,7 +243,7 @@ export async function GET(request: Request) {
         const registration = new Registration({
             _id: order.merchantOrderId,
             orderId: order._id,
-            signature: order.merchantOrderId,
+            signature: order.cashfreeOrderId,
             name: order.name,
             email: order.email,
             phone: order.phone,
@@ -259,7 +259,7 @@ export async function GET(request: Request) {
         // Send email if not already sent
         if (!order.mailSent) {
             console.log('Mail sent');
-            await mailto(order.type, registration, paymentId);
+            await mailto(order.type, registration, order.cashfreeOrderId);
             order.mailSent = true;
         }
         
