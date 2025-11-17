@@ -37,7 +37,7 @@ export default function Navbar() {
     return (
         <>
             {/* Desktop Navigation */}
-            <div className="fixed p-3 px-8 w-full mx-auto hidden md:block text-white z-50">
+            <div className="absolute p-3 px-8 w-full mx-auto hidden md:block text-white z-50">
                 <div className="flex items-center justify-between w-full">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-4">
