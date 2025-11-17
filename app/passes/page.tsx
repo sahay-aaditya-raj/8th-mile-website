@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+// import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from 'next/link';
 import Image from "next/image";
@@ -14,6 +14,16 @@ const badgeVariantMap: Record<string, "default" | "secondary" | "outline" | "des
   standard: "default",
   premium: "destructive"
 };
+
+const SvgPatternBackground = () => (
+  <div
+    className="absolute inset-0 z-0 opacity-20"
+    style={{
+      backgroundImage: `url("/squiggly.svg")`,
+      backgroundRepeat: "repeat",
+    }}
+  />
+);
 
 export default function PassesPage() {
   const [activeImageIndex, setActiveImageIndex] = useState<Record<string, number>>({});
@@ -34,18 +44,19 @@ export default function PassesPage() {
   };
 
   return (
-  <div className="bg-black text-white min-h-screen pt-24">
-    <section className="py-10 px-6 md:px-20 max-w-7xl mx-auto">
-      <div className="text-4xl font-bold mb-4 text-[#f9dd9c] text-center">Event Passes</div>
-      <p className="text-lg text-gray-100 mb-10 text-center">
+  <div className="bg-white text-black min-h-screen pt-24 relative">
+    <SvgPatternBackground />
+    <section className="py-10 px-6 md:px-20 max-w-7xl mx-auto relative z-10">
+      <div className="text-4xl font-bold [font-family:seasons!important] mb-4 text-[#d4b36b] text-center">Event Passes</div>
+      <p className="text-lg text-gray-700 mb-10 text-center">
         Choose the perfect pass for your 8th Mile experience
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {eventPasses.map(pass => (
-          <Card
+          <div
             key={pass.id}
-            className="bg-[#111] border border-gray-700 rounded-xl overflow-hidden flex flex-col transition-transform hover:scale-[1.01]"
+            className="bg-[#fffdf7] border border-gray-700 rounded-xl overflow-hidden flex flex-col transition-transform hover:scale-[1.01] text-center"
           >
             {/* Image */}
             <div className="relative h-48 w-full overflow-hidden">
@@ -59,7 +70,7 @@ export default function PassesPage() {
 
             {/* Thumbnails */}
             {pass.galleryImages && pass.galleryImages.length > 0 && (
-              <div className="flex gap-2 p-3 justify-center bg-black/50">
+              <div className="flex gap-2 p-3 justify-center bg-[#FFE8D1]">
                 <div
                   className={`h-12 w-12 rounded cursor-pointer border-2 ${
                     activeImageIndex[pass.id] === undefined
@@ -100,39 +111,24 @@ export default function PassesPage() {
                 ))}
               </div>
             )}
-
-            <CardHeader>
+            <div className="p-6">
               <div className="flex items-center justify-between mb-3">
-                <Badge variant={badgeVariantMap[pass.type as string]}>
-                  {pass.type}
-                </Badge>
-                <span className="text-xl font-semibold text-[#f9dd9c]">
+                <span className="text-xl font-semibold text-[#C48C5C]">
                   ₹{pass.price}
                 </span>
               </div>
-              <CardTitle className="text-white">{pass.name}</CardTitle>
-              <p className="text-gray-400 text-sm">{pass.description}</p>
-            </CardHeader>
-
-            <CardContent className="pt-0 flex-grow">
-              <ul className="space-y-1 pl-4 text-gray-400 text-sm">
-                {pass.features?.map((feature, index) => (
-                  <li key={index} className="list-disc">
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-
-            <CardFooter className="mt-auto">
+              <h3 className="text-brown text-xl font-extrabold [font-family:sora!important]">{pass.name}</h3>
+              <p className="text-gray-600 text-sm">{pass.description}</p>
+            </div>
+            <div className="p-6 pt-0 mt-auto">
               <Link
                 className="w-full p-2 text-center rounded-2xl bg-[#f9dd9c] text-black hover:bg-[#fbe8b3]"
                 href={`/checkout?passId=${pass.id}`}
               >
                 Get {pass.name}
               </Link>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
     </section>
