@@ -59,8 +59,8 @@ export default function HomePage() {
                     <div className="absolute z-20 top-4 mx-4 text-left">
                         <p className="sora font-extrabold text-black text-[90px] tracking-tight">ABOUT</p>
                         <p className="seasons text-black text-[90px] -mt-6">RVCE</p>
-                        <p className="text-base sora text-gray-800 mt-6 text-justify ">
-                            R V College of Engineering is one of India’s premier institutions, renowned for academic excellence, innovation, and holistic development. With strong achievements in academics, research, and extracurriculars, RVCE fosters leadership, discipline, and technical expertise, shaping talented engineers who contribute meaningfully to society.
+                        <p className="text-base sora text-gray-800 mt-3 text-justify ">
+                            R V College of Engineering is one of India’s premier institutions, renowned for academic excellence, innovation, and holistic development. With strong achievements in academics, and extracurriculars, RVCE is shaping talented engineers who contribute meaningfully to society.
                         </p>
                     </div>
 
@@ -72,8 +72,8 @@ export default function HomePage() {
                     <div className="absolute z-20 top-4 mx-4 text-right">
                         <p className="sora font-extrabold text-black text-[90px] tracking-tight">ABOUT</p>
                         <p className="seasons text-black text-[80px] -mt-10">8<sup>TH</sup>MILE</p>
-                        <p className="text-base sora text-gray-800 mt-6 text-justify">
-                            R V College of Engineering’s 8th Mile is a national techno-cultural festival where students showcase diverse talents while fostering camaraderie and sportsmanship. Reflecting RVCE’s legacy of excellence, the event highlights its vibrant culture and inspires young learners toward holistic growth and achievement.
+                        <p className="text-base sora text-gray-800 mt-3 text-justify">
+                            R V College of Engineering’s 8th Mile is a national techno-cultural festival where students showcase diverse talents while fostering camaraderie and sportsmanship. 
                         </p>
                     </div>
                     {/* Background yellow shape */}
