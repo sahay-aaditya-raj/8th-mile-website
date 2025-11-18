@@ -177,31 +177,44 @@ export default function HomePage() {
         </section>
         <section className='sticky top-0 h-screen bg-white text-black overflow-hidden'>
           <img src="/spiral.svg" alt="" className='absolute scale-75 -z-10' />
+
           <div className="flex flex-row justify-between mx-20 pt-12">
             <div>
               <div className='sora text-4xl font-extrabold'>Contact Us</div>
-              <div className='text-2xl z-20 justify-start'>
+              <div className='text-2xl'>
                 <a href="mailto:8thmile@rvce.edu.in" className="underline hover:text-blue-600">
                   8thmile@rvce.edu.in
                 </a>
               </div>
             </div>
+
             <div>
               <div className='sora text-4xl font-extrabold'>Discover</div>
               <a href="https://www.instagram.com/8th.mile" className='text-2xl hover:scale-110 transition-all duration-300'>
-                <div className='cursor-pointer text-2xl z-20 text-right flex flex-row gap-2 justify-center items-center'>
-                  <div>
-                    <FaInstagram />
-                  </div>
+                <div className='cursor-pointer text-2xl flex flex-row gap-2 justify-center items-center'>
+                  <FaInstagram />
                   <div>8th.mile</div>
                 </div>
               </a>
             </div>
           </div>
-          <div className='text-[360px] sora font-extrabold z-20 absolute -bottom-35'>8<sup>TH</sup> MILE
+
+          {/* HERO WORD */}
+          <div
+            className="
+      sora font-extrabold absolute bottom-0 left-1/2 -translate-x-1/2
+      whitespace-nowrap
+      leading-none
+      text-[25rem]
+      tracking-[-0.04em]
+    "
+          >
+            8<sup>TH</sup> MILE
           </div>
+
           <img src="/fade.svg" alt="" className='absolute -bottom-100' />
         </section>
+
       </div>
       <div className="w-full md:hidden">
         <section className="top-0 thick-waves-bg h-screen flex text-4xl font-bold overflow-hidden relative">
