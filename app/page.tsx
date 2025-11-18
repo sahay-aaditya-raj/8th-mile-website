@@ -56,7 +56,7 @@ export default function HomePage() {
           <div className="absolute z-20 top-4 left-4 w-1/3 text-left">
             <p className="sora font-extrabold text-black text-[6rem]">ABOUT</p>
             <p className="seasons text-black text-[6rem] -my-8">RVCE</p>
-            <p className="text-[1rem] sora text-gray-800 mt-10">
+            <p className="sora text-gray-800 mt-16 leading-relaxed text-[1rem]">
               RV College of Engineering participated in the Rising Bharat Summit 2025,
               which was organised by CNN News18. During an interactive session with
               Hon’ble Prime Minister Shri Narendra Modi, our students presented their
@@ -90,7 +90,7 @@ export default function HomePage() {
               ABOUT
             </p>
 
-            <p className="seasons text-black text-[120px] md:text-[6rem] leading-none mt-4">
+            <p className="seasons text-black text-[120px] md:text-[6rem] leading-none mt-0">
               8<sup>TH</sup> MILE
             </p>
 
