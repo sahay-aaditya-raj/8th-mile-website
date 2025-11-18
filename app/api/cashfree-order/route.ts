@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
             }
             
             // Validate phone number - must be exactly 10 digits
-            const phoneDigits = phone?.replace(/\D/g, '') || '';
+            const phoneDigits = phone?.replace(/\D/g, '') || '9999999999';
             if (phoneDigits.length !== 10) {
                 return NextResponse.json(
                     { success: false, message: 'Phone number must be exactly 10 digits' },
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
                     customer_id: email.toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, ""),
                     customer_name: name,
                     customer_email: email.toLowerCase(),
-                    customer_phone: phone.trim(),
+                    customer_phone: phoneDigits,
                 },
                 order_meta: {
                     return_url: redirectUrl,
@@ -118,10 +118,24 @@ export async function POST(req: NextRequest) {
             }
             
             // Validate phone number - must be exactly 10 digits
-            const phoneDigits = phone?.replace(/\D/g, '') || '';
+            const phoneDigits = phone?.replace(/\D/g, '') || '9999999999';
             if (phoneDigits.length !== 10) {
                 return NextResponse.json(
                     { success: false, message: 'Phone number must be exactly 10 digits' },
+                    { status: 400 }
+                );
+            }
+            
+            if (phoneDigits.startsWith('0')) {
+                return NextResponse.json(
+                    { success: false, message: 'Phone number cannot start with 0' },
+                    { status: 400 }
+                );
+            }
+            
+            if(feeType!=eventval.feetype){
+                return NextResponse.json(
+                    { success: false, message: 'Phone number cannot start with 0' },
                     { status: 400 }
                 );
             }
@@ -142,7 +156,7 @@ export async function POST(req: NextRequest) {
                     customer_id: email.toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, ""),
                     customer_name: name,
                     customer_email: email.toLowerCase(),
-                    customer_phone: '9999999999',
+                    customer_phone: phoneDigits,
                 },
                 order_meta: {
                     return_url: redirectUrl,

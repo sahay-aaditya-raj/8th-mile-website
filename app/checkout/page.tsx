@@ -62,7 +62,11 @@ export default function CheckoutPage() {
     if (value.length <= 10) {
       setPhone(value);
       if (value.length === 10) {
-        setPhoneError('');
+        if (value.startsWith('0')) {
+          setPhoneError('Phone number cannot start with 0');
+        } else {
+          setPhoneError('');
+        }
       } else if (value.length > 0) {
         setPhoneError('Phone number must be exactly 10 digits');
       } else {
@@ -138,6 +142,12 @@ export default function CheckoutPage() {
 
       if (phone.length !== 10) {
         setValidationError("Phone number must be exactly 10 digits.");
+        setIsProcessing(false);
+        return;
+      }
+
+      if (phone.startsWith('0')) {
+        setValidationError("Phone number cannot start with 0.");
         setIsProcessing(false);
         return;
       }
