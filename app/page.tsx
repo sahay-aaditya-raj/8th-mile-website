@@ -208,7 +208,7 @@ export default function HomePage() {
         <section className="top-0 thick-waves-bg h-screen flex text-4xl font-bold overflow-hidden relative">
           {/* considering the width of the navbar is 84px */}
 
-          <div className='flex justify-center w-full'>
+          <div className='flex justify-center w-full z-50'>
             <div className='flex mt-36 flex-col w-fit items-center'>
               <div className="sora text-2xl text-black">
                 8<sup>TH</sup> MILE
@@ -232,8 +232,7 @@ export default function HomePage() {
           <img
             src="/shape_star.svg"
             alt="star"
-            className="absolute bottom-10 animate-spin scale-[2.2]"
-            style={{ animationDuration: '12s' }}
+            className="absolute bottom-10 scale-[2.2]"
           />
 
           {/* RVCE Layer */}
