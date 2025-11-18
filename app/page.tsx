@@ -32,8 +32,8 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <img src="/collage.svg" alt="" className='absolute -bottom-40 flex z-20' />
-          <img src="/orange_bg.svg" alt="" className='absolute bottom-0 flex z-10' />
+          <img src="/collage.svg" alt="" className='absolute -bottom-40 flex z-20 w-full' />
+          <img src="/orange_bg.svg" alt="" className='absolute bottom-0 flex z-10 w-full' />
         </section>
 
         {/* Section 2 */}
@@ -176,9 +176,9 @@ export default function HomePage() {
           </div>
         </section>
         <section className='sticky top-0 h-screen bg-white text-black overflow-hidden'>
-          <img src="/spiral.svg" alt="" className='absolute scale-75 -z-10' />
+          <img src="/spiral.svg" alt="" className='absolute scale-75 -z-10 w-full' />
 
-          <div className="flex flex-row justify-between mx-20 pt-12">
+          <div className="flex flex-row justify-between mx-20 pt-36">
             <div>
               <div className='sora text-4xl font-extrabold'>Contact Us</div>
               <div className='text-2xl'>
@@ -190,10 +190,10 @@ export default function HomePage() {
 
             <div>
               <div className='sora text-4xl font-extrabold'>Discover</div>
-              <a href="https://www.instagram.com/8th.mile" className='text-2xl hover:scale-110 transition-all duration-300'>
+              <a href="https://www.instagram.com/8thmile.rvce" className='text-2xl hover:scale-110 transition-all duration-300'>
                 <div className='cursor-pointer text-2xl flex flex-row gap-2 justify-center items-center'>
                   <FaInstagram />
-                  <div>8th.mile</div>
+                  <div>8thmile.rvce</div>
                 </div>
               </a>
             </div>
@@ -212,7 +212,7 @@ export default function HomePage() {
             8<sup>TH</sup> MILE
           </div>
 
-          <img src="/fade.svg" alt="" className='absolute -bottom-100' />
+          <img src="/fade.svg" alt="" className='absolute -bottom-100 w-full' />
         </section>
 
       </div>
