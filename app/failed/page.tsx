@@ -28,7 +28,7 @@ export default function FailedPage() {
         console.log('Payment status check:', data);
 
         if (data.success && data.status === 'PAID') {
-          window.location.href = `/api/verify?payment_id=${paymentId}`;
+          window.location.href = `/payment-status?payment_id=${paymentId}`;
         } else {
           setIsChecking(false);
         }

@@ -73,7 +73,7 @@ export default function PaymentStatusPage() {
             </div>
             <h2 className="text-2xl font-bold mt-6 text-gray-900">Verification Error</h2>
             <p className="text-gray-600 mt-4">{error}</p>
-            <p className="text-sm text-gray-500 mt-2">Redirecting...</p>
+            <p className="text-sm text-gray-500 mt-2">Please Contact Support</p>
           </>
         )}
       </div>

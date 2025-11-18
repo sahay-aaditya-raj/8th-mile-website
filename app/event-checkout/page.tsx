@@ -34,7 +34,7 @@ export default function EventRegistrationPage() {
     const orderId = urlParams.get('order_id');
     if (orderId) {
       // Redirected from Cashfree after payment attempt
-      window.location.href = `/api/verify?payment_id=${orderId}`;
+      window.location.href = `/payment-status?payment_id=${orderId}`;
       return;
     }
 
@@ -223,7 +223,7 @@ export default function EventRegistrationPage() {
       
       // Calculate the total fee
       const totalFee = calculateTotalFee();
-      const merchantOrderId = `8THMILE_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      const merchantOrderId = `8THMILE_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
       // Create Cashfree order
       const response = await fetch('/api/cashfree-order', {
         method: 'POST',

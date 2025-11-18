@@ -362,9 +362,9 @@ export default function PassVerification({ data }: PassVerificationProps) {
         <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Phone:</th>
         <td style="padding: 8px 16px 16px 16px;">${data.phone}</td>
       </tr>
-      <tr>
-        <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">Class ID:</th>
-        <td style="padding: 8px 16px 16px 16px;">${data.classId}</td>
+      <tr className="">
+        <th style="padding: 8px 16px 16px 16px; color: #cbd5e1; font-weight: 600; border-right: 1px solid #93c5fd;">${data.participantsData?.length === 1? 'Date:': 'Dates:'}</th>
+        <td style="padding: 8px 16px 16px 16px;">${data.participantsData?.map((date) => date.name).join(', ')}</td>
       </tr>
     </tbody>
   </table>
@@ -440,8 +440,8 @@ export default function PassVerification({ data }: PassVerificationProps) {
                     <td className="py-2 px-4 text-white">{data.phone}</td>
                   </tr>
                   <tr className="">
-                    <th className="py-2 px-4 text-gray-100 font-semibold border-r border-blue-300">Class ID:</th>
-                    <td className="py-2 px-4 text-white">{data.classId}</td>
+                    <th className="py-2 px-4 text-gray-100 font-semibold border-r border-blue-300">{data.participantsData?.length === 1? 'Date:': 'Dates:'}</th>
+                    <td className="py-2 px-4 text-white">{data.participantsData?.map((date) => date.name).join(', ')}</td>
                   </tr>
                 </tbody>
               </table>
@@ -510,7 +510,7 @@ export default function PassVerification({ data }: PassVerificationProps) {
             </tr>
           </tbody>
         </table>
-        <div className="mt-6 border-t border-gray-600 pt-4 text-sm text-gray-100">
+        <div className="mt-6 border-t border-gray-600 pt-4 text-sm text-gray-500">
           <p>This receipt confirms your payment and participation.</p>
           <p>Thank you for registering!</p>
         </div>
