@@ -44,8 +44,7 @@ export default function PassesPage() {
   };
 
   return (
-  <div className="bg-white text-black min-h-screen pt-24 relative">
-    <SvgPatternBackground />
+  <div className="white-spotted-bg text-black min-h-screen pt-24 relative">
     <section className="py-10 px-6 md:px-20 max-w-7xl mx-auto relative z-10">
       <div className="text-7xl seasons mb-4 text-black text-center">Get Your Passes</div>
       <p className="text-lg text-gray-900 mb-10 text-center">
