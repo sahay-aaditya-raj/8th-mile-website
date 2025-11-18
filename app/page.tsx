@@ -32,7 +32,8 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <img src="/collage.svg" alt="" className='absolute -bottom-40 flex z-20 w-full' />
+          <img src="/collage-new.svg" alt="" className='absolute -bottom-40 flex z-20 w-full' />
+          {/* <img src="/collage.svg" alt="" className='absolute -bottom-40 flex z-20 w-full' /> */}
           <img src="/orange_bg.svg" alt="" className='absolute bottom-0 flex z-10 w-full' />
         </section>
 
@@ -59,7 +60,7 @@ export default function HomePage() {
             <p className="sora text-gray-800 mt-16 leading-relaxed text-[1rem]">
               RV College of Engineering participated in the Rising Bharat Summit 2025,
               which was organised by CNN News18. During an interactive session with
-              Hon’ble Prime Minister Shri Narendra Modi, our students presented their
+              Hon'ble Prime Minister Shri Narendra Modi, our students presented their
               ideas, receiving a lot of praises.
             </p>
           </div>
