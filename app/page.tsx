@@ -4,12 +4,13 @@ import { BlurFade } from '@/components/magicui/blur-fade';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import React, { useRef } from 'react';
+import { FaInstagram } from 'react-icons/fa6';
 
 const images = [
-    { id: 1, image: "/aman.png", caption: "" },
-    { id: 2, image: "/niharika.jpg", caption: "" },
-    { id: 3, image: "/amaal.jpeg", caption: "" },
-    { id: 4, image: "/Prajakta.jpg", caption: "" }
+  { id: 1, image: "/aman.png", caption: "" },
+  { id: 2, image: "/niharika.jpg", caption: "" },
+  { id: 3, image: "/amaal.jpeg", caption: "" },
+  { id: 4, image: "/Prajakta.jpg", caption: "" }
 ]
 
 export default function HomePage() {
@@ -17,19 +18,19 @@ export default function HomePage() {
   return (
     <>
       <div className="w-full ">
-        
+
         <section className="top-0 thick-waves-bg h-screen flex text-4xl font-bold overflow-hidden relative">
           {/* considering the width of the navbar is 84px */}
-          
+
           <div className='flex justify-center w-full'>
-          <div className='flex mt-12 flex-col w-fit'>
-            <div className="seasons text-[120px] md:text-[190px] max-[1024px]:text-[150px] text-black">
-              ASHTRANG
+            <div className='flex mt-12 flex-col w-fit'>
+              <div className="seasons text-[120px] md:text-[190px] max-[1024px]:text-[150px] text-black">
+                ASHTRANG
+              </div>
+              <div className='w-full'>
+                <div className='sora font-extrabold text-black'>4<sup>TH</sup>, 5<sup>TH</sup> & 6<sup>TH</sup><br />DECEMBER, 2025</div>
+              </div>
             </div>
-            <div className='w-full'>
-              <div className='sora font-extrabold text-black'>4<sup>TH</sup>, 5<sup>TH</sup> & 6<sup>TH</sup><br />DECEMBER, 2025</div>
-            </div>
-          </div>
           </div>
           <img src="/collage.svg" alt="" className='absolute -bottom-40 flex z-20' />
           <img src="/orange_bg.svg" alt="" className='absolute bottom-0 flex z-10' />
@@ -176,19 +177,32 @@ export default function HomePage() {
           </div>
         </section>
         <section className='sticky top-0 h-screen bg-white text-black overflow-hidden'>
-            <img src="/spiral.svg" alt="" className='absolute scale-75 -z-10'/>
-            <div className="flex flex-row justify-between mx-20 pt-12">
-              <div>
-                <div className='sora text-4xl font-extrabold'>Contact Us</div>
-              </div>
-              <div>
-                <div className='sora text-4xl font-extrabold'>Discover</div>
+          <img src="/spiral.svg" alt="" className='absolute scale-75 -z-10' />
+          <div className="flex flex-row justify-between mx-20 pt-12">
+            <div>
+              <div className='sora text-4xl font-extrabold'>Contact Us</div>
+              <div className='text-2xl z-20 justify-start'>
+                <a href="mailto:8thmile@rvce.edu.in" className="underline hover:text-blue-600">
+                  8thmile@rvce.edu.in
+                </a>
               </div>
             </div>
-            <div className='text-[360px] sora font-extrabold z-20 absolute -bottom-35'>8<sup>TH</sup> MILE
+            <div>
+              <div className='sora text-4xl font-extrabold'>Discover</div>
+              <a href="https://www.instagram.com/8th.mile" className='text-2xl hover:scale-110 transition-all duration-300'>
+                <div className='cursor-pointer text-2xl z-20 text-right flex flex-row gap-2 justify-center items-center'>
+                  <div>
+                    <FaInstagram />
+                  </div>
+                  <div>8th.mile</div>
+                </div>
+              </a>
             </div>
-            <img src="/fade.svg" alt="" className='absolute -bottom-100' />
-        </section>  
+          </div>
+          <div className='text-[360px] sora font-extrabold z-20 absolute -bottom-35'>8<sup>TH</sup> MILE
+          </div>
+          <img src="/fade.svg" alt="" className='absolute -bottom-100' />
+        </section>
       </div>
     </>
   );

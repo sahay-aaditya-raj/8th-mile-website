@@ -168,7 +168,7 @@ export default function HomePage() {
                         <div>
                             <div className='sora text-xl font-extrabold z-20 text-right'>Discover</div>
                             <a href="https://www.instagram.com/8th.mile">
-                                <div className='cursor-pointertext-base z-20 text-right flex flex-row gap-2 justify-center items-center'>
+                                <div className='cursor-pointer text-base z-20 text-right flex flex-row gap-2 justify-center items-center'>
                                 <div>
                                     <FaInstagram />
                                 </div>
