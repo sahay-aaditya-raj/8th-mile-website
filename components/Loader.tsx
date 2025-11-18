@@ -4,8 +4,8 @@ import styled, { keyframes } from 'styled-components';
 const Loader = () => {
   return (
     <StyledWrapper>
-      <div className="min-h-screen loader-container flex justify-center items-center">
-        <div className="delagothic loader-text blinking-text">
+      <div className="min-h-screen loader-container flex justify-center items-center bg-white">
+        <div className="sora font-extrabold loader-text blinking-text text-black">
           Loading
         </div>
       </div>
@@ -14,15 +14,9 @@ const Loader = () => {
 };
 
 const blinkAnimation = keyframes`
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
 `;
 
 const StyledWrapper = styled.div`
@@ -30,17 +24,18 @@ const StyledWrapper = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #000;
 
+  /* Light mode background */
+  background-color: #ffffff;
 
   .highlight {
-    color: #ffffff;
+    color: #000000;
     animation: ${blinkAnimation} 1s infinite;
   }
 
   .blinking-text {
     font-size: 2rem;
-    color: #ffffff;
+    color: #000000;
     margin-top: 20px;
     animation: ${blinkAnimation} 3s infinite;
   }

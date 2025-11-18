@@ -151,30 +151,37 @@ export default function CheckoutPage() {
   if (!pass) return <div className="p-8 text-center text-gray-800 bg-white">No pass selected</div>;
 
   return (
-    <div className="min-h-screen bg-black text-white pt-32">
-      <div className="samarkan text-6xl font-extrabold mb-10 text-center text-[#f9dd9c]">Checkout</div>
+    <div className="min-h-screen bg-white text-black pt-32">
+      <div className="samarkan text-6xl font-extrabold mb-10 text-center text-[#be1e2d]">
+        Checkout
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+
         {/* Pass Details Section */}
         <div>
-          <Card className="bg-[#0a0a0a] p-6 rounded-xl shadow-lg border border-gray-800">
+          <Card className="bg-white p-6 rounded-xl shadow-md border border-gray-300">
             <CardContent className="p-0 pt-6">
-              <p className="text-2xl font-bold text-[#f9dd9c] mb-4">{pass.name}</p>
-              <p className="text-gray-300 mb-4">{pass.description}</p>
 
-              <Separator className="my-4 bg-gray-700" />
+              <p className="text-3xl seasons font-extrabold text-[#007dc9] mb-4">
+                {pass.name}
+              </p>
+
+              <p className="text-gray-700 sora mb-4">{pass.description}</p>
+
+              <Separator className="my-4 bg-gray-300" />
 
               <div className="space-y-3">
-                <p className="font-semibold text-gray-200">Includes:</p>
-                <ul className="list-disc pl-5 space-y-1 text-gray-400">
+                <p className="font-semibold sora text-gray-700">Includes:</p>
+
+                <ul className="list-disc pl-5 space-y-1 text-gray-600 sora">
                   {pass.features.map((feature: string, index: number) => (
                     <li key={index}>{feature}</li>
                   ))}
                 </ul>
               </div>
 
-              <Separator className="my-4 bg-gray-700" />
-
+              <Separator className="my-4 bg-gray-300" />
 
             </CardContent>
           </Card>
@@ -182,34 +189,34 @@ export default function CheckoutPage() {
 
         {/* Form Section */}
         <div>
-          <Card className="bg-[#0a0a0a] p-6 rounded-xl shadow-lg border border-gray-800">
+          <Card className="bg-white p-6 rounded-xl shadow-md border border-gray-300">
             <CardContent className="p-0 pt-6">
-              <p className="text-xl font-bold mb-4 text-[#f9dd9c]">
+
+              <p className="text-2xl seasons font-extrabold mb-4 text-[#007dc9]">
                 Personal Information
               </p>
 
-              <form onSubmit={handlePayment} className="space-y-4 text-white">
+              <form onSubmit={handlePayment} className="space-y-4 text-black sora">
+
+                {/* Name */}
                 <div className="space-y-2">
-                  <Label htmlFor="name">
-                    Name
-                    <span className="text-red-500"> *</span>
+                  <Label htmlFor="name" className="sora font-semibold text-gray-700">
+                    Name<span className="text-red-500"> *</span>
                   </Label>
                   <Input
                     id="name"
                     placeholder="Enter your name"
                     value={name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
+                    onChange={(e) => setName(e.target.value)}
                     required
-                    className="bg-black border border-gray-700 text-white placeholder-gray-500 focus:ring-[#f9dd9c] focus:border-[#f9dd9c]"
+                    className="bg-white border border-gray-400 text-black placeholder-gray-500 focus:ring-[#f9dd9c] focus:border-[#f9dd9c]"
                   />
                 </div>
 
+                {/* Email */}
                 <div className="space-y-2">
-                  <Label htmlFor="email">
-                    Email
-                    <span className="text-red-500"> *</span>
+                  <Label htmlFor="email" className="sora font-semibold text-gray-700">
+                    Email<span className="text-red-500"> *</span>
                   </Label>
                   <Input
                     id="email"
@@ -218,14 +225,14 @@ export default function CheckoutPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="bg-black border border-gray-700 text-white placeholder-gray-500 focus:ring-[#f9dd9c] focus:border-[#f9dd9c]"
+                    className="bg-white border border-gray-400 text-black placeholder-gray-500 focus:ring-[#f9dd9c] focus:border-[#f9dd9c]"
                   />
                 </div>
 
+                {/* Phone */}
                 <div className="space-y-2">
-                  <Label htmlFor="phone">
-                    Phone
-                    <span className="text-red-500"> *</span>
+                  <Label htmlFor="phone" className="sora font-semibold text-gray-700">
+                    Phone<span className="text-red-500"> *</span>
                   </Label>
                   <Input
                     id="phone"
@@ -233,51 +240,60 @@ export default function CheckoutPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
-                    className="bg-black border border-gray-700 text-white placeholder-gray-500 focus:ring-[#f9dd9c] focus:border-[#f9dd9c]"
+                    className="bg-white border border-gray-400 text-black placeholder-gray-500 focus:ring-[#f9dd9c] focus:border-[#f9dd9c]"
                   />
                 </div>
 
-                <p className='text-sm text-red-800 text-right'>* Required</p>
+                <p className="text-sm text-red-600 text-right sora">* Required</p>
 
+                {/* PAY BUTTON */}
                 <div className="pt-4">
                   <Button
                     type="submit"
-                    className="w-full bg-[#f9dd9c] text-black font-bold hover:bg-yellow-400 transition"
+                    className="w-full bg-[#f9dd9c] text-black font-bold sora hover:bg-[#ffe9a9] transition"
                     disabled={isProcessing}
                   >
-                    {isProcessing ? "Processing..." : `Pay  ₹${pass.price}`}
+                    {isProcessing ? "Processing..." : `Pay ₹${pass.price}`}
                   </Button>
                 </div>
-                <div className='flex-col border-[1px] border-gray-600 justify-center items-center p-2'>
-                  <div className='flex-row justify-center items-center text-gray-600 font-semibold gap-2'>
-                    <span className='text-gray-400'>Note</span>
-                  </div>
-                  <div className='text-gray-500 text-xs'>
-                    It is advised to take a screenshot of the payment page and save it for future reference. If you find difficulties in finding the email, then check the spam folder as well.
+
+                {/* Note Box */}
+                <div className="flex-col border border-gray-300 rounded-md p-3 bg-gray-50">
+                  <div className="text-gray-700 font-semibold sora mb-1">Note</div>
+                  <div className="text-gray-600 text-xs sora leading-relaxed">
+                    Take a screenshot of the payment page and keep it for reference. If you do not find the email, please check the spam folder as well.
                   </div>
                 </div>
+
               </form>
             </CardContent>
           </Card>
         </div>
       </div>
 
+      {/* Processing Overlay */}
       {(isProcessing || isRedirecting) && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-          <div className="bg-[#0a0a0a] p-6 rounded-lg shadow-lg text-center max-w-md border border-gray-700">
+        <div className="fixed inset-0 bg-white/70 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl text-center max-w-md border border-gray-300">
+
+            {/* Loader spinner */}
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#f9dd9c] mx-auto mb-4"></div>
-            <p className="text-xl text-[#f9dd9c] font-bold mb-2">
-              {isRedirecting ? 'Completing Purchase...' : 'Processing Payment...'}
+
+            <p className="text-xl text-black sora font-extrabold mb-2">
+              {isRedirecting ? "Completing Purchase..." : "Processing Payment..."}
             </p>
-            <p className="text-gray-300">
+
+            <p className="text-gray-600 sora leading-relaxed">
               {isRedirecting
-                ? 'Please wait while we verify your payment and finalize your purchase.'
-                : 'Please complete the payment in the popup window.'}
+                ? "Please wait while we verify your payment and finalize your purchase."
+                : "Please complete the payment in the popup window."}
             </p>
           </div>
         </div>
       )}
+
     </div>
+
   );
 
 }
