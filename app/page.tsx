@@ -24,7 +24,7 @@ export default function HomePage() {
 
           <div className='flex justify-center w-full'>
             <div className='flex mt-12 flex-col w-fit'>
-              <div className="seasons text-[120px] md:text-[190px] max-[1024px]:text-[150px] text-black z-">
+              <div className="seasons text-[120px] md:text-[190px] max-[1024px]:text-[150px] text-black z-20">
                 ASHTRANG
               </div>
               <div className='w-full'>
