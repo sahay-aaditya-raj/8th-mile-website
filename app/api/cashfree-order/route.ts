@@ -21,6 +21,15 @@ export async function POST(req: NextRequest) {
                 );
             }
             
+            // Validate phone number - must be exactly 10 digits
+            const phoneDigits = phone?.replace(/\D/g, '') || '';
+            if (phoneDigits.length !== 10) {
+                return NextResponse.json(
+                    { success: false, message: 'Phone number must be exactly 10 digits' },
+                    { status: 400 }
+                );
+            }
+            
             const allowedDates = ["4 December", "5 December", "6 December"];
             if(selectedDays.length <=0 || selectedDays.length > 3){
                 return NextResponse.json(
@@ -107,6 +116,16 @@ export async function POST(req: NextRequest) {
             if(!eventval){
                 return NextResponse.json({success: false, message: "Invalid event selected"},{status: 400});
             }
+            
+            // Validate phone number - must be exactly 10 digits
+            const phoneDigits = phone?.replace(/\D/g, '') || '';
+            if (phoneDigits.length !== 10) {
+                return NextResponse.json(
+                    { success: false, message: 'Phone number must be exactly 10 digits' },
+                    { status: 400 }
+                );
+            }
+            
             if(feeType!=eventval.feetype){
                 return NextResponse.json({success: false, message: "Invalid fee type"},{status: 400});
             }
@@ -123,7 +142,7 @@ export async function POST(req: NextRequest) {
                     customer_id: email.toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, ""),
                     customer_name: name,
                     customer_email: email.toLowerCase(),
-                    customer_phone: phone.trim(),
+                    customer_phone: '9999999999',
                 },
                 order_meta: {
                     return_url: redirectUrl,

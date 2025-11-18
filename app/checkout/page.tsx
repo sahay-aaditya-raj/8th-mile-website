@@ -24,6 +24,7 @@ export default function CheckoutPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const DAYS = ["4 December", "5 December", "6 December"];
@@ -53,6 +54,20 @@ export default function CheckoutPage() {
     // Three Day Pass -> always fixed
     if (pass.id === "three-day-pass") {
       setSelectedDays(["4 December", "5 December", "6 December"]);
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+    if (value.length <= 10) {
+      setPhone(value);
+      if (value.length === 10) {
+        setPhoneError('');
+      } else if (value.length > 0) {
+        setPhoneError('Phone number must be exactly 10 digits');
+      } else {
+        setPhoneError('');
+      }
     }
   };
 
@@ -119,6 +134,12 @@ export default function CheckoutPage() {
     try {
       if (!pass) {
         throw new Error('No pass selected.');
+      }
+
+      if (phone.length !== 10) {
+        setValidationError("Phone number must be exactly 10 digits.");
+        setIsProcessing(false);
+        return;
       }
 
       if (pass.id === "one-day-pass" && selectedDays.length !== 1) {
@@ -286,12 +307,16 @@ export default function CheckoutPage() {
                   </Label>
                   <Input
                     id="phone"
-                    placeholder="Enter your phone number"
+                    type="tel"
+                    placeholder="Enter 10 digit phone number"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={handlePhoneChange}
                     required
+                    maxLength={10}
+                    pattern="[0-9]{10}"
                     className="bg-white border border-gray-400 text-black placeholder-gray-500 focus:ring-[#f9dd9c] focus:border-[#f9dd9c]"
                   />
+                  {phoneError && <p className="text-red-500 text-xs sora">{phoneError}</p>}
                 </div>
 
                 <p className="text-sm text-red-600 text-right sora">* Required</p>
