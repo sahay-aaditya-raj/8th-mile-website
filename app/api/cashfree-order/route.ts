@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
     
         if (body?.type === "pass") {
-            const { passId, name, email, phone, merchantOrderId } = body?.data;
+            const { passId, name, email, phone, merchantOrderId, selectedDays } = body?.data;
             const pass = getPass(passId);
 
             if (!pass) {
@@ -20,7 +20,23 @@ export async function POST(req: NextRequest) {
                 { status: 400 }
                 );
             }
-        
+            
+            const allowedDates = ["4 December", "5 December", "6 December"];
+            if(selectedDays.length <=0 || selectedDays.length > 3){
+                return NextResponse.json(
+                    { success: false, message: 'Invalid number of days selected' },
+                    { status: 400 }
+                );
+            }
+            
+            const invalidDays = selectedDays.filter((day: string) => !allowedDates.includes(day));
+            if(invalidDays.length > 0){
+                return NextResponse.json(
+                    { success: false, message: 'Invalid dates selected. Only 4 December, 5 December, and 6 December are allowed' },
+                    { status: 400 }
+                );
+            }
+            
             const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/payment-status?payment_id=${merchantOrderId}`;
 
             const orderRequest: CashfreeOrderRequest = {
@@ -68,8 +84,8 @@ export async function POST(req: NextRequest) {
                 phone,
                 type: 'pass',
                 classId: pass.id,
-                noOfParticipants: 1,
-                participantsData: [{ name, arrived: false }],
+                noOfParticipants: selectedDays.length,
+                participantsData: selectedDays.map((day: string) => ({ name: day, arrived: false })),
                 rawPaymentResponse: response,
             });
 
@@ -83,6 +99,8 @@ export async function POST(req: NextRequest) {
                 },
                 { status: 200 }
             );
+            // pass done
+        
         } else if(body?.type === "event"){
             const { eventId, name, email, phone, teamSize, teamMembers, feeType, totalAmount, merchantOrderId } = body?.data;
             const eventval = await Event.findById(eventId);
