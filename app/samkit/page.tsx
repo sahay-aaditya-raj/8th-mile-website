@@ -18,7 +18,6 @@ export default function HomePage() {
     return (
         <>
             <div className="w-full ">
-
                 <section className="top-0 thick-waves-bg h-screen flex text-4xl font-bold overflow-hidden relative">
                     {/* considering the width of the navbar is 84px */}
 
