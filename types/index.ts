@@ -10,6 +10,7 @@ export interface Pass {
   minTeamSize?: number;
   maxTeamSize?: number;
   paymentType?: 'per_person' | 'per_team';
+  features?: string[];
 }
 
 export interface PaymentInfo {

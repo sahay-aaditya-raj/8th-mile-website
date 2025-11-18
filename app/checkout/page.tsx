@@ -232,7 +232,7 @@ export default function CheckoutPage() {
   if (!pass) return <div className="p-8 text-center text-gray-800 bg-white">No pass selected</div>;
 
   return (
-    <div className="min-h-screen bg-white text-black pt-32">
+    <div className="min-h-screen thick-waves-bg text-black py-16">
       <div className="seasons text-6xl mb-10 text-center text-black">
         Checkout
       </div>
@@ -253,7 +253,7 @@ export default function CheckoutPage() {
               <Separator className="my-4 bg-gray-300" />
 
               <div className="space-y-3">
-                <p className="font-semibold sora text-gray-700">Includes:</p>
+                <p className="font-semibold sora text-gray-700">Note:</p>
 
                 <ul className="list-disc pl-5 space-y-1 text-gray-600 sora">
                   {pass.features?.map((feature: string, index: number) => (

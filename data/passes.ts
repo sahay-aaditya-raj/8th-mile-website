@@ -11,6 +11,16 @@ export const eventPasses: Pass[] = [
     galleryImages: [
       "/gallery/technical/3.JPG",
       "/gallery/cultural/58.jpg"
+    ],
+    features: [
+      'A valid QR code / physical pass must be shown at the gate.',
+      'Students must carry a college ID or any valid government ID.',
+      'Pass is non-transferable and can be used by only one person.',
+      'Passes are non-refundable under any circumstances',
+      'No refund will be issued for partial attendance (e.g., missing one day of a 2-day pass).',
+      'Re-entry is not allowed unless explicitly permitted by the event organizers.',
+      'Organizers reserve the right to change the schedule, performers, venues, or timings without prior notice.',
+      'Any changes will not make attendees eligible for refunds.'
     ]
   },
   {
@@ -22,6 +32,16 @@ export const eventPasses: Pass[] = [
     galleryImages: [
       "/gallery/technical/10.JPG",
       "/gallery/cultural/45.JPG"
+    ],
+    features: [
+      'A valid QR code / physical pass must be shown at the gate.',
+      'Students must carry a college ID or any valid government ID.',
+      'Pass is non-transferable and can be used by only one person.',
+      'Passes are non-refundable under any circumstances',
+      'No refund will be issued for partial attendance (e.g., missing one day of a 2-day pass).',
+      'Re-entry is not allowed unless explicitly permitted by the event organizers.',
+      'Organizers reserve the right to change the schedule, performers, venues, or timings without prior notice.',
+      'Any changes will not make attendees eligible for refunds.'
     ]
   },
   {
@@ -33,6 +53,16 @@ export const eventPasses: Pass[] = [
     galleryImages: [
       "/gallery/technical/14.JPG",
       "/gallery/cultural/14.png"
+    ],
+    features: [
+      'A valid QR code / physical pass must be shown at the gate.',
+      'Students must carry a college ID or any valid government ID.',
+      'Pass is non-transferable and can be used by only one person.',
+      'Passes are non-refundable under any circumstances',
+      'No refund will be issued for partial attendance (e.g., missing one day of a 2-day pass).',
+      'Re-entry is not allowed unless explicitly permitted by the event organizers.',
+      'Organizers reserve the right to change the schedule, performers, venues, or timings without prior notice.',
+      'Any changes will not make attendees eligible for refunds.'
     ]
   }
 ];
