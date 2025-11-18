@@ -420,28 +420,28 @@ export default function PassVerification({ data }: PassVerificationProps) {
               <table className="w-full text-left border-collapse">
                 <tbody>
                   <tr className="border-b border-blue-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Payment ID:</th>
-                    <td className="py-2 px-4">{data.signature}</td>
+                    <th className="py-2 px-4 text-gray-100 font-semibold border-r border-blue-300">Payment ID:</th>
+                    <td className="py-2 px-4 text-white">{data.signature}</td>
                   </tr>
                   <tr className="border-b border-blue-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Order ID:</th>
-                    <td className="py-2 px-4">{data.orderId}</td>
+                    <th className="py-2 px-4 text-gray-100 font-semibold border-r border-blue-300">Order ID:</th>
+                    <td className="py-2 px-4 text-white">{data.orderId}</td>
                   </tr>
                   <tr className="border-b border-blue-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Name:</th>
-                    <td className="py-2 px-4">{data.name}</td>
+                    <th className="py-2 px-4 text-gray-100 font-semibold border-r border-blue-300">Name:</th>
+                    <td className="py-2 px-4 text-white">{data.name}</td>
                   </tr>
                   <tr className="border-b border-blue-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Email:</th>
-                    <td className="py-2 px-4">{data.email}</td>
+                    <th className="py-2 px-4 text-gray-100 font-semibold border-r border-blue-300">Email:</th>
+                    <td className="py-2 px-4 text-white">{data.email}</td>
                   </tr>
                   <tr className="border-b border-blue-300">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Phone:</th>
-                    <td className="py-2 px-4">{data.phone}</td>
+                    <th className="py-2 px-4 text-gray-100 font-semibold border-r border-blue-300">Phone:</th>
+                    <td className="py-2 px-4 text-white">{data.phone}</td>
                   </tr>
                   <tr className="">
-                    <th className="py-2 px-4 text-gray-400 font-semibold border-r border-blue-300">Class ID:</th>
-                    <td className="py-2 px-4">{data.classId}</td>
+                    <th className="py-2 px-4 text-gray-100 font-semibold border-r border-blue-300">Class ID:</th>
+                    <td className="py-2 px-4 text-white">{data.classId}</td>
                   </tr>
                 </tbody>
               </table>
@@ -468,13 +468,13 @@ export default function PassVerification({ data }: PassVerificationProps) {
         <div className="flex flex-row gap-6">
           <button
             onClick={() => downloadAsPDF(passRef, `pass-${data._id}.pdf`)}
-            className="mt-8 w-1/2 px-6 py-3 rounded-lg font-semibold shadow-md bg-black text-white hover:bg-[#ffe9b8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+            className="mt-8 w-1/2 px-6 py-3 rounded-lg font-semibold shadow-md bg-black text-white transition-colors duration-200 cursor-pointer"
           >
             Download Pass
           </button>
           <button
             onClick={() => downloadReceipt(receiptRef, `payment-receipt-${data._id}.pdf`)}
-            className="mt-8 w-1/2 rounded-md px-6 py-3 font-semibold shadow-md bg-black text-white hover:bg-[#ffe9b8] transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+            className="mt-8 w-1/2 rounded-md px-6 py-3 font-semibold shadow-md bg-black text-white transition-colors duration-200 cursor-pointer"
           >
             Download Receipt
           </button>
@@ -510,7 +510,7 @@ export default function PassVerification({ data }: PassVerificationProps) {
             </tr>
           </tbody>
         </table>
-        <div className="mt-6 border-t border-gray-600 pt-4 text-sm text-gray-400">
+        <div className="mt-6 border-t border-gray-600 pt-4 text-sm text-gray-100">
           <p>This receipt confirms your payment and participation.</p>
           <p>Thank you for registering!</p>
         </div>
