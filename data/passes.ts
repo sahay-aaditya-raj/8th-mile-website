@@ -3,7 +3,7 @@ import { Pass } from '@/types';
 
 export const eventPasses: Pass[] = [
   {
-    id: 'day-pass',
+    id: 'one-day-pass',
     name: 'One Day Pass',
     description: 'Access to all events on a single day',
     price: 500, // in paise (₹50)
@@ -14,7 +14,7 @@ export const eventPasses: Pass[] = [
     ]
   },
   {
-    id: 'full-pass',
+    id: 'two-day-pass',
     name: 'Two Day Pass',
     description: 'Unlimited access to two days',
     price: 800, // in paise (₹120)
@@ -25,7 +25,7 @@ export const eventPasses: Pass[] = [
     ]
   },
   {
-    id: 'vip-pass',
+    id: 'three-day-pass',
     name: 'Three Day Pass',
     description: 'Premium experience across all three days',
     price: 1100, // in paise (₹250)

@@ -25,8 +25,37 @@ export default function CheckoutPage() {
   const [phone, setPhone] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const DAYS = ["4 December", "5 December", "6 December"];
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const cashfreeRef = useRef<CashfreeInstance | null>(null);
   const cashfreeMode = process.env.NEXT_PUBLIC_CASHFREE_MODE === 'production' ? 'production' : 'sandbox';
+
+  const toggleDay = (day: string) => {
+    // One Day Pass -> allow only 1
+    if (pass.id === "one-day-pass") {
+      setSelectedDays([day]);
+      return;
+    }
+
+    // Two Day Pass -> allow max 2
+    if (pass.id === "two-day-pass") {
+      if (selectedDays.includes(day)) {
+        setSelectedDays(selectedDays.filter(d => d !== day));
+      } else {
+        if (selectedDays.length < 2) {
+          setSelectedDays([...selectedDays, day]);
+        }
+      }
+      return;
+    }
+
+    // Three Day Pass -> always fixed
+    if (pass.id === "three-day-pass") {
+      setSelectedDays(["4 December", "5 December", "6 December"]);
+    }
+  };
+
+
 
   useEffect(() => {
     // Check if returning from Cashfree with error
@@ -52,6 +81,10 @@ export default function CheckoutPage() {
     }
 
     setPass(passData);
+
+    if (passData.id === "three-day-pass") {
+      setSelectedDays(["4 December", "5 December", "6 December"]);
+    }
 
 
     setLoading(false);
@@ -87,6 +120,15 @@ export default function CheckoutPage() {
         throw new Error('No pass selected.');
       }
 
+      if (pass.id === "one-day-pass" && selectedDays.length !== 1) {
+        throw new Error("Please select 1 day for One Day Pass.");
+      }
+
+      if (pass.id === "two-day-pass" && selectedDays.length !== 2) {
+        throw new Error("Please select exactly 2 days for Two Day Pass.");
+      }
+
+
       const merchantOrderId = `8THMILE_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 
       // Create a data object with all the collected information
@@ -97,9 +139,11 @@ export default function CheckoutPage() {
           name,
           email,
           phone,
+          selectedDays,   // <-- add this
           merchantOrderId
         }
       };
+
 
       // Call the Cashfree order creation endpoint
       const response = await fetch('/api/cashfree-order', {
@@ -245,6 +289,75 @@ export default function CheckoutPage() {
                 </div>
 
                 <p className="text-sm text-red-600 text-right sora">* Required</p>
+
+                {/* Date Selection */}
+                <div className="space-y-2">
+                  <Label className="sora font-semibold text-gray-700">
+                    Select Days <span className="text-red-500">*</span>
+                  </Label>
+
+                  {/* ONE DAY PASS */}
+                  {pass.id === "one-day-pass" && (
+                    <div className="flex gap-4">
+                      {DAYS.map(day => (
+                        <button
+                          key={day}
+                          type="button"
+                          onClick={() => toggleDay(day)}
+                          className={`px-4 py-2 rounded-md border sora text-sm ${selectedDays.includes(day)
+                            ? "bg-[#007dc9] text-white border-[#007dc9]"
+                            : "bg-white border-gray-400 text-gray-700"
+                            }`}
+                        >
+                          {day}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* TWO DAY PASS */}
+                  {pass.id === "two-day-pass" && (
+                    <div className="flex gap-4 flex-wrap">
+                      {DAYS.map(day => (
+                        <button
+                          key={day}
+                          type="button"
+                          onClick={() => toggleDay(day)}
+                          disabled={
+                            !selectedDays.includes(day) && selectedDays.length >= 2
+                          }
+                          className={`px-4 py-2 rounded-md border sora text-sm ${selectedDays.includes(day)
+                            ? "bg-[#007dc9] text-white border-[#007dc9]"
+                            : "bg-white border-gray-400 text-gray-700"
+                            } ${!selectedDays.includes(day) && selectedDays.length >= 2
+                              ? "opacity-40 cursor-not-allowed"
+                              : ""
+                            }`}
+                        >
+                          {day}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* THREE DAY PASS */}
+                  {pass.id === "three-day-pass" && (
+                    <div className="text-gray-700 sora">
+                      Pass includes all days:
+                      <div className="mt-2 flex gap-3">
+                        {DAYS.map(day => (
+                          <span
+                            key={day}
+                            className="px-3 py-2 bg-[#007dc9] text-white rounded-md sora text-sm"
+                          >
+                            {day}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
 
                 {/* PAY BUTTON */}
                 <div className="pt-4">
