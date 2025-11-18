@@ -43,7 +43,7 @@ export default function HomePage() {
           <img
             src="/shape_star.svg"
             alt="star"
-            className="absolute bottom-0 -right-90"
+            className="absolute bottom-10 -right-90"
           />
 
           {/* RVCE Layer */}
