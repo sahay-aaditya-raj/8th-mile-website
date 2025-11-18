@@ -129,7 +129,7 @@ export default function HomePage() {
             className="absolute bottom-0 left-0 scale-50 transform origin-bottom-left block"
           />
 
-          <a href="https://www.instagram.com/8thmile.rvce"><img src="/cards.svg" alt="" className="scale-75 mt-16" /></a>
+          <a href="https://www.instagram.com/8thmile.rvce"><img src="/cards.svg" alt="" className="scale-75 mt-16 hover:scale-[0.8] transition-all duration-200" /></a>
         </section>
 
 
