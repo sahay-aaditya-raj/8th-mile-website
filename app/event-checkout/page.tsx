@@ -20,6 +20,7 @@ export default function EventRegistrationPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [teamsize, setTeamsize] = useState(1);
   const [teamMembers, setTeamMembers] = useState<{name: string}[]>([{name: ''}]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -126,6 +127,20 @@ export default function EventRegistrationPage() {
     };
   }, [cashfreeMode]);
   
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+    if (value.length <= 10) {
+      setPhone(value);
+      if (value.length === 10) {
+        setPhoneError('');
+      } else if (value.length > 0) {
+        setPhoneError('Phone number must be exactly 10 digits');
+      } else {
+        setPhoneError('');
+      }
+    }
+  };
+  
   const handleTeamMemberChange = (index: number, value: string) => {
     const newTeamMembers = [...teamMembers];
     newTeamMembers[index] = { name: value };
@@ -175,6 +190,12 @@ export default function EventRegistrationPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!event || !registrationStatus) return;
+    
+    // Validate phone number
+    if (phone.length !== 10) {
+      setError("Phone number must be exactly 10 digits");
+      return;
+    }
     
     // Validate team members - all fields must be filled
     const emptyMembers = teamMembers.filter(member => !member.name.trim());
@@ -309,11 +330,15 @@ export default function EventRegistrationPage() {
             </label>
             <input
               type="tel"
+              placeholder="Enter 10 digit phone number"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlePhoneChange}
+              maxLength={10}
+              pattern="[0-9]{10}"
               className="w-full p-2 bg-white border border-gray-700 rounded text-black"
               required
             />
+            {phoneError && <p className="text-red-500 text-sm">{phoneError}</p>}
           </div>
 
           {/* Team Size */}
