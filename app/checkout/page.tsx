@@ -152,7 +152,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-white text-black pt-32">
-      <div className="samarkan text-6xl font-extrabold mb-10 text-center text-[#be1e2d]">
+      <div className="seasons text-6xl mb-10 text-center text-black">
         Checkout
       </div>
 
@@ -175,7 +175,7 @@ export default function CheckoutPage() {
                 <p className="font-semibold sora text-gray-700">Includes:</p>
 
                 <ul className="list-disc pl-5 space-y-1 text-gray-600 sora">
-                  {pass.features.map((feature: string, index: number) => (
+                  {pass.features?.map((feature: string, index: number) => (
                     <li key={index}>{feature}</li>
                   ))}
                 </ul>
