@@ -20,6 +20,7 @@ export default function CheckoutPage() {
   const [error, setError] = useState('');
 
   // Form fields
+  const [validationError, setValidationError] = useState<string | null>(null);  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -121,11 +122,16 @@ export default function CheckoutPage() {
       }
 
       if (pass.id === "one-day-pass" && selectedDays.length !== 1) {
-        throw new Error("Please select 1 day for One Day Pass.");
+        setValidationError("Please select exactly 1 day for the One Day Pass.");
+        setIsProcessing(false);
+        return;
       }
 
       if (pass.id === "two-day-pass" && selectedDays.length !== 2) {
-        throw new Error("Please select exactly 2 days for Two Day Pass.");
+        setValidationError("Please select exactly 2 days for the Two Day Pass.");
+        setIsProcessing(false);
+        return;
+
       }
 
 
@@ -383,6 +389,27 @@ export default function CheckoutPage() {
           </Card>
         </div>
       </div>
+      {/* Validation Error Modal */}
+      {validationError && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white w-full max-w-md p-6 rounded-xl shadow-2xl border border-gray-300 text-center">
+
+            <h2 className="text-2xl sora font-extrabold text-[#be1e2d] mb-3">
+              Action Required
+            </h2>
+
+            <p className="text-gray-700 sora mb-6">{validationError}</p>
+
+            <Button
+              onClick={() => setValidationError(null)}
+              className="w-full bg-[#007dc9] text-white sora font-bold hover:bg-[#0060a0]"
+            >
+              Okay
+            </Button>
+
+          </div>
+        </div>
+      )}
 
       {/* Processing Overlay */}
       {(isProcessing || isRedirecting) && (

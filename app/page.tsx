@@ -7,10 +7,10 @@ import React, { useRef } from 'react';
 import { FaInstagram } from 'react-icons/fa6';
 
 const images = [
-  { id: 1, image: "/aman.png", caption: "" },
-  { id: 2, image: "/niharika.jpg", caption: "" },
-  { id: 3, image: "/amaal.jpeg", caption: "" },
-  { id: 4, image: "/Prajakta.jpg", caption: "" }
+  { id: 1, image: "/aman.png", caption: "Aman Dhattarwal" },
+  { id: 2, image: "/niharika.jpg", caption: "Niharika" },
+  { id: 3, image: "/amaal.jpeg", caption: "Amaal Mallik" },
+  { id: 4, image: "/Prajakta.jpg", caption: "Prajakta Koli" }
 ]
 
 export default function HomePage() {
@@ -37,14 +37,13 @@ export default function HomePage() {
         </section>
 
         {/* Section 2 */}
-        <section className="relative top-0 h-screen squiggly-bg flex items-center justify-center text-4xl font-bold overflow-hidden">
+        <section className="relative top-0 h-screen squiggly-bg flex items-center justify-center text-4xl overflow-hidden">
 
           {/* Yellow Star stays inside this section */}
           <img
             src="/shape_star.svg"
             alt="star"
             className="absolute bottom-0 -right-90"
-            style={{ animationDuration: '12s' }}
           />
 
           {/* RVCE Layer */}
@@ -54,7 +53,7 @@ export default function HomePage() {
             className="w-full z-10"
           />
 
-          <div className="absolute z-20 top-4 left-4 w-1/3 text-right">
+          <div className="absolute z-20 top-4 left-4 w-1/3 text-left">
             <p className="sora font-extrabold text-black text-[144px]">ABOUT</p>
             <p className="seasons text-black text-[144px] -my-8">RVCE</p>
             <p className="text-base sora text-gray-800 mt-10">
@@ -86,7 +85,7 @@ export default function HomePage() {
           />
 
           {/* Right side text */}
-          <div className="absolute z-20 top-10 right-12 w-[45%]">
+          <div className="absolute z-20 top-10 right-12 text-right w-[45%]">
             <p className="sora font-extrabold text-black text-[120px] md:text-[144px] leading-none">
               ABOUT
             </p>
@@ -129,7 +128,7 @@ export default function HomePage() {
             className="absolute bottom-0 left-0 scale-50 transform origin-bottom-left block"
           />
 
-          <a href="https://www.instagram.com/8th.mile"><img src="/cards.svg" alt="" className="scale-75 mt-16" /></a>
+          <a href="https://www.instagram.com/8thmile.rvce"><img src="/cards.svg" alt="" className="scale-75 mt-16" /></a>
         </section>
 
 
