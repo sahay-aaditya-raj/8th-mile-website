@@ -386,7 +386,7 @@ export default function CheckoutPage() {
 
       {/* Processing Overlay */}
       {(isProcessing || isRedirecting) && (
-        <div className="fixed inset-0 bg-white/70 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl text-center max-w-md border border-gray-300">
 
             {/* Loader spinner */}

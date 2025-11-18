@@ -412,7 +412,7 @@ export default function EventRegistrationPage() {
       {/* Add loading overlay */}
       {(isProcessing || isRedirecting) && (
         <div className="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50">
-          <div className="bg-[#0a0a0a] p-6 rounded-lg shadow-lg text-center max-w-md border border-gray-700">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-md border border-gray-700">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-500 mx-auto mb-4"></div>
             <p className="text-xl text-gray-800 font-bold mb-2">
               {isRedirecting ? 'Completing Registration...' : 'Processing Payment...'}
