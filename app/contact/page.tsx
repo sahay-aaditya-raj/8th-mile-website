@@ -75,7 +75,7 @@ export default function ContactPage() {
 
         {/* Main Heading */}
         <p className="text-6xl seasons text-center mb-16 tracking-tight"
-          style={{ color: "#be1e2d" }}>
+          style={{ color: "black" }}>
           Get In Touch
         </p>
 
@@ -84,7 +84,7 @@ export default function ContactPage() {
           {/* CONTACT INFORMATION */}
           <div>
             <p className="text-3xl sora font-extrabold mb-8"
-              style={{ color: "#25ae80" }}>
+              style={{ color: "#007dc9" }}>
               Contact Information
             </p>
             <div className="space-y-6">
@@ -128,7 +128,7 @@ export default function ContactPage() {
           {/* CONTACT FORM */}
           <div>
             <p className="text-3xl sora font-extrabold mb-8"
-              style={{ color: "#f6921e" }}>
+              style={{ color: "#007dc9" }}>
               Send us a message
             </p>
 
