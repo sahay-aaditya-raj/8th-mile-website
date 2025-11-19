@@ -197,11 +197,11 @@ const EventsPage = () => {
                                     </div>
 
                                     {/* CLOSED REGISTRATION OVERLAY */}
-                                    {!event.registrationOpen && (
+                                    {/* {!event.registrationOpen && (
                                         <div className="absolute inset-0 bg-black/80 flex items-center justify-center text-white text-lg font-bold rounded-xl z-20">
                                             Registrations Opening Soon
                                         </div>
-                                    )}
+                                    )} */}
                                 </div>
                             </motion.div>
 
