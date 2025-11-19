@@ -74,7 +74,7 @@ export default function FailedPage() {
             </svg>
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900">Payment Failed</h2>
+          <h2 className="text-2xl font-bold text-gray-900 seasons">Payment Failed</h2>
           <p className="text-gray-600 mt-1">
             We couldn&apos;t process your payment
           </p>
