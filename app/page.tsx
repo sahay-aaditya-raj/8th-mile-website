@@ -58,10 +58,7 @@ export default function HomePage() {
             <p className="sora font-extrabold text-black text-[6rem]">ABOUT</p>
             <p className="seasons text-black text-[6rem] -my-8">RVCE</p>
             <p className="sora text-gray-800 mt-16 leading-relaxed text-[1rem]">
-              RV College of Engineering participated in the Rising Bharat Summit 2025,
-              which was organised by CNN News18. During an interactive session with
-              Hon'ble Prime Minister Shri Narendra Modi, our students presented their
-              ideas, receiving a lot of praises.
+              R V College of Engineering is one of India’s premier institutions, renowned for academic excellence, innovation, and holistic development. With strong achievements in academics, and extracurriculars, RVCE is shaping talented engineers who contribute meaningfully to society.
             </p>
           </div>
 
@@ -96,14 +93,7 @@ export default function HomePage() {
             </p>
 
             <p className="sora text-gray-800 mt-16 leading-relaxed text-[1rem]">
-              RV College of Engineering participated in the Rising Bharat Summit 2025,
-              which was organised by CNN News18. During an interactive session with
-              Hon’ble Prime Minister Shri Narendra Modi, our students presented their
-              ideas, receiving appreciation and a personal invitation to share a
-              detailed implementation plan. RVCE was represented by a team of three
-              students from the B.E. Artificial Intelligence and Machine Learning
-              (AIML) Department, guided by Dr. B. Sathish Babu and mentored by
-              Dr. K.N. Subramanya, the Principal of RVCE.
+              R V College of Engineering’s 8th Mile is a national techno-cultural festival where students showcase diverse talents while fostering camaraderie and sportsmanship.
             </p>
           </div>
         </section>
