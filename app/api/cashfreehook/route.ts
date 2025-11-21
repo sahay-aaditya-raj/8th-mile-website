@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const payload = await request.json();
-    console.log("Received Cashfree webhook payload POST:", payload);
+    console.log("Received Cashfree webhook payload GET:", payload);
     return NextResponse.json({ status: "success" }, { status: 200 });
   } catch (error) {
     console.error("Error processing Cashfree webhook:", error);
