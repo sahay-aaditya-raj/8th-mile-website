@@ -4,7 +4,7 @@ import Order from "@/lib/models/Orders";
 import Registration from "@/lib/models/Registrations";
 import { connectToDatabase } from "@/lib/db";
 import { sendEmail } from "@/lib/server-utils";
-import { fetchCashfreeOrder } from "@/lib/cashfree";
+import { fetchCashfreeOrder, fetchCashfreePaymentStatus } from "@/lib/cashfree";
 
 async function mailto(type: string, registration: any, paymentId: string) {
     const url = `${process.env.NEXT_PUBLIC_APP_URL}/verify?payment_id=${registration.orderId}`;
@@ -107,19 +107,24 @@ export async function POST(request: Request) {
         // Find and update the order
         const order = await Order.findOne({ merchantOrderId: orderId });
         if (order) {
-            const status = body.data?.order?.order_status || body.order_status;
-            order.cashfreeStatus = status;
+            const status = await fetchCashfreePaymentStatus(order.merchantOrderId);
             
-            if (status === 'PAID') {
-                order.paymentStatus = 'SUCCESS';
-            } else if (status === 'ACTIVE') {
-                order.paymentStatus = 'PENDING';
+            if (status) {
+                order.cashfreeStatus = status;
+                
+                if (status === 'SUCCESS') {
+                    order.paymentStatus = 'SUCCESS';
+                } else if (status === 'PENDING') {
+                    order.paymentStatus = 'PENDING';
+                } else {
+                    order.paymentStatus = 'FAILED';
+                }
+                
+                await order.save();
+                console.log(`Order ${orderId} updated via webhook: ${status}`);
             } else {
-                order.paymentStatus = 'FAILED';
+                console.log(`No payment found for order ${orderId}`);
             }
-            
-            await order.save();
-            console.log(`Order ${orderId} updated via webhook: ${status}`);
         }
 
         return NextResponse.json({ success: true }, { status: 200 });
