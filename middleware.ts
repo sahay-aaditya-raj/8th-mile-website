@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// Rate limiting configuration
-const RATE_LIMIT_MAX_REQUESTS = 6000
-const RATE_LIMIT_WINDOW_MS = 60 * 1000 // 1 minute
-const COOLDOWN_PERIOD_MS = 3 * 60 * 1000 // 3 minutes
+const RATE_LIMIT_MAX_REQUESTS = 600 // 300 requests per minute globally (5 req/sec)
+const RATE_LIMIT_WINDOW_MS = 60 * 1000 // 1 minute window
+const COOLDOWN_PERIOD_MS = 2 * 60 * 1000 // 2 minutes cooldown after exceeding limit
 
 // In-memory store for rate limiting
 interface RateLimitEntry {
