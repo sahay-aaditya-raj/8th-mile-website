@@ -88,40 +88,102 @@ export default function ContactPage() {
               Contact Information
             </p>
             <div className="space-y-6">
-              {contactInfo.map((info) => (
                 <div
-                  key={info.id}
                   className="rounded-xl p-6 border border-gray-300 shadow-sm hover:shadow-md transition duration-300 bg-white"
                 >
                   <p
                     className="text-2xl font-semibold mb-4"
-                    style={{ color: info.color }}
                   >
-                    {info.title}
+                    General Inquiries
                   </p>
 
                   <div className="space-y-2 text-black text-sm">
                     <p>
-                      <span className="font-semibold" style={{ color: info.color }}>
+                      <span className="font-semibold">
                         Email:
                       </span>{" "}
-                      {info.email}
+                      events_8thmile@rvce.edu.in
                     </p>
                     <p>
-                      <span className="font-semibold" style={{ color: info.color }}>
-                        Phone:
-                      </span>{" "}
-                      {info.phone}
-                    </p>
-                    <p>
-                      <span className="font-semibold" style={{ color: info.color }}>
+                      <span className="font-semibold">
                         Contact Person:
                       </span>{" "}
-                      {info.contactPerson}
+                        Milaap Kreations
+                    </p>
+                    <p>
+                      <span className="font-semibold">
+                        Phone:
+                      </span>{" "}
+                        Shiva Kumar - 9740867236
+                    </p>
+                    <p>
+                      <span className="font-semibold">
+                        Phone:
+                      </span>{" "}
+                        Vansh Goel - 7899645094
                     </p>
                   </div>
                 </div>
-              ))}
+                <div
+                  className="rounded-xl p-6 border border-gray-300 shadow-sm hover:shadow-md transition duration-300 bg-white"
+                >
+                  <p
+                    className="text-2xl font-semibold mb-4"
+                  >
+                    Technical Support
+                  </p>
+
+                  <div className="space-y-2 text-black text-sm">
+                    <p>
+                      <span className="font-semibold">
+                        Email:
+                      </span>{" "}
+                      8thmile.team@gmail.com
+                    </p>
+                    <p>
+                      <span className="font-semibold">
+                        Contact Person:
+                      </span>{" "}
+                        Aaditya Raj
+                    </p>
+                    <p>
+                      <span className="font-semibold">
+                        Phone:
+                      </span>{" "}
+                        8092811097
+                    </p>
+                  </div>
+                </div>
+                <div
+                  className="rounded-xl p-6 border border-gray-300 shadow-sm hover:shadow-md transition duration-300 bg-white"
+                >
+                  <p
+                    className="text-2xl font-semibold mb-4"
+                  >
+                    Sponsorship
+                  </p>
+
+                  <div className="space-y-2 text-black text-sm">
+                    <p>
+                      <span className="font-semibold">
+                        Email:
+                      </span>{" "}
+                      partnerships_8thmile@rvce.edu.in
+                    </p>
+                    <p>
+                      <span className="font-semibold">
+                        Contact Person:
+                      </span>{" "}
+                        Sinchan Rai
+                    </p>
+                    <p>
+                      <span className="font-semibold">
+                        Phone:
+                      </span>{" "}
+                        8310817359
+                    </p>
+                  </div>
+                </div>
             </div>
           </div>
 
