@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState } from "react";
-import { CheckCircle, AlertTriangle, X } from "lucide-react";
+import React from "react";
 
 export default function ContactPage() {
   const contactInfo = [
@@ -11,7 +11,7 @@ export default function ContactPage() {
       email: "events_8thmile@rvce.edu.in",
       phone: "7899645094",
       contactPerson: "Milaap Kreations",
-      color: "#000000", // green
+      color: "#000000",
     },
     {
       id: 2,
@@ -19,7 +19,7 @@ export default function ContactPage() {
       email: "8thmile.team@gmail.com",
       phone: "8092811097",
       contactPerson: "Aaditya Raj",
-      color: "#000000", // orange
+      color: "#000000",
     },
     {
       id: 3,
@@ -31,43 +31,7 @@ export default function ContactPage() {
     },
   ];
 
-  const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const payload = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message"),
-    };
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setAlert({ type: "success", message: data.message || "Message sent!" });
-        form.reset();
-      } else {
-        setAlert({ type: "error", message: data.error || "Something went wrong." });
-      }
-    } catch (err) {
-      setAlert({ type: "error", message: "Error sending message." });
-      console.error(err);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const formUrl = "https://forms.gle/a8D5GvEDTEhSN9p58";
 
   return (
     <div className="white-spotted-bg text-black min-h-screen py-32 px-6 md:px-20">
@@ -187,107 +151,40 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* CONTACT FORM */}
-          <div>
-            <p className="text-3xl sora font-extrabold mb-8"
+          {/* CONTACT FORM SECTION - NOW WITH QR CODE */}
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-3xl sora font-extrabold mb-8 text-center"
               style={{ color: "#007dc9" }}>
               Send us a message
             </p>
 
-            {alert && (
-              <div
-                className={`p-4 rounded-lg mb-6 flex items-start gap-2 border relative ${alert.type === "success"
-                    ? "bg-green-100 border-green-400 text-green-800"
-                    : "bg-red-100 border-red-400 text-red-800"
-                  }`}
-              >
-                {alert.type === "success" ? (
-                  <CheckCircle className="w-5 h-5" />
-                ) : (
-                  <AlertTriangle className="w-5 h-5" />
-                )}
+            {/* QR Code */}
+            <div className="bg-white p-6 rounded-xl border border-gray-300 shadow-md mb-6">
+              <img 
+                src="/contactusform.png"
+                alt="Contact Form QR Code"
+                className="w-48 h-48 md:w-64 md:h-64 object-contain"
+              />
+            </div>
 
-                <div>
-                  <strong>{alert.type === "success" ? "Success:" : "Error:"}</strong>{" "}
-                  {alert.message}
-                </div>
-
-                <button
-                  onClick={() => setAlert(null)}
-                  className="absolute top-2 right-2 hover:opacity-60"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-
-              {/* Name */}
-              <div>
-                <label className="block text-sm mb-1 uppercase tracking-wider font-semibold">
-                  Name
-                </label>
-                <input
-                  name="name"
-                  required
-                  placeholder="Enter your name"
-                  className="w-full bg-white border border-gray-300 px-4 py-3 rounded-md focus:outline-blue-400"
-                />
-              </div>
-
-              {/* Email */}
-              <div>
-                <label className="block text-sm mb-1 uppercase tracking-wider font-semibold">
-                  Email
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Enter your email"
-                  className="w-full bg-white border border-gray-300 px-4 py-3 rounded-md focus:outline-blue-400"
-                />
-              </div>
-
-              {/* Message */}
-              <div>
-                <label className="block text-sm mb-1 uppercase tracking-wider font-semibold">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  rows={5}
-                  required
-                  placeholder="Your message here..."
-                  className="w-full bg-white border border-gray-300 px-4 py-3 rounded-md focus:outline-blue-400"
-                ></textarea>
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-3 text-lg font-semibold rounded-md shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            {/* URL Link */}
+            <div className="text-center">
+              <p className="text-sm font-semibold mb-3 text-gray-700">
+                Scan the QR code or click the link below:
+              </p>
+              <a
+                href={formUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-6 py-3 text-lg font-semibold rounded-md shadow-sm transition hover:opacity-90 break-all"
                 style={{
                   backgroundColor: "#007dc9",
                   color: "white",
                 }}
               >
-                {isSubmitting ? (
-                  <>
-                    <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Sending...
-                  </>
-                ) : (
-                  "Send Message"
-                )}
-              </button>
-
-            </form>
+                Open Contact Form
+              </a>
+            </div>
           </div>
 
         </div>
