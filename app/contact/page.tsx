@@ -9,7 +9,7 @@ export default function ContactPage() {
       id: 1,
       title: "General Inquiries",
       email: "events_8thmile@rvce.edu.in",
-      phone: "9686782196",
+      phone: "7899645094",
       contactPerson: "Milaap Kreations",
       color: "#000000", // green
     },
@@ -25,8 +25,8 @@ export default function ContactPage() {
       id: 3,
       title: "Sponsorship",
       email: "partnerships_8thmile@rvce.edu.in",
-      phone: "6265673155",
-      contactPerson: "Pranjal Agrawal",
+      phone: "8310817359",
+      contactPerson: "Sinchan Rai",
       color: "#000000", // pink
     },
   ];
