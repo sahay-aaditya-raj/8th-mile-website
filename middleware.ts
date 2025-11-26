@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const RATE_LIMIT_MAX_REQUESTS = 600 // 300 requests per minute globally (5 req/sec)
+const RATE_LIMIT_MAX_REQUESTS = 600 // 600 requests per minute globally (10 req/sec)
 const RATE_LIMIT_WINDOW_MS = 60 * 1000 // 1 minute window
 const COOLDOWN_PERIOD_MS = 2 * 60 * 1000 // 2 minutes cooldown after exceeding limit
 

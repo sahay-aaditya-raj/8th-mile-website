@@ -12,7 +12,6 @@
   [![React](https://img.shields.io/badge/React-19.1.0-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 </div>
 
-
 ---
 
 ## 📋 Table of Contents
