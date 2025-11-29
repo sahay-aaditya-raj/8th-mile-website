@@ -157,6 +157,13 @@ html, body {
   background-attachment: fixed;
 }
 
+.green-grid-bg {
+  background-image: url('/about.svg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
 .seasons {
   font-family: var(--font-seasons);
 }

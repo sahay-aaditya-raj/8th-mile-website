@@ -97,8 +97,20 @@ export default function HomePage() {
             </p>
           </div>
         </section>
+        {/* Section 3.5 */}
+        <section className="sticky bg-[#15714c] top-0 h-fit green-grid-bg flex flex-col items-center justify-center text-4xl font-bold">
+          <div className="text-white text-[150px] sora font-extrabold mx-auto tracking-tight">
+            PRO<span className="seasons">NITES</span>
+          </div>
 
 
+          <div className="flex justify-between relative fit-content">
+            <div className="relative"><a target="_blank" href="https://www.instagram.com/vasuki_vaibhav_?igsh=MnRqZzZjeGVqc3ox"><img src="/about1.svg" alt="" className="scale-90 mt-16 hover:scale-[1.0] transition-all duration-200 z-10 relative" /></a><div className="sora font-extrabold absolute top-[16px] text-[120px] z-0">4th</div><div className="absolute bottom-[80px] left-[100px] sora text-center text-black z-20">VASUKI<br /> VAIBHAV</div></div>
+            <div className="relative"><a target="_blank" href="https://www.instagram.com/vdjshaan?igsh=MTBwZzI4eHdvOWdo"><img src="/about2.svg" alt="" className="scale-90 mt-16 hover:scale-[1.0] transition-all duration-200  z-10 relative" /></a><div className="sora font-extrabold absolute top-[16px] text-[120px] z-0">5th</div><div className="absolute bottom-[80px] left-[120px]  sora text-center text-black z-20">VDJ<br /> SHAAN</div></div>
+            <div className="relative"><a target="_blank" href="https://www.instagram.com/nikhilmusic?igsh=MW05MnoyYzVrbG14eA=="><img src="/about3.svg" alt="" className="scale-90 mt-16 hover:scale-[1.0] transition-all duration-200  z-10 relative" /></a><div className="sora font-extrabold absolute top-[16px] text-[120px] z-0">6th</div><div className="absolute bottom-[80px] left-[100px]  sora text-center text-black z-20">NIKHIL<br /> DSOUZA</div></div>
+
+          </div>
+        </section>
         {/* Section 4 */}
         <section className="sticky bg-white top-0 h-screen pink-grid-bg flex items-center justify-center text-4xl font-bold">
           <div className="text-[#fc03a8] text-[150px] seasons top-8 left-8 absolute tracking-tight">
@@ -275,6 +287,22 @@ export default function HomePage() {
             className="scale-75 absolute -left-20 -bottom-40 z-10"
           />
         </section>
+
+        {/* Section 3.5 */}
+        <section className="sticky h-[4700px] bg-[#15714c]  top-0 green-grid-bg justify-center flex text-4xl font-bold">
+          <div className="text-white text-[80px] sora font-extrabold top-8 mx-auto absolute tracking-tight">
+            PRO<span className="seasons">NITES</span>
+          </div>
+
+
+          <div className="flex flex-col overflow-y-auto  fit-content mt-[8rem]">
+            <div className="relative"><a target="_blank" href="https://www.instagram.com/vasuki_vaibhav_?igsh=MnRqZzZjeGVqc3ox"><img src="/about1.svg" alt="" className="scale-90 mt-16 hover:scale-[1.0] transition-all duration-200 z-10 relative" /></a><div className="sora font-extrabold absolute top-[16px] text-[120px] z-0">4th</div><div className="absolute bottom-[80px] left-[100px] sora text-center text-black z-20">VASUKI<br /> VAIBHAV</div></div>
+            <div className="relative"><a target="_blank" href="https://www.instagram.com/vdjshaan?igsh=MTBwZzI4eHdvOWdo"><img src="/about2.svg" alt="" className="scale-90 mt-16 hover:scale-[1.0] transition-all duration-200  z-10 relative" /></a><div className="sora font-extrabold absolute top-[16px] text-[120px] z-0">5th</div><div className="absolute bottom-[80px] left-[120px]  sora text-center text-black z-20">VDJ<br /> SHAAN</div></div>
+            <div className="relative"><a target="_blank" href="https://www.instagram.com/nikhilmusic?igsh=MW05MnoyYzVrbG14eA=="><img src="/about3.svg" alt="" className="scale-90 mt-16 hover:scale-[1.0] transition-all duration-200  z-10 relative" /></a><div className="sora font-extrabold absolute top-[16px] text-[120px] z-0">6th</div><div className="absolute bottom-[80px] left-[100px]  sora text-center text-black z-20">NIKHIL<br /> DSOUZA</div></div>
+
+          </div>
+        </section>
+
         {/* Section 4 */}
         <section className="sticky bg-white top-0 h-screen pink-grid-bg flex items-center justify-center text-4xl font-bold">
           <div className="text-[#fc03a8] text-[80px] seasons top-8 mx-auto absolute tracking-tight">
