@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import React, { useRef } from 'react';
 import { FaInstagram } from 'react-icons/fa6';
+import Link from 'next/link';
 
 const images = [
   { id: 1, image: "/aman.png", caption: "Aman Dhattarwal" },
@@ -98,7 +99,7 @@ export default function HomePage() {
           </div>
         </section>
         {/* Section 3.5 */}
-        <section className="sticky bg-[#15714c] top-0 h-fit green-grid-bg flex flex-col items-center justify-center text-4xl font-bold">
+        <section className="sticky bg-[#15714c] mb-[500px] top-0 h-fit green-grid-bg flex flex-col items-center justify-center text-4xl font-bold">
           <div className="text-white text-[150px] sora font-extrabold mx-auto tracking-tight">
             PRO<span className="seasons">NITES</span>
           </div>
