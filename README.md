@@ -3,6 +3,7 @@
 <div align="center">
   <img src="./public/8th mile Logo High res-03.png" alt="8th Mile Logo" width="200"/>
   
+  
   <h3>The Official Website for 8th Mile - RVCE's Premier Cultural Festival</h3>
   
   [![Next.js](https://img.shields.io/badge/Next.js-15.3.0-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
