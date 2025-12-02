@@ -31,7 +31,7 @@ export default function Navbar() {
         { name: "Passes", href: "/passes" },
         { name: "Gallery", href: "/gallery" },
         // { name: "Timeline", href: "/timeline" },
-        // { name: "Our Team", href: "/credits" },
+        { name: "Core Team", href: "/core-team" },
     ];
 
     return (
