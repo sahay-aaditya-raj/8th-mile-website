@@ -88,7 +88,7 @@ async function mailto(type: string, registration: any, paymentId: string) {
 export async function POST(request: NextRequest) {
   try {
     const payload = await request.json();
-    console.log("Received Cashfree webhook payload POST:", payload);
+    // console.log("Received Cashfree webhook payload POST:", payload);
 
     // Extract order_id from webhook payload
     const orderId = payload?.data?.order?.order_id;
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
 
     // Fetch order data from Cashfree to verify payment status
     const cashfreeData = await fetchCashfreeOrder(orderId);
-    console.log("Fetched Cashfree order data:", cashfreeData);
+    // console.log("Fetched Cashfree order data:", cashfreeData);
 
     // Check if payment is successful (order_status should be 'PAID')
     if (cashfreeData.order_status !== 'PAID') {

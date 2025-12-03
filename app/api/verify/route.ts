@@ -92,7 +92,7 @@ async function mailto(type: string, registration: any, paymentId: string) {
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        console.log('Cashfree webhook received:', body);
+        // console.log('Cashfree webhook received:', body);
 
         // Cashfree webhook payload typically contains order_id or cf_order_id
         const orderId = body.data?.order?.order_id || body.order_id;
