@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
                 },
                 order_meta: {
                     return_url: redirectUrl,
-                    notify_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment-status`,
+                    notify_url: `${process.env.NEXT_PUBLIC_APP_URL}/api/cashfreehook`,
                 },
                 order_note: `Pass purchase: ${pass.name}`,
             };
@@ -160,7 +160,7 @@ export async function POST(req: NextRequest) {
                 },
                 order_meta: {
                     return_url: redirectUrl,
-                    notify_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment-status`,
+                    notify_url: `${process.env.NEXT_PUBLIC_APP_URL}/api/cashfreehook`,
                 },
                 order_note: `Event registration: ${eventval.name}`,
             };
